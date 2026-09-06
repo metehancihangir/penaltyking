@@ -1,0 +1,6 @@
+{
+  "name": "PenaltyKing.Editor",
+  "rootNamespace": "PenaltyKing.Editor",
+  "references": ["PenaltyKing.Runtime", "Unity.ugui", "Unity.InputSystem"],
+  "includePlatforms": ["Editor"]
+}

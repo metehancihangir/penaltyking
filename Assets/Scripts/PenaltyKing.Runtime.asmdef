@@ -1,0 +1,5 @@
+{
+  "name": "PenaltyKing.Runtime",
+  "rootNamespace": "PenaltyKing",
+  "references": ["Unity.InputSystem", "Unity.ugui"]
+}
