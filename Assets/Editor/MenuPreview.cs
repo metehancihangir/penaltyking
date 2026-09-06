@@ -56,6 +56,15 @@ namespace PenaltyKing.Editor
             Debug.Log("[Phase 4] Gameplay and summary previews captured.");
         }
 
+        public static void CaptureFinalArt()
+        {
+            Directory.CreateDirectory("docs/previews");
+            EditorSceneManager.OpenScene("Assets/Scenes/Gameplay.unity");
+            Render(1280, 720, "landscape", "phase5-gameplay");
+            Render(390, 844, "portrait", "phase5-gameplay");
+            Debug.Log("[Phase 5] Stadium composition previews captured.");
+        }
+
         private static void Render(int width, int height, string name, string prefix = "main-menu")
         {
             var camera = Camera.main;
@@ -72,6 +81,7 @@ namespace PenaltyKing.Editor
             Canvas.ForceUpdateCanvases();
             // Render twice to allow the font atlas and target-sized UI geometry to settle.
             camera.Render();
+            foreach (var stage in Object.FindObjectsByType<GameplayStageLayout>(FindObjectsSortMode.None)) stage.Fit();
             Canvas.ForceUpdateCanvases();
             camera.Render();
             foreach (var button in Object.FindObjectsByType<Selectable>(FindObjectsSortMode.None))
