@@ -1,0 +1,471 @@
+fileFormatVersion: 2
+guid: 80fad2d0b220a6d4999d25a83c1d00b8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8486147615555445040
+    second: KeeperSide_0
+  - first:
+      213: 5847118525305796308
+    second: KeeperSide_1
+  - first:
+      213: -609082251232378197
+    second: KeeperSide_2
+  - first:
+      213: 5637576358118722353
+    second: KeeperSide_3
+  - first:
+      213: 8661733564716424335
+    second: KeeperSide_4
+  - first:
+      213: 3945983922370315920
+    second: KeeperSide_5
+  - first:
+      213: 902863407341083440
+    second: KeeperSide_6
+  - first:
+      213: -8074640771031294612
+    second: KeeperSide_7
+  - first:
+      213: -2988135284239541506
+    second: KeeperSide_8
+  - first:
+      213: 1278839262493605500
+    second: KeeperSide_9
+  - first:
+      213: 1590228071904890462
+    second: KeeperSide_10
+  - first:
+      213: 6752824413389832102
+    second: KeeperSide_11
+  - first:
+      213: 8841969326515736487
+    second: KeeperSide_12
+  - first:
+      213: -8485148106223129083
+    second: KeeperSide_13
+  - first:
+      213: 3912853844796791393
+    second: KeeperSide_14
+  - first:
+      213: -2970941129482987016
+    second: KeeperSide_15
+  - first:
+      213: 361677486548306279
+    second: KeeperSide_16
+  - first:
+      213: 2559676832033263547
+    second: KeeperSide_17
+  - first:
+      213: 4535069385341983625
+    second: KeeperSide_18
+  - first:
+      213: 1333998228356659661
+    second: KeeperSide_19
+  - first:
+      213: -8944028018493630648
+    second: KeeperSide_20
+  - first:
+      213: -6257721012863524368
+    second: KeeperSide_21
+  - first:
+      213: 540559081211124479
+    second: KeeperSide_22
+  - first:
+      213: -3181856157071322606
+    second: KeeperSide_23
+  - first:
+      213: 4221672612341638126
+    second: KeeperSide_24
+  - first:
+      213: 4316425655974348452
+    second: KeeperSide_25
+  - first:
+      213: 2864791466012777606
+    second: KeeperSide_26
+  - first:
+      213: -503715187441787543
+    second: KeeperSide_27
+  - first:
+      213: -8793039514380213199
+    second: KeeperSide_28
+  - first:
+      213: -4238851508601416217
+    second: KeeperSide_29
+  - first:
+      213: 8028495447407161813
+    second: KeeperSide_30
+  - first:
+      213: -1978446201203198925
+    second: KeeperSide_31
+  - first:
+      213: -1085352212946148590
+    second: KeeperSide_32
+  - first:
+      213: -5200803069799151047
+    second: KeeperSide_33
+  - first:
+      213: -468576814047151702
+    second: KeeperSide_34
+  - first:
+      213: -3605480481161636874
+    second: KeeperSide_35
+  - first:
+      213: -5433342145935546615
+    second: KeeperSide_36
+  - first:
+      213: -1998630574237236657
+    second: KeeperSide_37
+  - first:
+      213: 5412549406557133906
+    second: KeeperSide_38
+  - first:
+      213: -949103255270149642
+    second: KeeperSide_39
+  - first:
+      213: 2358385867483076089
+    second: KeeperSide_40
+  - first:
+      213: 6242686214843549829
+    second: KeeperSide_41
+  - first:
+      213: 6972202113974061232
+    second: KeeperSide_42
+  - first:
+      213: -6186356991453427843
+    second: KeeperSide_43
+  - first:
+      213: -4911112113874363603
+    second: KeeperSide_44
+  - first:
+      213: -3050257394436486633
+    second: KeeperSide_45
+  - first:
+      213: -7703548334106298676
+    second: KeeperSide_46
+  - first:
+      213: -5478907495060262015
+    second: KeeperSide_47
+  - first:
+      213: -2160021070183845709
+    second: KeeperSide_48
+  - first:
+      213: -8618485207635344937
+    second: KeeperSide_49
+  - first:
+      213: 2462137157493297058
+    second: KeeperSide_50
+  - first:
+      213: 5581702483977436040
+    second: KeeperSide_51
+  - first:
+      213: 2691968098035832482
+    second: KeeperSide_52
+  - first:
+      213: -5038335000863497583
+    second: KeeperSide_53
+  - first:
+      213: -8889002260169329787
+    second: KeeperSide_54
+  - first:
+      213: 6107983147936023290
+    second: KeeperSide_55
+  - first:
+      213: -6814082014394595287
+    second: KeeperSide_56
+  - first:
+      213: 6082478811818216190
+    second: KeeperSide_57
+  - first:
+      213: -2469351728910607597
+    second: KeeperSide_58
+  - first:
+      213: -7300022364349186510
+    second: KeeperSide_59
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: KeeperSide_0
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 575
+        width: 466
+        height: 412
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0de1a4784b52b3a80800000000000000
+      internalID: -8486147615555445040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSide_1
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 670
+        width: 736
+        height: 244
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d63574c153252150800000000000000
+      internalID: 5847118525305796308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSide_2
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 142
+        width: 730
+        height: 189
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba28c486bea1c87f0800000000000000
+      internalID: -609082251232378197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSide_3
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 114
+        width: 439
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13b8ecb14d1bc3e40800000000000000
+      internalID: 5637576358118722353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      KeeperSide_0: -8486147615555445040
+      KeeperSide_1: 5847118525305796308
+      KeeperSide_10: 1590228071904890462
+      KeeperSide_11: 6752824413389832102
+      KeeperSide_12: 8841969326515736487
+      KeeperSide_13: -8485148106223129083
+      KeeperSide_14: 3912853844796791393
+      KeeperSide_15: -2970941129482987016
+      KeeperSide_16: 361677486548306279
+      KeeperSide_17: 2559676832033263547
+      KeeperSide_18: 4535069385341983625
+      KeeperSide_19: 1333998228356659661
+      KeeperSide_2: -609082251232378197
+      KeeperSide_20: -8944028018493630648
+      KeeperSide_21: -6257721012863524368
+      KeeperSide_22: 540559081211124479
+      KeeperSide_23: -3181856157071322606
+      KeeperSide_24: 4221672612341638126
+      KeeperSide_25: 4316425655974348452
+      KeeperSide_26: 2864791466012777606
+      KeeperSide_27: -503715187441787543
+      KeeperSide_28: -8793039514380213199
+      KeeperSide_29: -4238851508601416217
+      KeeperSide_3: 5637576358118722353
+      KeeperSide_30: 8028495447407161813
+      KeeperSide_31: -1978446201203198925
+      KeeperSide_32: -1085352212946148590
+      KeeperSide_33: -5200803069799151047
+      KeeperSide_34: -468576814047151702
+      KeeperSide_35: -3605480481161636874
+      KeeperSide_36: -5433342145935546615
+      KeeperSide_37: -1998630574237236657
+      KeeperSide_38: 5412549406557133906
+      KeeperSide_39: -949103255270149642
+      KeeperSide_4: 8661733564716424335
+      KeeperSide_40: 2358385867483076089
+      KeeperSide_41: 6242686214843549829
+      KeeperSide_42: 6972202113974061232
+      KeeperSide_43: -6186356991453427843
+      KeeperSide_44: -4911112113874363603
+      KeeperSide_45: -3050257394436486633
+      KeeperSide_46: -7703548334106298676
+      KeeperSide_47: -5478907495060262015
+      KeeperSide_48: -2160021070183845709
+      KeeperSide_49: -8618485207635344937
+      KeeperSide_5: 3945983922370315920
+      KeeperSide_50: 2462137157493297058
+      KeeperSide_51: 5581702483977436040
+      KeeperSide_52: 2691968098035832482
+      KeeperSide_53: -5038335000863497583
+      KeeperSide_54: -8889002260169329787
+      KeeperSide_55: 6107983147936023290
+      KeeperSide_56: -6814082014394595287
+      KeeperSide_57: 6082478811818216190
+      KeeperSide_58: -2469351728910607597
+      KeeperSide_59: -7300022364349186510
+      KeeperSide_6: 902863407341083440
+      KeeperSide_7: -8074640771031294612
+      KeeperSide_8: -2988135284239541506
+      KeeperSide_9: 1278839262493605500
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -104,10 +104,10 @@ namespace PenaltyKing.Tests
                 Assert.That(game.Round.ShotsTaken, Is.EqualTo(i + 1));
                 if (game.LastShot.Value.Outcome == ShotOutcome.Goal) goals++;
                 Assert.That(game.Round.Goals, Is.EqualTo(goals));
-                Assert.That(game.ScoreLabel.text, Is.EqualTo($"GOL  {goals}"));
-                Assert.That(game.ShotCounter.text, Is.EqualTo($"ŞUT  {i + 1} / 5"));
                 Assert.That(game.Round.SaveProbability, Is.EqualTo(.35f));
                 yield return WaitForResult(game);
+                Assert.That(game.ScoreLabel.text, Is.EqualTo($"GOL  {goals}"));
+                Assert.That(game.ShotCounter.text, Is.EqualTo($"ŞUT  {i + 1} / 5"));
             }
             Assert.That(game.State, Is.EqualTo(PlayState.Finished));
             Assert.That(game.ResultVisible, Is.True);

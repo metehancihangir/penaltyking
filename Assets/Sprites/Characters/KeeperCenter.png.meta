@@ -1,0 +1,335 @@
+fileFormatVersion: 2
+guid: 0b12e6eb8e7caca43b3eccafa64aa087
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6281149571256816792
+    second: KeeperCenter_0
+  - first:
+      213: 598259959376406001
+    second: KeeperCenter_1
+  - first:
+      213: -4981395411423315849
+    second: KeeperCenter_2
+  - first:
+      213: 4172321051240159204
+    second: KeeperCenter_3
+  - first:
+      213: 8214925573133327828
+    second: KeeperCenter_4
+  - first:
+      213: -6501121276531452370
+    second: KeeperCenter_5
+  - first:
+      213: 5390916805870427891
+    second: KeeperCenter_6
+  - first:
+      213: 3067213725612939021
+    second: KeeperCenter_7
+  - first:
+      213: -2052558512188624476
+    second: KeeperCenter_8
+  - first:
+      213: 235333909559514737
+    second: KeeperCenter_9
+  - first:
+      213: -2006772065462918873
+    second: KeeperCenter_10
+  - first:
+      213: -6145679360701039166
+    second: KeeperCenter_11
+  - first:
+      213: -4430954602723481144
+    second: KeeperCenter_12
+  - first:
+      213: -546933124741838936
+    second: KeeperCenter_13
+  - first:
+      213: 3651555039694510627
+    second: KeeperCenter_14
+  - first:
+      213: 136639140487450022
+    second: KeeperCenter_15
+  - first:
+      213: 236132123699417867
+    second: KeeperCenter_16
+  - first:
+      213: 8023155184145847202
+    second: KeeperCenter_17
+  - first:
+      213: 9076870077834521542
+    second: KeeperCenter_18
+  - first:
+      213: 735995305022876981
+    second: KeeperCenter_19
+  - first:
+      213: -4101246053735890245
+    second: KeeperCenter_20
+  - first:
+      213: 597371486580106131
+    second: KeeperCenter_21
+  - first:
+      213: -6502946411879712237
+    second: KeeperCenter_22
+  - first:
+      213: 8718285901901591901
+    second: KeeperCenter_23
+  - first:
+      213: -679553996669131135
+    second: KeeperCenter_24
+  - first:
+      213: 570964181903945373
+    second: KeeperCenter_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: KeeperCenter_0
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 647
+        width: 471
+        height: 555
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8941cdf81402b2750800000000000000
+      internalID: 6281149571256816792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperCenter_1
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 627
+        width: 323
+        height: 613
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f568f963427d4800800000000000000
+      internalID: 598259959376406001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperCenter_2
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 40
+        width: 455
+        height: 509
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7783a5014478edab0800000000000000
+      internalID: -4981395411423315849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperCenter_3
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 24
+        width: 448
+        height: 603
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e7dd04e3ef07e930800000000000000
+      internalID: 4172321051240159204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      KeeperCenter_0: 6281149571256816792
+      KeeperCenter_1: 598259959376406001
+      KeeperCenter_10: -2006772065462918873
+      KeeperCenter_11: -6145679360701039166
+      KeeperCenter_12: -4430954602723481144
+      KeeperCenter_13: -546933124741838936
+      KeeperCenter_14: 3651555039694510627
+      KeeperCenter_15: 136639140487450022
+      KeeperCenter_16: 236132123699417867
+      KeeperCenter_17: 8023155184145847202
+      KeeperCenter_18: 9076870077834521542
+      KeeperCenter_19: 735995305022876981
+      KeeperCenter_2: -4981395411423315849
+      KeeperCenter_20: -4101246053735890245
+      KeeperCenter_21: 597371486580106131
+      KeeperCenter_22: -6502946411879712237
+      KeeperCenter_23: 8718285901901591901
+      KeeperCenter_24: -679553996669131135
+      KeeperCenter_25: 570964181903945373
+      KeeperCenter_3: 4172321051240159204
+      KeeperCenter_4: 8214925573133327828
+      KeeperCenter_5: -6501121276531452370
+      KeeperCenter_6: 5390916805870427891
+      KeeperCenter_7: 3067213725612939021
+      KeeperCenter_8: -2052558512188624476
+      KeeperCenter_9: 235333909559514737
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

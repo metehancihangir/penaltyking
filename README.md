@@ -12,11 +12,11 @@ Options ekranında **Music Volume** ve **SFX Volume** kaydırıcıları bulunur.
 
 Singleplayer akışı artık **Kolay / Orta / Zor → Sabit Round / Endless → Gameplay** şeklindedir. Mod ekranı seçilen zorluğu gösterir. Geri ile zorluk değiştirilebilir veya ana menüye dönülebilir. Zorluk seçilmeden moddan oyuna geçilemez.
 
-Gameplay artık geçici görsellerle oynanabilir. Kaledeki **SOL / ORTA / SAĞ** bölgelerinden birine dokunun. Şut parmak basıldığı anda atılır; kalecinin yönü aynı anda belirlenir. Aynı yön kurtarış, farklı yön goldür. Sonuç kısa süre gösterilirken yeni dokunmalar sayılmaz.
+Gameplay gece stadyumu, kale/file, görünür oyuncu ve kaleciyle oynanabilir. Kaledeki **SOL / ORTA / SAĞ** bölgelerinden birine dokunun. Şut ve kaleci yönü parmak basıldığı anda belirlenir; oyuncu vuruşu, topun uçuşu ve kalecinin dalışı birlikte oynar. Aynı yön kurtarış, farklı yön goldür. Animasyon boyunca yeni dokunmalar sayılmaz.
 
 **Sabit Round:** Yapılandırılmış şut sayısı (varsayılan 5) sonunda gol toplamı gösterilir. **Endless:** İlk kurtarışta biter; atılan goller skor olur. Sonuç ekranında **Tekrar Oyna** aynı zorluk/modla yeni oyun başlatır, **Ana Menüye Dön** menüyü açar. Oyun sahnesini doğrudan seçim yapmadan açarsanız önce ana menüye yönlendiren bilgi gösterilir.
 
-Faz 4 görselleri geçicidir: sarı K kutusu kaleci, açık renk kare top, kırmızı O kutusu oyuncuyu temsil eder. Final saha/karakterler Faz 5, ayrıntılı animasyonlar Faz 6 ve ses klipleri Faz 7 kapsamındadır.
+Faz 5 saha/karakter görselleri ve Faz 6 animasyonları eklendi. Vuruşta top döner, perspektifte küçülür ve kavisli bir yol izler; kaleci dalar, yere iner ve toparlanır. Golde taraftarlar zıplar ve konfeti görünür. Gerçek ses klipleri Faz 7 kapsamındadır; vuruş/sonuç zamanlama olayları hazırdır.
 
 ## Zorluk yapılandırması
 
@@ -36,7 +36,8 @@ GameManager bu dosyayı yükler ve seçim anındaki olasılık/şut sayısını 
 - `Assets/Scripts/Gameplay/PenaltyRound.cs`: yön seçimi, olasılık, gol/şut sayacı ve iki modun bitiş kuralları.
 - `Assets/Scripts/Gameplay/GameplayController.cs`, `Assets/Scripts/UI/ShotZone.cs`: dokunma anında şut, tekrar giriş kilidi, geçici geri bildirim ve skor ekranı.
 - `Assets/UI/Menu`: menüye ait özgün geçici stadyum ve piksel başlık PNG'leri.
-- `Assets/Sprites`, `Audio`, `Prefabs`, `UI`: sonraki fazların varlık klasörleri.
+- `Assets/Sprites/Stadium`, `Characters`, `Props`: gece stadyumu, karakter pozları ve top/kale PNG varlıkları.
+- `Assets/Scripts/Gameplay/ShotPresentation.cs`: ortak animasyon zaman çizelgesi, yörünge, kareler ve ses zamanlama olayları.
 - `Assets/Editor`: Faz 0 sahne kurulumu, Faz 1 menü üretimi ve önizleme araçları. Faz 1 menü üreticisi MainMenu içindeki üretilmiş menüyü yeniden oluşturur; elle menü düzenlediyseniz yeniden çalıştırmayın.
 - `Assets/Tests/PlayMode`: altyapı, menü yönlendirme, pasif Multiplayer ve buton görsel tepkisi testleri.
 - `docs`: orijinal prompt kopyaları, kullanıcının güncel kararları ve faz raporları.
@@ -48,7 +49,7 @@ Unity menüsünde **Window → General → Test Runner → PlayMode → Run All*
 Komut satırı (PowerShell):
 
 ```powershell
-& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase4.xml" -logFile "$PWD/Logs/phase4-tests.log"
+& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase6.xml" -logFile "$PWD/Logs/phase6-tests.log"
 ```
 
 Test komutunda `-quit` kullanılmaz; test çalıştırıcısı tamamlanınca kapanır. Aynı proje Unity Editor'de açıkken ikinci bir Unity işlemiyle test çalıştırmayın.
