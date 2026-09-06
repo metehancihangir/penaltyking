@@ -69,7 +69,7 @@ namespace PenaltyKing.Editor
             Debug.Log("[Phase 1] MainMenu saved: Singleplayer, disabled Multiplayer, Options.");
         }
 
-        private static PixelMenuButton Button(Transform parent, string text, float y, bool interactable, bool primary)
+        internal static PixelMenuButton Button(Transform parent, string text, float y, bool interactable, bool primary)
         {
             var root = Rect(text + " Button", parent, new Vector2(368, 70), new Vector2(0, y));
             Image("Shadow", root, new Vector2(368, 70), new Vector2(0, -5), C("070F1A"));
@@ -101,7 +101,7 @@ namespace PenaltyKing.Editor
             return button;
         }
 
-        private static RectTransform Rect(string name, Transform parent, Vector2 size, Vector2 position)
+        internal static RectTransform Rect(string name, Transform parent, Vector2 size, Vector2 position)
         {
             var go = new GameObject(name, typeof(RectTransform));
             var rect = (RectTransform)go.transform;
@@ -112,7 +112,7 @@ namespace PenaltyKing.Editor
             return rect;
         }
 
-        private static Image Image(string name, Transform parent, Vector2 size, Vector2 position, Color color)
+        internal static Image Image(string name, Transform parent, Vector2 size, Vector2 position, Color color)
         {
             var image = Rect(name, parent, size, position).gameObject.AddComponent<Image>();
             image.color = color;
@@ -120,7 +120,7 @@ namespace PenaltyKing.Editor
             return image;
         }
 
-        private static void Label(string name, Transform parent, string content, Vector2 size, Vector2 position, int fontSize, Color color)
+        internal static Text Label(string name, Transform parent, string content, Vector2 size, Vector2 position, int fontSize, Color color)
         {
             var text = Rect(name, parent, size, position).gameObject.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -130,9 +130,10 @@ namespace PenaltyKing.Editor
             text.alignment = TextAnchor.MiddleCenter;
             text.color = color;
             text.raycastTarget = false;
+            return text;
         }
 
-        private static void Stretch(RectTransform rect)
+        internal static void Stretch(RectTransform rect)
         {
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;

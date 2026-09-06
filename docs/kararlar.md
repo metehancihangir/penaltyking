@@ -8,7 +8,7 @@ Bu dosyadaki kullanıcı kararları, kaynak promptların ilgili eski maddelerini
 - Faz 5'e şutu çeken oyuncunun özgün piksel sprite'ı eklenir.
 - Faz 6'ya oyuncunun hazırlık, vuruş ve vuruş sonrası hareketi eklenir; ayağın topla temas anı top yörüngesi ve kick SFX ile senkronize edilir.
 - Kalabalık ambiyansı dahil tüm stadyum efektlerini **SFX Volume** kontrol eder. Music Volume yalnızca müzik içindir.
-- Faz 0 tamamlandı. Kullanıcı “Faz 1'i başlat” diyerek Faz 1'i onayladı. Faz 2–8'e sırayla ve her faz için ayrı kullanıcı onayıyla geçilir.
+- Faz 0 ve Faz 1 tamamlandı. Kullanıcı “faz 2'ye geç” diyerek Faz 2'yi onayladı. Faz 3–8'e sırayla ve her faz için ayrı kullanıcı onayıyla geçilir.
 - Diğer kapsam kısıtları korunur: multiplayer pasif; güç/nişan mekaniği, dinamik zorluk, gol/kurtarış dışında sonuç, gündüz seçimi veya ek options ayarı eklenmez.
 
 ## Faz 0 sınırı
