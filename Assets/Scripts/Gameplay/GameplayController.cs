@@ -16,6 +16,11 @@ namespace PenaltyKing
         [SerializeField] private Text resultTitle, resultScore;
         [SerializeField] private PixelMenuButton replay, home;
         [SerializeField, Min(0.1f)] private float resultHoldSeconds = 0.8f;
+        [SerializeField] private Vector2 ballRestPosition = new Vector2(0, -58);
+        [SerializeField] private Vector2 keeperRestPosition = new Vector2(0, 80);
+        [SerializeField] private float targetSpacing = 128;
+        [SerializeField] private float ballTargetY = 35;
+        [SerializeField] private float ballFlightScale = 1;
         public ShotZone Left => left;
         public ShotZone Center => center;
         public ShotZone Right => right;
@@ -33,6 +38,16 @@ namespace PenaltyKing
         private GameMode mode;
         private int shotLimit;
         private float saveProbability;
+
+        public void ConfigureComposition(Vector2 ballRest, Vector2 keeperRest, float spacing, float targetY, float flightScale)
+        {
+            ballRestPosition = ballRest; keeperRestPosition = keeperRest;
+            targetSpacing = spacing; ballTargetY = targetY; ballFlightScale = flightScale;
+            if (ball == null || keeper == null) return;
+            var showing = LastShot.HasValue && State != PlayState.Ready;
+            ball.anchoredPosition = showing ? new Vector2(DirectionX(LastShot.Value.PlayerDirection), ballTargetY) : ballRestPosition;
+            keeper.anchoredPosition = new Vector2(showing ? DirectionX(LastShot.Value.KeeperDirection) : 0, keeperRestPosition.y);
+        }
 
         public void Configure(ShotZone l, ShotZone c, ShotZone r, Text scoreText, Text shotText, Text modeText,
             Text feedbackText, Text directionsText, RectTransform ballMarker, RectTransform keeperMarker,
@@ -77,8 +92,9 @@ namespace PenaltyKing
             // Both directions are committed in the same input callback, before visual feedback.
             var shot = Round.Shoot(direction);
             LastShot = shot;
-            ball.anchoredPosition = new Vector2(DirectionX(direction), 35);
-            keeper.anchoredPosition = new Vector2(DirectionX(shot.KeeperDirection), 80);
+            ball.anchoredPosition = new Vector2(DirectionX(direction), ballTargetY);
+            ball.localScale = Vector3.one * ballFlightScale;
+            keeper.anchoredPosition = new Vector2(DirectionX(shot.KeeperDirection), keeperRestPosition.y);
             feedback.text = shot.Outcome == ShotOutcome.Goal ? "GOL!" : "KURTARIŞ!";
             feedback.color = shot.Outcome == ShotOutcome.Goal ? new Color32(186, 235, 113, 255) : new Color32(255, 195, 128, 255);
             directions.text = $"Şut: {Name(direction)}  ·  Kaleci: {Name(shot.KeeperDirection)}";
@@ -114,8 +130,9 @@ namespace PenaltyKing
         private void ReadyForShot()
         {
             State = PlayState.Ready;
-            ball.anchoredPosition = new Vector2(0, -58);
-            keeper.anchoredPosition = new Vector2(0, 80);
+            ball.anchoredPosition = ballRestPosition;
+            ball.localScale = Vector3.one;
+            keeper.anchoredPosition = keeperRestPosition;
             feedback.text = "BİR YÖNE DOKUN";
             feedback.color = new Color32(227, 238, 230, 255);
             directions.text = "Sol, orta veya sağ.";
@@ -128,7 +145,7 @@ namespace PenaltyKing
             shotCounter.text = mode == GameMode.FixedRound ? $"ŞUT  {Round.ShotsTaken} / {Round.ShotLimit}" : $"ŞUT  {Round.ShotsTaken}";
         }
         private void EnableZones(bool enabled) { left.interactable = center.interactable = right.interactable = enabled; }
-        private static float DirectionX(ShotDirection direction) => ((int)direction - 1) * 128;
+        private float DirectionX(ShotDirection direction) => ((int)direction - 1) * targetSpacing;
         private static string Name(ShotDirection direction) => direction == ShotDirection.Left ? "Sol" : direction == ShotDirection.Center ? "Orta" : "Sağ";
         private void GoHome() { if (!navigator.IsLoading) { EnableZones(false); navigator.Navigate(GameScene.MainMenu); } }
         private void OnDestroy()
