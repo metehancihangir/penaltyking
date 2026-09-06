@@ -65,6 +65,27 @@ namespace PenaltyKing.Editor
             Debug.Log("[Phase 5] Stadium composition previews captured.");
         }
 
+        public static void CaptureAnimations()
+        {
+            EditorSceneManager.OpenScene("Assets/Scenes/Gameplay.unity");
+            var animation = Object.FindFirstObjectByType<ShotPresentation>();
+            Render(1280, 720, "idle", "phase6");
+            var stage = Object.FindFirstObjectByType<GameplayStageLayout>(); stage.Fit();
+            animation.SetComposition(stage.transform.Find("08 Ball").GetComponent<RectTransform>().anchoredPosition,
+                stage.transform.Find("06 Keeper").GetComponent<RectTransform>().anchoredPosition, 190,
+                stage.transform.Find("06 Keeper").GetComponent<RectTransform>().anchoredPosition.y + 21);
+            foreach (var direction in new[] { ShotDirection.Left, ShotDirection.Center, ShotDirection.Right })
+            {
+                animation.Sample(new ShotResult(direction, direction), .9f);
+                Render(1280, 720, direction.ToString().ToLowerInvariant() + "-save", "phase6");
+            }
+            animation.Sample(new ShotResult(ShotDirection.Right, ShotDirection.Left), .24f);
+            Render(1280, 720, "kick-contact", "phase6");
+            animation.Sample(new ShotResult(ShotDirection.Right, ShotDirection.Left), 1.15f);
+            Render(1280, 720, "goal-celebration", "phase6");
+            animation.ResetPose();
+        }
+
         private static void Render(int width, int height, string name, string prefix = "main-menu")
         {
             var camera = Camera.main;

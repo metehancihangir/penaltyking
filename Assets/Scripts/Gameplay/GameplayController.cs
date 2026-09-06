@@ -21,6 +21,9 @@ namespace PenaltyKing
         [SerializeField] private float targetSpacing = 128;
         [SerializeField] private float ballTargetY = 35;
         [SerializeField] private float ballFlightScale = 1;
+        [SerializeField] private ShotPresentation presentation;
+        public ShotPresentation Presentation => presentation;
+        public void ConfigurePresentation(ShotPresentation value) => presentation = value;
         public ShotZone Left => left;
         public ShotZone Center => center;
         public ShotZone Right => right;
@@ -43,6 +46,7 @@ namespace PenaltyKing
         {
             ballRestPosition = ballRest; keeperRestPosition = keeperRest;
             targetSpacing = spacing; ballTargetY = targetY; ballFlightScale = flightScale;
+            if (presentation != null) { presentation.SetComposition(ballRest, keeperRest, spacing, targetY); return; }
             if (ball == null || keeper == null) return;
             var showing = LastShot.HasValue && State != PlayState.Ready;
             ball.anchoredPosition = showing ? new Vector2(DirectionX(LastShot.Value.PlayerDirection), ballTargetY) : ballRestPosition;
@@ -61,6 +65,11 @@ namespace PenaltyKing
         private void Awake()
         {
             navigator = GetComponent<SceneNavigator>();
+            if (presentation != null)
+            {
+                presentation.SetComposition(ballRestPosition, keeperRestPosition, targetSpacing, ballTargetY);
+                presentation.Impact += PresentImpact;
+            }
             left.onClick.AddListener(ShootLeft); center.onClick.AddListener(ShootCenter); right.onClick.AddListener(ShootRight);
             replay.onClick.AddListener(Restart); home.onClick.AddListener(GoHome);
             var state = GameManager.Instance;
@@ -92,6 +101,12 @@ namespace PenaltyKing
             // Both directions are committed in the same input callback, before visual feedback.
             var shot = Round.Shoot(direction);
             LastShot = shot;
+            if (presentation != null)
+            {
+                feedback.text = ""; directions.text = "";
+                StartCoroutine(AnimateShot(shot));
+                return;
+            }
             ball.anchoredPosition = new Vector2(DirectionX(direction), ballTargetY);
             ball.localScale = Vector3.one * ballFlightScale;
             keeper.anchoredPosition = new Vector2(DirectionX(shot.KeeperDirection), keeperRestPosition.y);
@@ -102,10 +117,29 @@ namespace PenaltyKing
             StartCoroutine(ShowResult());
         }
 
+        private void PresentImpact(ShotResult shot)
+        {
+            feedback.text = shot.Outcome == ShotOutcome.Goal ? "GOL!" : "KURTARIŞ!";
+            feedback.color = shot.Outcome == ShotOutcome.Goal ? new Color32(186, 235, 113, 255) : new Color32(255, 195, 128, 255);
+            directions.text = $"Şut: {Name(shot.PlayerDirection)}  ·  Kaleci: {Name(shot.KeeperDirection)}";
+            RefreshScore();
+        }
+
+        private IEnumerator AnimateShot(ShotResult shot)
+        {
+            yield return presentation.Play(shot);
+            FinishShot();
+        }
+
         private IEnumerator ShowResult()
         {
             // Readability hold only. Final ball, player and keeper animations belong to Phase 6.
             yield return new WaitForSecondsRealtime(resultHoldSeconds);
+            FinishShot();
+        }
+
+        private void FinishShot()
+        {
             if (Round.IsOver)
             {
                 State = PlayState.Finished;
@@ -120,6 +154,7 @@ namespace PenaltyKing
         {
             if (navigator.IsLoading || State == PlayState.NeedsSelection) return;
             StopAllCoroutines();
+            if (presentation != null) presentation.Cancel();
             Round = new PenaltyRound(mode, shotLimit, saveProbability, random);
             LastShot = null;
             resultPanel.SetActive(false);
@@ -133,6 +168,7 @@ namespace PenaltyKing
             ball.anchoredPosition = ballRestPosition;
             ball.localScale = Vector3.one;
             keeper.anchoredPosition = keeperRestPosition;
+            if (presentation != null) presentation.ResetPose();
             feedback.text = "BİR YÖNE DOKUN";
             feedback.color = new Color32(227, 238, 230, 255);
             directions.text = "Sol, orta veya sağ.";
@@ -150,6 +186,7 @@ namespace PenaltyKing
         private void GoHome() { if (!navigator.IsLoading) { EnableZones(false); navigator.Navigate(GameScene.MainMenu); } }
         private void OnDestroy()
         {
+            if (presentation != null) presentation.Impact -= PresentImpact;
             left.onClick.RemoveListener(ShootLeft); center.onClick.RemoveListener(ShootCenter); right.onClick.RemoveListener(ShootRight);
             replay.onClick.RemoveListener(Restart); home.onClick.RemoveListener(GoHome);
         }
