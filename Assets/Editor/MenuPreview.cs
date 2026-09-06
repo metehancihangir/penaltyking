@@ -32,6 +32,18 @@ namespace PenaltyKing.Editor
             Debug.Log("[Phase 2] Options previews captured.");
         }
 
+        public static void CaptureSelections()
+        {
+            Directory.CreateDirectory("docs/previews");
+            foreach (var sceneName in new[] { "DifficultySelect", "ModeSelect" })
+            {
+                EditorSceneManager.OpenScene($"Assets/Scenes/{sceneName}.unity");
+                Render(1280, 720, "landscape", sceneName);
+                Render(390, 844, "portrait", sceneName);
+            }
+            Debug.Log("[Phase 3] Selection previews captured in landscape and portrait.");
+        }
+
         private static void Render(int width, int height, string name, string prefix = "main-menu")
         {
             var camera = Camera.main;
