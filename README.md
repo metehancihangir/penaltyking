@@ -8,7 +8,9 @@ Unity Hub → Projects → Add → Add project from disk ile bu klasörü seçin
 
 MainMenu artık Faz 1 ana menüsünü gösterir: **Singleplayer → DifficultySelect**, **Options → Options**. **Multiplayer / Yakında** pasiftir. Etkin butonlarda üzerine gelme ve basma görsel tepkileri vardır. Gece stadyumu arka planı özgün, geçici piksel çizimidir; final görseller Faz 5 kapsamındadır.
 
-Diğer sahneler henüz Faz 0 altyapı test panelini içerir. Options ayarları Faz 2'de, zorluk/mod ekranları Faz 3'te hazırlanacak. Bu geçici panellerde MainMenu düğmesiyle ana menüye dönülebilir. Altyapı paneli Editor/Development Build dışında görünmez.
+Options ekranında **Music Volume** ve **SFX Volume** kaydırıcıları bulunur. Değişiklikler ses kanallarına anında yansır; kalabalık ambiyansı SFX seviyesini izler. Ayarlar PlayerPrefs ile kaydedilir ve sonraki açılışta yüklenir. **Geri** ana menüye döner. Gerçek ses klipleri Faz 7'de eklenecek.
+
+Zorluk/mod ve oynanış sahneleri henüz Faz 0 altyapı test panelini içerir. Zorluk/mod ekranları Faz 3'te hazırlanacak. Bu geçici panellerde MainMenu düğmesiyle ana menüye dönülebilir. Altyapı paneli Editor/Development Build dışında görünmez.
 
 ## Proje yapısı
 
@@ -16,6 +18,7 @@ Diğer sahneler henüz Faz 0 altyapı test panelini içerir. Options ayarları F
 - `Assets/Scripts/Core`: GameManager, AudioManager, RuntimeBootstrap, SceneNavigator ve geçici tanılama paneli.
 - `Assets/Scripts/Input`: Input System tabanlı dokunma algılayıcısı.
 - `Assets/Scripts/UI`: ana menü bağlantıları, piksel buton tepkisi ve ekran güvenli alanı.
+- `Assets/Scripts/UI/OptionsController.cs`, `Assets/Scripts/Core/AudioPreferences.cs`: ses arayüzü, anlık kanal kontrolü ve kalıcı kayıt.
 - `Assets/UI/Menu`: menüye ait özgün geçici stadyum ve piksel başlık PNG'leri.
 - `Assets/Sprites`, `Audio`, `Prefabs`, `UI`: sonraki fazların varlık klasörleri.
 - `Assets/Editor`: Faz 0 sahne kurulumu, Faz 1 menü üretimi ve önizleme araçları. Faz 1 menü üreticisi MainMenu içindeki üretilmiş menüyü yeniden oluşturur; elle menü düzenlediyseniz yeniden çalıştırmayın.
@@ -29,7 +32,7 @@ Unity menüsünde **Window → General → Test Runner → PlayMode → Run All*
 Komut satırı (PowerShell):
 
 ```powershell
-& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase1.xml" -logFile "$PWD/Logs/phase1-tests.log"
+& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase2.xml" -logFile "$PWD/Logs/phase2-tests.log"
 ```
 
 Test komutunda `-quit` kullanılmaz; test çalıştırıcısı tamamlanınca kapanır. Aynı proje Unity Editor'de açıkken ikinci bir Unity işlemiyle test çalıştırmayın.

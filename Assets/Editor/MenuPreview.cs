@@ -23,7 +23,16 @@ namespace PenaltyKing.Editor
             Debug.Log("[Phase 1] Landscape and portrait previews captured.");
         }
 
-        private static void Render(int width, int height, string name)
+        public static void CaptureOptions()
+        {
+            EditorSceneManager.OpenScene("Assets/Scenes/Options.unity");
+            Directory.CreateDirectory("docs/previews");
+            Render(1280, 720, "landscape", "options");
+            Render(390, 844, "portrait", "options");
+            Debug.Log("[Phase 2] Options previews captured.");
+        }
+
+        private static void Render(int width, int height, string name, string prefix = "main-menu")
         {
             var camera = Camera.main;
             var canvas = Object.FindFirstObjectByType<Canvas>();
@@ -41,7 +50,7 @@ namespace PenaltyKing.Editor
             camera.Render();
             Canvas.ForceUpdateCanvases();
             camera.Render();
-            foreach (var button in Object.FindObjectsByType<PixelMenuButton>(FindObjectsSortMode.None))
+            foreach (var button in Object.FindObjectsByType<Selectable>(FindObjectsSortMode.None))
             {
                 var corners = new Vector3[4];
                 ((RectTransform)button.transform).GetWorldCorners(corners);
@@ -56,7 +65,7 @@ namespace PenaltyKing.Editor
             var texture = new Texture2D(width, height, TextureFormat.RGB24, false);
             texture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
             texture.Apply();
-            File.WriteAllBytes($"docs/previews/main-menu-{name}.png", texture.EncodeToPNG());
+            File.WriteAllBytes($"docs/previews/{prefix}-{name}.png", texture.EncodeToPNG());
             camera.targetTexture = null;
             RenderTexture.active = previous;
             Object.DestroyImmediate(texture);

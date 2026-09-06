@@ -6,7 +6,7 @@ namespace PenaltyKing
     public enum Difficulty { Easy, Medium, Hard }
     public enum GameMode { FixedRound, Endless }
 
-    // Session state only. Persistent user preferences are implemented in Phase 2.
+    // Session selections plus volume preferences loaded before audio services start.
     [DisallowMultipleComponent]
     public sealed class GameManager : MonoBehaviour
     {
@@ -29,6 +29,9 @@ namespace PenaltyKing
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            AudioPreferences.Load(out var music, out var sfx);
+            MusicVolume = music;
+            SfxVolume = sfx;
         }
 
         public void SelectDifficulty(Difficulty difficulty) => SelectedDifficulty = difficulty;
