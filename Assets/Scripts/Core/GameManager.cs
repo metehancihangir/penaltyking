@@ -13,6 +13,11 @@ namespace PenaltyKing
         public static GameManager Instance { get; private set; }
         public Difficulty SelectedDifficulty { get; private set; } = Difficulty.Medium;
         public GameMode SelectedMode { get; private set; } = GameMode.FixedRound;
+        public GameRules Rules { get; private set; }
+        public bool HasDifficultySelection { get; private set; }
+        public bool HasModeSelection { get; private set; }
+        public float SelectedSaveProbability { get; private set; }
+        public int SelectedRoundShots { get; private set; }
         public float MusicVolume { get; private set; } = 0.7f;
         public float SfxVolume { get; private set; } = 0.8f;
         public event Action<float, float> VolumeChanged;
@@ -29,13 +34,39 @@ namespace PenaltyKing
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Rules = Resources.Load<GameRules>("GameRules");
+            if (Rules == null) throw new InvalidOperationException("Missing Resources/GameRules asset.");
+            SelectedSaveProbability = Rules.SaveProbability(SelectedDifficulty);
+            SelectedRoundShots = Rules.FixedRoundShots;
             AudioPreferences.Load(out var music, out var sfx);
             MusicVolume = music;
             SfxVolume = sfx;
         }
 
-        public void SelectDifficulty(Difficulty difficulty) => SelectedDifficulty = difficulty;
-        public void SelectMode(GameMode mode) => SelectedMode = mode;
+        public void BeginSelection()
+        {
+            HasDifficultySelection = false;
+            HasModeSelection = false;
+        }
+
+        public void SelectDifficulty(Difficulty difficulty)
+        {
+            // Snapshot the configured probability. It does not change with score or time.
+            var probability = Rules.SaveProbability(difficulty);
+            SelectedDifficulty = difficulty;
+            SelectedSaveProbability = probability;
+            HasDifficultySelection = true;
+            HasModeSelection = false;
+        }
+
+        public void SelectMode(GameMode mode)
+        {
+            if (!HasDifficultySelection) throw new InvalidOperationException("Choose difficulty before mode.");
+            if (!Enum.IsDefined(typeof(GameMode), mode)) throw new ArgumentOutOfRangeException(nameof(mode));
+            SelectedMode = mode;
+            SelectedRoundShots = Rules.FixedRoundShots;
+            HasModeSelection = true;
+        }
 
         public void SetMusicVolume(float value)
         {

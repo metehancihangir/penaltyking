@@ -28,7 +28,12 @@ namespace PenaltyKing
             options.onClick.AddListener(OpenOptions);
         }
 
-        private void OpenSingleplayer() => navigator.Navigate(GameScene.DifficultySelect);
+        private void OpenSingleplayer()
+        {
+            if (navigator.IsLoading) return;
+            GameManager.Instance.BeginSelection();
+            navigator.Navigate(GameScene.DifficultySelect);
+        }
         private void OpenOptions() => navigator.Navigate(GameScene.Options);
 
         private void OnDestroy()

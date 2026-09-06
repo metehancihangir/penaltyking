@@ -47,4 +47,6 @@ Ses klipleri Faz 7 kapsamında olduğundan bu fazda AudioSource seviyeleri doğr
 
 ## Sonraki faz
 
-Ana prompttaki onay akışı gereği Faz 3 başlatılmadı. Onay sonrası zorluk seçimi ve ardından Sabit Round / Endless mod seçimi ekranları hazırlanacak.
+Yeniden açılan oturumda dosyalar kontrol edildi ve mevcut durumdaki 10 test tekrar geçti (`TestResults/phase2-recheck.xml`). Faz 2 kapsamında eksik bulunmadı. Kullanıcının koşullu onayıyla Faz 3'e geçildi.
+
+Faz 2'nin ilk tesliminde Faz 3 için onay beklenmişti; güncel ilerleme `docs/faz-3-raporu.md` dosyasındadır.
