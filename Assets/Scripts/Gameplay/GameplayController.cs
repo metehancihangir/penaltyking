@@ -87,7 +87,7 @@ namespace PenaltyKing
             shotLimit = state.SelectedRoundShots;
             saveProbability = state.SelectedSaveProbability;
             modeLabel.text = $"{(mode == GameMode.FixedRound ? "SABİT ROUND" : "ENDLESS")} · {ModeSelectController.DifficultyName(state.SelectedDifficulty)}";
-            Restart();
+            StartRound();
         }
 
         private void ShootLeft() => Shoot(ShotDirection.Left);
@@ -153,6 +153,11 @@ namespace PenaltyKing
         private void Restart()
         {
             if (navigator.IsLoading || State == PlayState.NeedsSelection) return;
+            StartRound();
+        }
+
+        private void StartRound()
+        {
             StopAllCoroutines();
             if (presentation != null) presentation.Cancel();
             Round = new PenaltyRound(mode, shotLimit, saveProbability, random);

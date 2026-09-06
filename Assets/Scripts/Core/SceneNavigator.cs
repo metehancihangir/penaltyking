@@ -9,21 +9,14 @@ namespace PenaltyKing
 
     public sealed class SceneNavigator : MonoBehaviour
     {
-        public bool IsLoading { get; private set; }
+        public bool IsLoading => SceneTransition.IsBusy;
 
         public void Navigate(GameScene destination)
         {
             if (!Enum.IsDefined(typeof(GameScene), destination))
                 throw new ArgumentOutOfRangeException(nameof(destination));
-            if (!IsLoading) StartCoroutine(Load(destination));
-        }
-
-        private IEnumerator Load(GameScene destination)
-        {
-            IsLoading = true;
-            var operation = SceneManager.LoadSceneAsync(destination.ToString());
-            if (operation != null) yield return operation;
-            IsLoading = false;
+            RuntimeBootstrap.EnsureServices();
+            SceneTransition.Instance.Navigate(destination);
         }
     }
 }
