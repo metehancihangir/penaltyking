@@ -8,7 +8,7 @@ Unity Hub → Projects → Add → Add project from disk ile bu klasörü seçin
 
 MainMenu artık Faz 1 ana menüsünü gösterir: **Singleplayer → DifficultySelect**, **Options → Options**. **Multiplayer / Yakında** pasiftir. Etkin butonlarda üzerine gelme ve basma görsel tepkileri vardır. Gece stadyumu arka planı özgün, geçici piksel çizimidir; final görseller Faz 5 kapsamındadır.
 
-Options ekranında **Music Volume** ve **SFX Volume** kaydırıcıları bulunur. Değişiklikler ses kanallarına anında yansır; kalabalık ambiyansı SFX seviyesini izler. Ayarlar PlayerPrefs ile kaydedilir ve sonraki açılışta yüklenir. **Geri** ana menüye döner. Gerçek ses klipleri Faz 7'de eklenecek.
+Options ekranında **Music Volume** ve **SFX Volume** kaydırıcıları bulunur. Değişiklikler ses kanallarına anında yansır; kalabalık ambiyansı, vuruş, gol ve kurtarış SFX seviyesini izler. Ayarlar PlayerPrefs ile kaydedilir ve sonraki açılışta yüklenir. **Geri** ana menüye döner. Gameplay'deki gerçek ses klipleri Faz 7'de eklendi; müzik kanalı ayrı ve şu anda boş.
 
 Singleplayer akışı artık **Kolay / Orta / Zor → Sabit Round / Endless → Gameplay** şeklindedir. Mod ekranı seçilen zorluğu gösterir. Geri ile zorluk değiştirilebilir veya ana menüye dönülebilir. Zorluk seçilmeden moddan oyuna geçilemez.
 
@@ -16,7 +16,7 @@ Gameplay gece stadyumu, kale/file, görünür oyuncu ve kaleciyle oynanabilir. K
 
 **Sabit Round:** Yapılandırılmış şut sayısı (varsayılan 5) sonunda gol toplamı gösterilir. **Endless:** İlk kurtarışta biter; atılan goller skor olur. Sonuç ekranında **Tekrar Oyna** aynı zorluk/modla yeni oyun başlatır, **Ana Menüye Dön** menüyü açar. Oyun sahnesini doğrudan seçim yapmadan açarsanız önce ana menüye yönlendiren bilgi gösterilir.
 
-Faz 5 saha/karakter görselleri ve Faz 6 animasyonları eklendi. Vuruşta top döner, perspektifte küçülür ve kavisli bir yol izler; kaleci dalar, yere iner ve toparlanır. Golde taraftarlar zıplar ve konfeti görünür. Gerçek ses klipleri Faz 7 kapsamındadır; vuruş/sonuç zamanlama olayları hazırdır.
+Faz 5 saha/karakter görselleri, Faz 6 animasyonları ve Faz 7 sesleri eklendi. Vuruşta top döner, perspektifte küçülür ve kavisli bir yol izler; kaleci dalar, yere iner ve toparlanır. Golde taraftarlar zıplar ve konfeti görünür. Vuruş ve sonuç sesleri animasyon olaylarından tetiklenir. Stadyum ambiyansı oyun boyunca döner; menüye dönünce tüm stadyum sesleri durur.
 
 ## Zorluk yapılandırması
 
@@ -49,7 +49,7 @@ Unity menüsünde **Window → General → Test Runner → PlayMode → Run All*
 Komut satırı (PowerShell):
 
 ```powershell
-& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase6.xml" -logFile "$PWD/Logs/phase6-tests.log"
+& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase7.xml" -logFile "$PWD/Logs/phase7-tests.log"
 ```
 
 Test komutunda `-quit` kullanılmaz; test çalıştırıcısı tamamlanınca kapanır. Aynı proje Unity Editor'de açıkken ikinci bir Unity işlemiyle test çalıştırmayın.
