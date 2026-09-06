@@ -11,6 +11,34 @@ namespace PenaltyKing
         // Crowd ambience must remain on the SFX volume bus (user decision).
         public AudioSource CrowdSource { get; private set; }
         private GameManager state;
+        private Object stadiumOwner;
+        public bool StadiumActive => stadiumOwner != null;
+
+        public void BeginStadium(Object owner, AudioClip ambience)
+        {
+            if (owner == null || ambience == null) return;
+            if (stadiumOwner == owner && CrowdSource.isPlaying) return;
+            SfxSource.Stop();
+            stadiumOwner = owner;
+            CrowdSource.clip = ambience;
+            CrowdSource.Play();
+        }
+
+        public void PlayStadiumCue(Object owner, AudioClip clip)
+        {
+            if (owner != stadiumOwner || owner == null || clip == null) return;
+            SfxSource.Stop();
+            SfxSource.clip = clip;
+            SfxSource.Play();
+        }
+
+        public void EndStadium(Object owner)
+        {
+            if (owner != stadiumOwner) return;
+            CrowdSource.Stop(); SfxSource.Stop();
+            CrowdSource.clip = null; SfxSource.clip = null;
+            stadiumOwner = null;
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics() => Instance = null;
