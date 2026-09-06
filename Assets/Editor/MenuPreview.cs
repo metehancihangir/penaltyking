@@ -44,6 +44,18 @@ namespace PenaltyKing.Editor
             Debug.Log("[Phase 3] Selection previews captured in landscape and portrait.");
         }
 
+        public static void CaptureGameplay()
+        {
+            Directory.CreateDirectory("docs/previews");
+            EditorSceneManager.OpenScene("Assets/Scenes/Gameplay.unity");
+            Render(1280, 720, "landscape", "gameplay-placeholder");
+            Render(390, 844, "portrait", "gameplay-placeholder");
+            GameObject.Find("Gameplay Canvas/Safe Area/Placeholder Pitch").transform.Find("Round Summary").gameObject.SetActive(true);
+            Render(1280, 720, "landscape", "round-summary-placeholder");
+            Render(390, 844, "portrait", "round-summary-placeholder");
+            Debug.Log("[Phase 4] Gameplay and summary previews captured.");
+        }
+
         private static void Render(int width, int height, string name, string prefix = "main-menu")
         {
             var camera = Camera.main;
