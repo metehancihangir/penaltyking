@@ -35,7 +35,10 @@ namespace PenaltyKing
             else return;
             PressCount++;
             Pressed?.Invoke(LastPosition);
-            Debug.Log($"[TouchInputProbe] Press {PressCount}: {LastPosition}", this);
+#if DEVELOPMENT_BUILD
+            var queueMilliseconds = (UnityEngine.InputSystem.LowLevel.InputState.currentTime - context.time) * 1000;
+            Debug.Log($"[MobileTouch] queueMs={queueMilliseconds:F3} frame={Time.frameCount}");
+#endif
         }
     }
 }

@@ -65,7 +65,7 @@ namespace PenaltyKing.Tests
                     {
                         yield return null;
                         Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline), "Scene transition timed out");
-                    } while (navigator != null && navigator.IsLoading);
+                    } while (SceneTransition.IsBusy);
                     Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(scene.ToString()));
                     Assert.That(GameManager.Instance, Is.SameAs(game));
                     Assert.That(AudioManager.Instance, Is.SameAs(audio));

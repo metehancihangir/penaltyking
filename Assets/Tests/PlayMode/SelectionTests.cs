@@ -52,7 +52,7 @@ namespace PenaltyKing.Tests
         private static IEnumerator WaitForScene(string scene)
         {
             var deadline = Time.realtimeSinceStartup + 10f;
-            while (SceneManager.GetActiveScene().name != scene)
+            while (SceneManager.GetActiveScene().name != scene || SceneTransition.IsBusy)
             {
                 Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline), "Scene transition timed out");
                 yield return null;
@@ -127,12 +127,12 @@ namespace PenaltyKing.Tests
             yield return WaitForScene("DifficultySelect");
             var choices = Object.FindFirstObjectByType<DifficultySelectController>();
             Click(choices.Easy);
-            Click(choices.Hard);
+            choices.Hard.OnPointerClick(new PointerEventData(EventSystem.current));
             yield return WaitForScene("ModeSelect");
             Assert.That(GameManager.Instance.SelectedDifficulty, Is.EqualTo(Difficulty.Easy));
             mode = Object.FindFirstObjectByType<ModeSelectController>();
             Click(mode.Endless);
-            Click(mode.FixedRound);
+            mode.FixedRound.OnPointerClick(new PointerEventData(EventSystem.current));
             yield return WaitForScene("Gameplay");
             Assert.That(GameManager.Instance.SelectedMode, Is.EqualTo(GameMode.Endless));
         }

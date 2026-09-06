@@ -46,7 +46,7 @@ namespace PenaltyKing.Tests
                 Assert.That(button.interactable, Is.True);
                 ClickThroughRaycast(button);
                 var deadline = Time.realtimeSinceStartup + 10f;
-                while (SceneManager.GetActiveScene().name != destination.ToString())
+                while (SceneManager.GetActiveScene().name != destination.ToString() || SceneTransition.IsBusy)
                 {
                     Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline));
                     yield return null;
