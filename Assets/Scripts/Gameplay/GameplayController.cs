@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace PenaltyKing
 {
-    public enum PlayState { Ready, ShowingShot, Finished, NeedsSelection, PassingPhone, ChoosingKeeper }
+    public enum PlayState { Ready, ShowingShot, Finished, NeedsSelection, PassingPhone, ChoosingKeeper, Leaving }
 
     [RequireComponent(typeof(SceneNavigator))]
     public sealed class GameplayController : MonoBehaviour
@@ -29,6 +29,12 @@ namespace PenaltyKing
         public ShotZone Right => right;
         public PixelMenuButton Replay => replay;
         public PixelMenuButton Home => home;
+        [SerializeField] private PixelMenuButton exit;
+        [SerializeField] private Text player1Summary, player2Summary;
+        public PixelMenuButton Exit => exit;
+        public Text ResultTitle => resultTitle;
+        public void ConfigureMatchUi(PixelMenuButton exitButton, Text first, Text second)
+        { exit = exitButton; player1Summary = first; player2Summary = second; }
         public PenaltyRound Round { get; private set; }
         public PlayState State { get; private set; }
         public ShotResult? LastShot { get; private set; }
@@ -73,6 +79,7 @@ namespace PenaltyKing
             }
             left.onClick.AddListener(ShootLeft); center.onClick.AddListener(ShootCenter); right.onClick.AddListener(ShootRight);
             replay.onClick.AddListener(Restart); home.onClick.AddListener(GoHome);
+            if (exit != null) exit.onClick.AddListener(GoHome);
             var state = GameManager.Instance;
             if (!state.IsLocalMultiplayer || !state.HasModeSelection)
             {
@@ -83,6 +90,7 @@ namespace PenaltyKing
                 resultScore.text = "Ana menüden oyuncu ve mod seç.";
                 score.text = shotCounter.text = modeLabel.text = feedback.text = directions.text = "";
                 replay.gameObject.SetActive(false);
+                if (player1Summary != null) player1Summary.text = player2Summary.text = "";
                 return;
             }
             mode = state.SelectedMode;
@@ -161,6 +169,11 @@ namespace PenaltyKing
                 State = PlayState.Finished;
                 resultTitle.text = Round.Player1.Goals == Round.Player2.Goals ? "BERABERE" : $"PLAYER {(Round.Player1.Goals > Round.Player2.Goals ? 1 : 2)} KAZANDI";
                 resultScore.text = $"{Round.Player1.Goals}  -  {Round.Player2.Goals}";
+                if (player1Summary != null)
+                {
+                    player1Summary.text = $"PLAYER 1\n{Round.Player1.Shots} / {Round.ShotLimit} şut";
+                    player2Summary.text = $"PLAYER 2\n{Round.Player2.Shots} / {Round.ShotLimit} şut";
+                }
                 resultPanel.SetActive(true);
             }
             else ReadyForShot();
@@ -168,7 +181,7 @@ namespace PenaltyKing
 
         private void Restart()
         {
-            if (navigator.IsLoading || State == PlayState.NeedsSelection) return;
+            if (navigator.IsLoading || State != PlayState.Finished) return;
             StartRound();
         }
 
@@ -176,6 +189,7 @@ namespace PenaltyKing
         {
             StopAllCoroutines();
             if (presentation != null) presentation.Cancel();
+            GetComponent<GameplayAudio>()?.StopCue();
             Round = new PenaltyRound(mode, shotLimit);
             handoff.Hide();
             LastShot = null;
@@ -211,12 +225,26 @@ namespace PenaltyKing
         private void EnableZones(bool enabled) { left.interactable = center.interactable = right.interactable = enabled; }
         private float DirectionX(ShotDirection direction) => ((int)direction - 1) * targetSpacing;
         private static string Name(ShotDirection direction) => direction == ShotDirection.Left ? "Sol" : direction == ShotDirection.Center ? "Orta" : "Sağ";
-        private void GoHome() { if (!navigator.IsLoading) { EnableZones(false); navigator.Navigate(GameScene.MainMenu); } }
+        private void GoHome()
+        {
+            if (navigator.IsLoading || State == PlayState.Leaving) return;
+            State = PlayState.Leaving;
+            EnableZones(false);
+            StopAllCoroutines();
+            if (presentation != null) presentation.Cancel();
+            handoff.Hide();
+            GetComponent<GameplayAudio>()?.StopStadium();
+            Round = null;
+            LastShot = null;
+            GameManager.Instance.BeginSelection();
+            navigator.Navigate(GameScene.MainMenu);
+        }
         private void OnDestroy()
         {
             if (presentation != null) presentation.Impact -= PresentImpact;
             left.onClick.RemoveListener(ShootLeft); center.onClick.RemoveListener(ShootCenter); right.onClick.RemoveListener(ShootRight);
             replay.onClick.RemoveListener(Restart); home.onClick.RemoveListener(GoHome);
+            if (exit != null) exit.onClick.RemoveListener(GoHome);
         }
     }
 }

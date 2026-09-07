@@ -38,10 +38,22 @@ namespace PenaltyKing
         private void OnImpact(ShotResult result)
         { if (audioManager != null) audioManager.PlayStadiumCue(this, result.Outcome == ShotOutcome.Goal ? goal : save); }
 
+        public void StopCue()
+        {
+            if (audioManager != null && audioManager.StadiumActive)
+                audioManager.SfxSource.Stop();
+        }
+
+        public void StopStadium()
+        {
+            if (audioManager != null) audioManager.EndStadium(this);
+            audioManager = null;
+        }
+
         private void OnDisable()
         {
             if (presentation != null) { presentation.Kick -= OnKick; presentation.Impact -= OnImpact; }
-            if (audioManager != null) audioManager.EndStadium(this);
+            StopStadium();
         }
     }
 }

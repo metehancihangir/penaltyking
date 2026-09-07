@@ -52,6 +52,7 @@ namespace PenaltyKing.Tests
                 yield return LocalTestInput.Finish(game);
             }
             Assert.That(game.ResultVisible, Is.True);
+            Assert.That(game.ResultTitle.text, Is.EqualTo("BERABERE"));
             Assert.That(game.ResultScore.text, Is.EqualTo("0  -  0"));
             yield return null; // Let the newly activated summary register with the UI raycaster.
             Press(game.Replay);
