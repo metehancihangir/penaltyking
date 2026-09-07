@@ -1,0 +1,94 @@
+{
+  "device": "Android 11 API 30 x86_64 emulator, WHPX, host GPU, 3072 MB RAM, 4 cores",
+  "resolution": "720x1280 portrait / 1280x720 landscape",
+  "completed": [
+    "Fixed Round",
+    "Replay",
+    "Options and back",
+    "Endless",
+    "Home return"
+  ],
+  "endlessShots": 1,
+  "performanceWindows": [
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 59.8,
+      "p95Ms": 16.68,
+      "maxMs": 33.35
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 299,
+      "fps": 59.8,
+      "p95Ms": 16.68,
+      "maxMs": 33.35
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.7
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 59.8,
+      "p95Ms": 16.69,
+      "maxMs": 33.32
+    }
+  ],
+  "touchQueueMs": [
+    17.386,
+    8.522,
+    15.386,
+    16.422,
+    15.57,
+    14.681,
+    21.365,
+    11.651,
+    17.336,
+    14.812,
+    17.901
+  ],
+  "note": "Android injected touch event to game handler; not physical finger-to-photon latency."
+}

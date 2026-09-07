@@ -1,0 +1,140 @@
+{
+  "result": "Passed",
+  "total": "33",
+  "passed": "33",
+  "failed": "0",
+  "tests": [
+    {
+      "name": "BothModesCompleteFullMenuToSummaryReplayAndHomeFlow",
+      "result": "Passed"
+    },
+    {
+      "name": "FadeBlocksInputAcrossSceneBoundaryAndWorksWithPausedTime",
+      "result": "Passed"
+    },
+    {
+      "name": "FinalArtKeepsTouchTargetsAndActorsVisibleWhenAspectChanges",
+      "result": "Passed"
+    },
+    {
+      "name": "ClipsHaveSignalHeadroomAndSeamlessLoopBoundary",
+      "result": "Passed"
+    },
+    {
+      "name": "LeavingBeforeContactAndOpeningWithoutSelectionsAreSilent",
+      "result": "Passed"
+    },
+    {
+      "name": "RealClipsPlayAtContactAndCorrectOutcomeThenStopOnExit",
+      "result": "Passed"
+    },
+    {
+      "name": "SfxControlsPlayingAmbienceAndReactionIndependentlyOfMusic",
+      "result": "Passed"
+    },
+    {
+      "name": "EndlessFirstSaveShowsZeroScoreAndHomeReturnsToMenu",
+      "result": "Passed"
+    },
+    {
+      "name": "EndlessGoalsContinueBeyondFixedRoundShotCount",
+      "result": "Passed"
+    },
+    {
+      "name": "FixedRoundScoresFiveShotsBlocksDoubleTapsAndReplaysCleanly",
+      "result": "Passed"
+    },
+    {
+      "name": "GameplayWithoutSelectionsCannotShoot",
+      "result": "Passed"
+    },
+    {
+      "name": "TouchDeviceCommitsShotOnPressAndReleaseDoesNotShootAgain",
+      "result": "Passed"
+    },
+    {
+      "name": "AllScenesPreserveSessionAndAudioServices",
+      "result": "Passed"
+    },
+    {
+      "name": "CrowdAmbienceFollowsSfxAndIsIndependentOfMusic",
+      "result": "Passed"
+    },
+    {
+      "name": "DuplicateManagersDoNotReplaceOrDuplicateServices",
+      "result": "Passed"
+    },
+    {
+      "name": "TouchBeginTriggersOnceAndReleaseDoesNotTrigger",
+      "result": "Passed"
+    },
+    {
+      "name": "ActiveButtonsNavigateToTheirExactDestinations",
+      "result": "Passed"
+    },
+    {
+      "name": "ButtonHoverAndPressHaveDistinctFeedbackAndReleaseRestoresFace",
+      "result": "Passed"
+    },
+    {
+      "name": "MultiplayerIsVisibleDisabledAndCannotNavigate",
+      "result": "Passed"
+    },
+    {
+      "name": "BackSavesImmediatelyAndReturnsToMainMenu",
+      "result": "Passed"
+    },
+    {
+      "name": "ExactlyTwoSlidersDragAndUpdateIndependentChannelsImmediately",
+      "result": "Passed"
+    },
+    {
+      "name": "RecreatedServicesAndScreenRestoreSavedVolumes",
+      "result": "Passed"
+    },
+    {
+      "name": "ConfiguredOddsApplyToEveryDirectionAndOtherDirectionsAreBalanced",
+      "result": "Passed"
+    },
+    {
+      "name": "EndlessIgnoresRoundLimitAndStopsOnFirstSaveAfterStreak",
+      "result": "Passed"
+    },
+    {
+      "name": "FixedRoundCountsMixedOutcomesAndRejectsShotsAfterItsLimit",
+      "result": "Passed"
+    },
+    {
+      "name": "ProbabilityExtremesCustomLimitAndInvalidDirectionAreHandled",
+      "result": "Passed"
+    },
+    {
+      "name": "AllSixDifficultyModePairsReachGameplayWithTheirSelections",
+      "result": "Passed"
+    },
+    {
+      "name": "BackAllowsChangingDifficultyAndFreshEntryRequiresSelection",
+      "result": "Passed"
+    },
+    {
+      "name": "DefaultRulesAndSelectedProbabilityStayFixedUntilReselection",
+      "result": "Passed"
+    },
+    {
+      "name": "DirectModeEntryCannotSkipDifficultyAndRapidTapsKeepFirstChoice",
+      "result": "Passed"
+    },
+    {
+      "name": "LeavingDuringRunUpCancelsPendingSoundCues",
+      "result": "Passed"
+    },
+    {
+      "name": "ThreeSaveDirectionsHaveDistinctPosesAndOnlyGoalsCelebrate",
+      "result": "Passed"
+    },
+    {
+      "name": "TouchStartsRunUpThenExactlyOneKickImpactAndCompletionEvenAtZeroTimeScale",
+      "result": "Passed"
+    }
+  ]
+}
