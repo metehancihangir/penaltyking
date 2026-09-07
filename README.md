@@ -6,6 +6,8 @@ Unity 6000.4.4f1 / C# / Universal 2D. Mobil öncelikli piksel penaltı oyunu.
 
 Unity Hub → Projects → Add → Add project from disk ile bu klasörü seçin. Unity **6000.4.4f1** ile açın. `Assets/Scenes/MainMenu.unity` sahnesini açıp **Play** tuşuna basın.
 
+**Faz 0–8 tamamlandı.** Android test paketi: `Builds/Android/PenaltyKing-development.apk` (94,3 MiB, Android 8+, ARM64/x86_64). Son doğrulama: 33/33 Unity testi; Android 11 emülatöründe dikey/yatay iki mod ve tekrar/menü akışı başarılı, 59,8–60 FPS. Ayrıntılar `docs/faz-8-raporu.md` dosyasındadır.
+
 MainMenu artık Faz 1 ana menüsünü gösterir: **Singleplayer → DifficultySelect**, **Options → Options**. **Multiplayer / Yakında** pasiftir. Etkin butonlarda üzerine gelme ve basma görsel tepkileri vardır. Gece stadyumu arka planı özgün, geçici piksel çizimidir; final görseller Faz 5 kapsamındadır.
 
 Options ekranında **Music Volume** ve **SFX Volume** kaydırıcıları bulunur. Değişiklikler ses kanallarına anında yansır; kalabalık ambiyansı, vuruş, gol ve kurtarış SFX seviyesini izler. Ayarlar PlayerPrefs ile kaydedilir ve sonraki açılışta yüklenir. **Geri** ana menüye döner. Gameplay'deki gerçek ses klipleri Faz 7'de eklendi; müzik kanalı ayrı ve şu anda boş.
@@ -49,7 +51,7 @@ Unity menüsünde **Window → General → Test Runner → PlayMode → Run All*
 Komut satırı (PowerShell):
 
 ```powershell
-& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase7.xml" -logFile "$PWD/Logs/phase7-tests.log"
+& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase8.xml" -logFile "$PWD/Logs/phase8-tests.log"
 ```
 
 Test komutunda `-quit` kullanılmaz; test çalıştırıcısı tamamlanınca kapanır. Aynı proje Unity Editor'de açıkken ikinci bir Unity işlemiyle test çalıştırmayın.

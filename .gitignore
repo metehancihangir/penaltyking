@@ -17,3 +17,5 @@ TestResults/
 *.unitypackage
 MemoryCaptures/
 Recordings/
+__pycache__/
+.utmp/
