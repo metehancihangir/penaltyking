@@ -2,7 +2,7 @@
 
 Tarih: 7 Eylül 2026
 
-Durum: Güncelleme Faz 1–2 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
+Durum: Güncelleme Faz 1–3 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
 
 ## Kapsam ve öncelik
 
@@ -69,24 +69,24 @@ Onaylanan tasarım: İlk şutta Player 1 şutçu, Player 2 kaleci olur; her tama
 
 Kabul: Her sonuç iki insanın seçimiyle oluşur. Şut yönü kaleci seçim ekranında sızmaz. Skor doğru oyuncuya yazılır ve roller belirlenen sırada değişir.
 
-Faz 2 entegrasyon notu: Çalışan yerel maç için kişi başı 5 şut ve kurtarışta devam eden Endless temel kuralları da yeni modele uyarlandı. Faz 3’ün maç yaşam döngüsü, çıkış ve sonuç ekranı çalışmaları henüz tamamlandı sayılmaz.
+Faz 2 entegrasyon notu: Çalışan yerel maç için kişi başı 5 şut ve kurtarışta devam eden Endless temel kuralları da yeni modele uyarlandı. Bu temel Faz 3’te sonuç ekranı, güvenli çıkış ve tekrar oynama akışlarıyla tamamlandı.
 
 ## Güncelleme Faz 3 — Mod kuralları ve maç yaşam döngüsü
 
 ### Modül 3.1 — Sabit Round
 
-- [ ] Modu iki oyunculu sıraya uyarla; iki oyuncunun eşit sayıda şut hakkı olmasını sağla.
-- [ ] Sonuç ekranını iki skor ve maç sonucunu gösterecek biçimde düzenle.
-- [ ] Tekrar Oyna ve Ana Menüye Dön akışlarını yeni oturuma uyarla.
+- [x] Modu iki oyunculu sıraya uyarla; iki oyuncunun eşit sayıda şut hakkı olmasını sağla.
+- [x] Sonuç ekranını iki skor ve maç sonucunu gösterecek biçimde düzenle.
+- [x] Tekrar Oyna ve Ana Menüye Dön akışlarını yeni oturuma uyarla.
 
 Onaylanan kural: Oyuncu başına 5 şut, toplam 10 şut. Tüm haklar tamamlanınca yüksek skor kazanır; eşitlik beraberliktir. Erken bitiş veya uzatma eklenmez.
 
 ### Modül 3.2 — Endless
 
-- [ ] İlk kurtarışta bitiş kuralını kaldır.
-- [ ] Golde de kurtarışta da sonraki oyuncunun sırasına geç; otomatik şut/round sınırı koyma.
-- [ ] İki oyuncunun skorlarını oyun sürdükçe tut.
-- [ ] Oyuncuların menüye dönebileceği kompakt bir çıkış eylemi sağla.
+- [x] İlk kurtarışta bitiş kuralını kaldır.
+- [x] Golde de kurtarışta da sonraki oyuncunun sırasına geç; otomatik şut/round sınırı koyma.
+- [x] İki oyuncunun skorlarını oyun sürdükçe tut.
+- [x] Oyuncuların menüye dönebileceği kompakt bir çıkış eylemi sağla.
 
 Kabul: Endless'ta art arda kurtarışlar oyunu bitirmez. Sabit Round'da iki oyuncu eşit hak kullanır. Tekrar oynama yönleri, skorları, geçmişi ve sırayı temizler.
 
