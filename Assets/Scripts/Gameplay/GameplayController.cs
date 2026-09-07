@@ -78,8 +78,10 @@ namespace PenaltyKing
                 State = PlayState.NeedsSelection;
                 EnableZones(false);
                 resultPanel.SetActive(true);
-                resultTitle.text = "SEÇİM GEREKLİ";
-                resultScore.text = "Ana menüden zorluk ve mod seç.";
+                resultTitle.text = state.IsLocalMultiplayer ? "2 KİŞİLİK" : "SEÇİM GEREKLİ";
+                resultScore.text = state.IsLocalMultiplayer
+                    ? "İki kişilik maç henüz hazır değil." : "Ana menüden oyuncu ve mod seç.";
+                score.text = shotCounter.text = modeLabel.text = feedback.text = directions.text = "";
                 replay.gameObject.SetActive(false);
                 return;
             }

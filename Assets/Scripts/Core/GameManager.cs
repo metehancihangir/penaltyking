@@ -15,12 +15,24 @@ namespace PenaltyKing
         public GameMode SelectedMode { get; private set; } = GameMode.FixedRound;
         public GameRules Rules { get; private set; }
         public bool HasDifficultySelection { get; private set; }
+        public bool IsLocalMultiplayer { get; private set; }
         public bool HasModeSelection { get; private set; }
         public float SelectedSaveProbability { get; private set; }
         public int SelectedRoundShots { get; private set; }
         public float MusicVolume { get; private set; } = 0.7f;
         public float SfxVolume { get; private set; } = 0.8f;
         public event Action<float, float> VolumeChanged;
+        public bool VibrationEnabled { get; private set; }
+        public event Action<bool> VibrationChanged;
+        public const string VibrationKey = "PenaltyKing.Vibration.Enabled.v1";
+
+        public void SetVibrationEnabled(bool enabled)
+        {
+            VibrationEnabled = enabled;
+            PlayerPrefs.SetInt(VibrationKey, enabled ? 1 : 0);
+            PlayerPrefs.Save();
+            VibrationChanged?.Invoke(enabled);
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics() => Instance = null;
@@ -41,16 +53,25 @@ namespace PenaltyKing
             AudioPreferences.Load(out var music, out var sfx);
             MusicVolume = music;
             SfxVolume = sfx;
+            VibrationEnabled = PlayerPrefs.GetInt(VibrationKey, 1) != 0;
         }
 
         public void BeginSelection()
         {
+            IsLocalMultiplayer = false;
             HasDifficultySelection = false;
             HasModeSelection = false;
         }
 
+        public void SelectLocalMultiplayer()
+        {
+            BeginSelection();
+            IsLocalMultiplayer = true;
+        }
+
         public void SelectDifficulty(Difficulty difficulty)
         {
+            IsLocalMultiplayer = false;
             // Snapshot the configured probability. It does not change with score or time.
             var probability = Rules.SaveProbability(difficulty);
             SelectedDifficulty = difficulty;
@@ -61,7 +82,7 @@ namespace PenaltyKing
 
         public void SelectMode(GameMode mode)
         {
-            if (!HasDifficultySelection) throw new InvalidOperationException("Choose difficulty before mode.");
+            if (!HasDifficultySelection && !IsLocalMultiplayer) throw new InvalidOperationException("Choose difficulty before mode.");
             if (!Enum.IsDefined(typeof(GameMode), mode)) throw new ArgumentOutOfRangeException(nameof(mode));
             SelectedMode = mode;
             SelectedRoundShots = Rules.FixedRoundShots;

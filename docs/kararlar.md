@@ -14,3 +14,9 @@ Bu dosyadaki kullanıcı kararları, kaynak promptların ilgili eski maddelerini
 ## Faz 0 sınırı
 
 Beş boş 2D sahne, sahne geçiş altyapısı, kalıcı oturum yöneticileri ve dokunma testi. Tanılama paneli yalnızca Editor/Development Build'de görünür; ürünün ana menüsü değildir. Final görseller, oyun mekanikleri, ses dosyaları ve ayarların PlayerPrefs'e kaydı sonraki ilgili fazlardadır.
+
+## 7 Eylül 2026 — Güncelleme serisi
+
+Yeni kararların kaynağı kökteki update-notes.md dosyasıdır; eski kararların çelişen maddelerinin yerine geçer. Bot/zorluk kaldırılacak; aynı telefonda iki oyuncu, rol değişimi ve telefon devri olacak. Sabit Round oyuncu başına 5 şut ve beraberlikle bitiş; Endless otomatik bitişsiz olacak. Options'a kalıcı titreşim tercihi ve oyun içi ayarlara erişim eklenir. Golde kısa titreşim ve ouuffff taraftar tepkisi istenir.
+
+Güncelleme Faz 1: Menü/oyuncu/mod seçimi ve titreşim tercihi uygulandı. Yerel maç sistemi Faz 2'yi bekler; yeni menü bot maçını başlatmaz. Önceki APK güncellenmedi. Rapor: docs/update-faz-1-raporu.md.

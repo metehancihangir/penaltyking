@@ -86,7 +86,7 @@ namespace PenaltyKing.Editor
             animation.ResetPose();
         }
 
-        private static void Render(int width, int height, string name, string prefix = "main-menu")
+        internal static void Render(int width, int height, string name, string prefix = "main-menu")
         {
             var camera = Camera.main;
             var canvas = Object.FindFirstObjectByType<Canvas>();

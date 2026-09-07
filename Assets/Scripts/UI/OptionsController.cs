@@ -11,6 +11,9 @@ namespace PenaltyKing
         [SerializeField] private Text musicPercent;
         [SerializeField] private Text sfxPercent;
         [SerializeField] private PixelMenuButton back;
+        [SerializeField] private Toggle vibration;
+        public Toggle Vibration => vibration;
+        public void ConfigureVibration(Toggle control) => vibration = control;
         public Slider Music => music;
         public Slider Sfx => sfx;
         public PixelMenuButton Back => back;
@@ -32,8 +35,16 @@ namespace PenaltyKing
             sfx.onValueChanged.AddListener(ChangeSfx);
             back.onClick.AddListener(GoBack);
             state.VolumeChanged += Refresh;
+            if (vibration != null)
+            {
+                vibration.SetIsOnWithoutNotify(state.VibrationEnabled);
+                vibration.onValueChanged.AddListener(ChangeVibration);
+                state.VibrationChanged += RefreshVibration;
+            }
         }
 
+        private void ChangeVibration(bool enabled) => state.SetVibrationEnabled(enabled);
+        private void RefreshVibration(bool enabled) => vibration.SetIsOnWithoutNotify(enabled);
         private void ChangeMusic(float value) { state.SetMusicVolume(value); ScheduleSave(); }
         private void ChangeSfx(float value) { state.SetSfxVolume(value); ScheduleSave(); }
         private void ScheduleSave() { pendingSave = true; saveAt = Time.unscaledTime + 0.3f; }
@@ -61,7 +72,12 @@ namespace PenaltyKing
         private void OnDisable()
         {
             Flush();
-            if (state != null) state.VolumeChanged -= Refresh;
+            if (state != null)
+            {
+                state.VolumeChanged -= Refresh;
+                state.VibrationChanged -= RefreshVibration;
+            }
+            if (vibration != null) vibration.onValueChanged.RemoveListener(ChangeVibration);
             music.onValueChanged.RemoveListener(ChangeMusic);
             sfx.onValueChanged.RemoveListener(ChangeSfx);
             back.onClick.RemoveListener(GoBack);

@@ -35,26 +35,22 @@ namespace PenaltyKing.Tests
         { Time.timeScale = 1; yield return SceneManager.LoadSceneAsync("MainMenu"); GameManager.Instance.BeginSelection(); }
 
         [UnityTest]
-        public IEnumerator BothModesCompleteFullMenuToSummaryReplayAndHomeFlow()
+        public IEnumerator LegacyRoundPresentationStillSupportsReplayAndHomeDuringMigration()
         {
             RuntimeBootstrap.EnsureServices();
             foreach (var mode in new[] { GameMode.FixedRound, GameMode.Endless })
             {
                 yield return SceneManager.LoadSceneAsync("MainMenu"); yield return null;
-                var menu = Object.FindFirstObjectByType<MainMenuController>();
-                Assert.That(menu.Multiplayer.interactable, Is.False); Press(menu.Singleplayer);
-                yield return SceneReady("DifficultySelect");
+                // Legacy mechanics remain until Update Phase 2; no longer reachable from Play.
                 var state = GameManager.Instance; var backup = JsonUtility.ToJson(state.Rules);
                 try
                 {
-                    // Deterministic outcome; menu selection still performs the real snapshot.
                     JsonUtility.FromJsonOverwrite("{\"mediumSaveProbability\":1}", state.Rules);
-                    Press(Object.FindFirstObjectByType<DifficultySelectController>().Medium);
+                    state.SelectDifficulty(Difficulty.Medium);
+                    state.SelectMode(mode);
                 }
                 finally { JsonUtility.FromJsonOverwrite(backup, state.Rules); }
-                yield return SceneReady("ModeSelect");
-                var modes = Object.FindFirstObjectByType<ModeSelectController>();
-                Press(mode == GameMode.FixedRound ? modes.FixedRound : modes.Endless);
+                yield return SceneManager.LoadSceneAsync("Gameplay");
                 yield return SceneReady("Gameplay");
                 var game = Object.FindFirstObjectByType<GameplayController>();
                 var shots = mode == GameMode.FixedRound ? game.Round.ShotLimit : 1;

@@ -8,27 +8,19 @@ Unity Hub → Projects → Add → Add project from disk ile bu klasörü seçin
 
 **Faz 0–8 tamamlandı.** Android test paketi: `Builds/Android/PenaltyKing-development.apk` (94,3 MiB, Android 8+, ARM64/x86_64). Son doğrulama: 33/33 Unity testi; Android 11 emülatöründe dikey/yatay iki mod ve tekrar/menü akışı başarılı, 59,8–60 FPS. Ayrıntılar `docs/faz-8-raporu.md` dosyasındadır.
 
-MainMenu artık Faz 1 ana menüsünü gösterir: **Singleplayer → DifficultySelect**, **Options → Options**. **Multiplayer / Yakında** pasiftir. Etkin butonlarda üzerine gelme ve basma görsel tepkileri vardır. Gece stadyumu arka planı özgün, geçici piksel çizimidir; final görseller Faz 5 kapsamındadır.
+## Güncelleme serisi — Faz 1
 
-Options ekranında **Music Volume** ve **SFX Volume** kaydırıcıları bulunur. Değişiklikler ses kanallarına anında yansır; kalabalık ambiyansı, vuruş, gol ve kurtarış SFX seviyesini izler. Ayarlar PlayerPrefs ile kaydedilir ve sonraki açılışta yüklenir. **Geri** ana menüye döner. Gameplay'deki gerçek ses klipleri Faz 7'de eklendi; müzik kanalı ayrı ve şu anda boş.
+Yeni menü: **Play → Online (pasif) / 2 Kişilik → Sabit Round / Endless**. Ana menüde yalnızca Play ve Options vardır. Zorluk seçimi yeni akıştan ve derleme listesinden çıkarıldı; mod açıklamaları kaldırıldı.
 
-Singleplayer akışı artık **Kolay / Orta / Zor → Sabit Round / Endless → Gameplay** şeklindedir. Mod ekranı seçilen zorluğu gösterir. Geri ile zorluk değiştirilebilir veya ana menüye dönülebilir. Zorluk seçilmeden moddan oyuna geçilemez.
+Options ekranında **Music Volume**, **SFX Volume** ve kalıcı **Titreşim** anahtarı bulunur. Kalabalık dahil stadyum sesleri SFX seviyesini izler. Titreşim tercihi varsayılan açık olup bu aşamada yalnızca kaydedilir; gol titreşimi Güncelleme Faz 6'da eklenecek.
 
-Gameplay gece stadyumu, kale/file, görünür oyuncu ve kaleciyle oynanabilir. Kaledeki **SOL / ORTA / SAĞ** bölgelerinden birine dokunun. Şut ve kaleci yönü parmak basıldığı anda belirlenir; oyuncu vuruşu, topun uçuşu ve kalecinin dalışı birlikte oynar. Aynı yön kurtarış, farklı yön goldür. Animasyon boyunca yeni dokunmalar sayılmaz.
+**Bu aşama menü güncellemesidir.** Aynı telefondaki iki oyuncunun şut/kurtarış ve sıra sistemi Güncelleme Faz 2'de uygulanacak. Şu anda mod seçimi sonrası yerel maçın henüz hazır olmadığı bilgisi ve ana menüye dönüş gösterilir; eski bot oyunu başlatılmaz. Eski bot kodu, animasyon/ses regresyonlarını koruyarak Faz 2'de değiştirilecek.
 
-**Sabit Round:** Yapılandırılmış şut sayısı (varsayılan 5) sonunda gol toplamı gösterilir. **Endless:** İlk kurtarışta biter; atılan goller skor olur. Sonuç ekranında **Tekrar Oyna** aynı zorluk/modla yeni oyun başlatır, **Ana Menüye Dön** menüyü açar. Oyun sahnesini doğrudan seçim yapmadan açarsanız önce ana menüye yönlendiren bilgi gösterilir.
-
-Faz 5 saha/karakter görselleri, Faz 6 animasyonları ve Faz 7 sesleri eklendi. Vuruşta top döner, perspektifte küçülür ve kavisli bir yol izler; kaleci dalar, yere iner ve toparlanır. Golde taraftarlar zıplar ve konfeti görünür. Vuruş ve sonuç sesleri animasyon olaylarından tetiklenir. Stadyum ambiyansı oyun boyunca döner; menüye dönünce tüm stadyum sesleri durur.
-
-## Zorluk yapılandırması
-
-Unity Project panelinde `Assets/Resources/GameRules.asset` dosyasını seçin. Inspector'da Easy/Medium/Hard Save Probability değerleri varsayılan **0.20 / 0.35 / 0.50**, Fixed Round Shots **5** değerindedir. Oranlar 0–1 aralığındadır. Bu değerler oyunun Options ekranına yeni ayarlar eklemez; geliştirme yapılandırmasıdır.
-
-GameManager bu dosyayı yükler ve seçim anındaki olasılık/şut sayısını oturuma kopyalar. Maç sırasında yapılandırma değiştirilse bile seçilmiş olasılık kendiliğinden değişmez. Zorluk yeniden seçildiğinde yeni yapılandırma kullanılır.
+Mevcut Android APK eski sürümdür. Güncel menüleri Unity'de `Assets/Scenes/MainMenu.unity` sahnesinden Play ile inceleyebilirsiniz. Plan: `update-notes.md`. Yeni sahneleri yeniden üretmek için **Penalty King → Updates → Phase 1 - Build menus** kullanılır; eski faz üreticileri tek başlarına çalıştırılmamalıdır.
 
 ## Proje yapısı
 
-- `Assets/Scenes`: MainMenu, DifficultySelect, ModeSelect, Gameplay, Options.
+- `Assets/Scenes`: MainMenu, PlayerSelect, ModeSelect, Gameplay, Options; DifficultySelect eski, derlemeye dahil değil.
 - `Assets/Scripts/Core`: GameManager, AudioManager, RuntimeBootstrap, SceneNavigator ve geçici tanılama paneli.
 - `Assets/Scripts/Input`: Input System tabanlı dokunma algılayıcısı.
 - `Assets/Scripts/UI`: ana menü bağlantıları, piksel buton tepkisi ve ekran güvenli alanı.

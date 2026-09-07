@@ -8,6 +8,7 @@ namespace PenaltyKing
         [SerializeField] private PixelMenuButton singleplayer;
         [SerializeField] private PixelMenuButton multiplayer;
         [SerializeField] private PixelMenuButton options;
+        public PixelMenuButton Play => singleplayer;
         public PixelMenuButton Singleplayer => singleplayer;
         public PixelMenuButton Multiplayer => multiplayer;
         public PixelMenuButton Options => options;
@@ -23,7 +24,7 @@ namespace PenaltyKing
         private void Awake()
         {
             navigator = GetComponent<SceneNavigator>();
-            multiplayer.interactable = false;
+            if (multiplayer != null) multiplayer.interactable = false;
             singleplayer.onClick.AddListener(OpenSingleplayer);
             options.onClick.AddListener(OpenOptions);
         }
@@ -32,7 +33,7 @@ namespace PenaltyKing
         {
             if (navigator.IsLoading) return;
             GameManager.Instance.BeginSelection();
-            navigator.Navigate(GameScene.DifficultySelect);
+            navigator.Navigate(GameScene.PlayerSelect);
         }
         private void OpenOptions() => navigator.Navigate(GameScene.Options);
 
