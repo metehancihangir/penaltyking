@@ -11,13 +11,17 @@ namespace PenaltyKing.Tests
 {
     public sealed class OptionsTests
     {
-        private bool hadMusic, hadSfx;
+        private bool hadMusic, hadSfx, hadVibration, sessionVibration;
+        private int storedVibration;
         private float storedMusic, storedSfx, sessionMusic, sessionSfx;
 
         [UnitySetUp]
         public IEnumerator SetUp()
         {
             RuntimeBootstrap.EnsureServices();
+            hadVibration = PlayerPrefs.HasKey(GameManager.VibrationKey);
+            storedVibration = PlayerPrefs.GetInt(GameManager.VibrationKey);
+            sessionVibration = GameManager.Instance.VibrationEnabled;
             hadMusic = PlayerPrefs.HasKey(AudioPreferences.MusicKey);
             hadSfx = PlayerPrefs.HasKey(AudioPreferences.SfxKey);
             storedMusic = PlayerPrefs.GetFloat(AudioPreferences.MusicKey);
@@ -33,6 +37,9 @@ namespace PenaltyKing.Tests
         {
             // Leave the screen before restoring preferences so OnDisable cannot overwrite them.
             yield return SceneManager.LoadSceneAsync("MainMenu");
+            GameManager.Instance.SetVibrationEnabled(sessionVibration);
+            if (hadVibration) PlayerPrefs.SetInt(GameManager.VibrationKey, storedVibration);
+            else PlayerPrefs.DeleteKey(GameManager.VibrationKey);
             if (hadMusic) PlayerPrefs.SetFloat(AudioPreferences.MusicKey, storedMusic);
             else PlayerPrefs.DeleteKey(AudioPreferences.MusicKey);
             if (hadSfx) PlayerPrefs.SetFloat(AudioPreferences.SfxKey, storedSfx);
@@ -61,6 +68,34 @@ namespace PenaltyKing.Tests
             ExecuteEvents.ExecuteHierarchy(hits[0].gameObject, pointer, ExecuteEvents.pointerDownHandler);
             slider.OnDrag(pointer);
             slider.OnPointerUp(pointer);
+        }
+
+        [UnityTest]
+        public IEnumerator VibrationToggleRespondsToPointerAndIsIndependentOfAudio()
+        {
+            var options = Object.FindFirstObjectByType<OptionsController>();
+            var state = GameManager.Instance;
+            state.SetVibrationEnabled(true);
+            Canvas.ForceUpdateCanvases();
+            var canvas = options.Vibration.GetComponentInParent<Canvas>();
+            var pointer = new PointerEventData(EventSystem.current)
+            {
+                position = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, options.Vibration.transform.position),
+                button = PointerEventData.InputButton.Left
+            };
+            var hits = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointer, hits);
+            Assert.That(hits[0].gameObject.GetComponentInParent<Toggle>(), Is.SameAs(options.Vibration));
+            ExecuteEvents.ExecuteHierarchy(hits[0].gameObject, pointer, ExecuteEvents.pointerClickHandler);
+            Assert.That(state.VibrationEnabled, Is.False);
+            Assert.That(PlayerPrefs.GetInt(GameManager.VibrationKey), Is.Zero);
+            options.Sfx.value = 0;
+            options.Music.value = 0;
+            Assert.That(state.VibrationEnabled, Is.False);
+            state.SetVibrationEnabled(true);
+            Assert.That(options.Vibration.isOn, Is.True);
+            Assert.That(state.SfxVolume, Is.Zero);
+            yield return null;
         }
 
         [UnityTest]
@@ -104,6 +139,7 @@ namespace PenaltyKing.Tests
         {
             var options = Object.FindFirstObjectByType<OptionsController>();
             options.Music.value = 0.19f; options.Sfx.value = 0.83f;
+            options.Vibration.isOn = false;
             options.Flush();
             yield return SceneManager.LoadSceneAsync("MainMenu");
             Object.Destroy(AudioManager.Instance.gameObject);
@@ -112,6 +148,8 @@ namespace PenaltyKing.Tests
             RuntimeBootstrap.EnsureServices();
             yield return SceneManager.LoadSceneAsync("Options");
             options = Object.FindFirstObjectByType<OptionsController>();
+            Assert.That(options.Vibration.isOn, Is.False);
+            Assert.That(GameManager.Instance.VibrationEnabled, Is.False);
             Assert.That(options.Music.value, Is.EqualTo(0.19f).Within(0.001f));
             Assert.That(options.Sfx.value, Is.EqualTo(0.83f).Within(0.001f));
             Assert.That(AudioManager.Instance.MusicSource.volume, Is.EqualTo(0.19f).Within(0.001f));

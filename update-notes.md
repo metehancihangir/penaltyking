@@ -2,7 +2,7 @@
 
 Tarih: 7 Eylül 2026
 
-Durum: İstekler kaydedildi ve fazlara ayrıldı. Bu belge oyun değişikliklerinin uygulandığı anlamına gelmez; mevcut APK önceki Faz 0–8 sürümüdür. Aşağıdaki fazlar yeni güncelleme serisidir.
+Durum: Güncelleme Faz 1 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
 
 ## Kapsam ve öncelik
 
@@ -18,28 +18,30 @@ Kullanıcı aynı mesajın başında Multiplayer yazısının ortalanmasını is
 
 ### Modül 1.1 — Ana menü
 
-- [ ] FLOODLIGHT FOOTBALL, ÜÇ YÖN. TEK ŞANS. ve PENALTI SENİN. metinlerini kaldır.
-- [ ] PENALTY KING başlığını sadeleşen yerleşime göre ortala.
-- [ ] Singleplayer ve Multiplayer butonlarını kaldır; yalnızca Play ve Options bırak.
-- [ ] Buton metinlerini ortala; mevcut piksel stilini koru.
+- [x] FLOODLIGHT FOOTBALL, ÜÇ YÖN. TEK ŞANS. ve PENALTI SENİN. metinlerini kaldır.
+- [x] PENALTY KING başlığını sadeleşen yerleşime göre ortala.
+- [x] Singleplayer ve Multiplayer butonlarını kaldır; yalnızca Play ve Options bırak.
+- [x] Buton metinlerini ortala; mevcut piksel stilini koru.
 
 ### Modül 1.2 — Play sonrası oyuncu seçimi
 
-- [ ] Play → oyuncu seçimi ekranını oluştur.
-- [ ] Online butonuna piksel dünya küresi veya Wi-Fi ikonu ekle. Online işlevi pasif kalsın; bağlantı veya eşleştirme başlatmasın.
-- [ ] 2 Kişilik butonunu, Tek Telefon alt yazısını ve uygun iki kullanıcı/telefon ikonunu ekle.
-- [ ] 2 Kişilik → mod seçimi akışını bağla. Geri gezinmesini yeni akışa uyarla.
-- [ ] Zorluk seçimini gezinmeden çıkar; kullanıcı hiçbir aşamada bot/zorluk seçmesin.
+- [x] Play → oyuncu seçimi ekranını oluştur.
+- [x] Online butonuna piksel dünya küresi veya Wi-Fi ikonu ekle. Online işlevi pasif kalsın; bağlantı veya eşleştirme başlatmasın.
+- [x] 2 Kişilik butonunu, Tek Telefon alt yazısını ve uygun iki kullanıcı/telefon ikonunu ekle.
+- [x] 2 Kişilik → mod seçimi akışını bağla. Geri gezinmesini yeni akışa uyarla.
+- [x] Zorluk seçimini gezinmeden çıkar; kullanıcı hiçbir aşamada bot/zorluk seçmesin.
 
 ### Modül 1.3 — Options ve mod seçimi
 
-- [ ] Options ekranındaki PENALTY KING ve SES AYARLARI yazılarını kaldır.
-- [ ] Music Volume ve SFX Volume kontrollerini ve kalıcı kayıtlarını koru.
-- [ ] Titreşim aç/kapat kontrolünü ekle; tercih uygulama kapatılıp açıldığında korunsun. Gol titreşimi bağlantısı Modül 6.3'te tamamlanacak.
-- [ ] Sabit Round ve Endless seçeneklerini koru; ikisinin alt açıklamalarını kaldır.
-- [ ] Mod ekranı dahil tüm ekranlardaki zorluk metinlerini kaldır; zorluk işlevini Modül 2.1 kapsamında tamamen kaldır.
+- [x] Options ekranındaki PENALTY KING ve SES AYARLARI yazılarını kaldır.
+- [x] Music Volume ve SFX Volume kontrollerini ve kalıcı kayıtlarını koru.
+- [x] Titreşim aç/kapat kontrolünü ekle; tercih uygulama kapatılıp açıldığında korunsun. Gol titreşimi bağlantısı Modül 6.3'te tamamlanacak.
+- [x] Sabit Round ve Endless seçeneklerini koru; ikisinin alt açıklamalarını kaldır.
+- [x] Mod ekranı dahil tüm ekranlardaki zorluk metinlerini kaldır; zorluk işlevini Modül 2.1 kapsamında tamamen kaldır.
 
 Kabul: Ana menüde yalnızca iki ana eylem vardır. Play → 2 Kişilik → mod seçimi yolu çalışır; Online pasiftir. Geri dönüşler doğru ekrana gider ve kaldırılan metinler görünmez.
+
+Faz 1 sınırı: Menü ve seçim akışı tamamlandı. Yerel maçın sıra/şut sistemi Faz 2’de bağlanacak; bu arada mod seçimi sonrasında bot maçı başlatılmaz. Eski zorluk sahnesi derleme listesinden çıkarıldı; eski oyun mantığının koddan tamamen kaldırılması Faz 2 kapsamındadır. Titreşim tercihi kaydedilir; fiziksel gol titreşimi Faz 6 kapsamındadır.
 
 ## Güncelleme Faz 2 — Aynı telefonda iki oyuncu ve sıra sistemi
 

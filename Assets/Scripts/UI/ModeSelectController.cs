@@ -21,10 +21,9 @@ namespace PenaltyKing
         {
             navigator = GetComponent<SceneNavigator>();
             var state = GameManager.Instance;
-            fixedRound.interactable = endless.interactable = state.HasDifficultySelection;
-            difficultyLabel.text = state.HasDifficultySelection
-                ? "Zorluk: " + DifficultyName(state.SelectedDifficulty) : "Önce zorluk seçimini tamamla.";
-            roundDescription.text = $"{state.Rules.FixedRoundShots} şut. Her gol skora eklenir.";
+            fixedRound.interactable = endless.interactable = state.IsLocalMultiplayer;
+            if (difficultyLabel != null) difficultyLabel.gameObject.SetActive(false);
+            if (roundDescription != null) roundDescription.gameObject.SetActive(false);
             fixedRound.onClick.AddListener(ChooseFixed);
             endless.onClick.AddListener(ChooseEndless);
             back.onClick.AddListener(GoBack);
@@ -36,7 +35,7 @@ namespace PenaltyKing
         private void ChooseEndless() => Choose(GameMode.Endless);
         private void Choose(GameMode mode)
         {
-            if (navigator.IsLoading || !GameManager.Instance.HasDifficultySelection) return;
+            if (navigator.IsLoading || !GameManager.Instance.IsLocalMultiplayer) return;
             GameManager.Instance.SelectMode(mode);
             navigator.Navigate(GameScene.Gameplay);
         }
@@ -44,7 +43,7 @@ namespace PenaltyKing
         {
             if (navigator.IsLoading) return;
             GameManager.Instance.BeginSelection();
-            navigator.Navigate(GameScene.DifficultySelect);
+            navigator.Navigate(GameScene.PlayerSelect);
         }
 
         private void OnDestroy()

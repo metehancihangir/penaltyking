@@ -33,16 +33,16 @@ namespace PenaltyKing.Tests
         [UnityTest]
         public IEnumerator ActiveButtonsNavigateToTheirExactDestinations()
         {
-            foreach (var destination in new[] { GameScene.DifficultySelect, GameScene.Options })
+            foreach (var destination in new[] { GameScene.PlayerSelect, GameScene.Options })
             {
                 yield return SceneManager.LoadSceneAsync("MainMenu");
                 yield return null;
                 var menu = Object.FindFirstObjectByType<MainMenuController>();
                 Assert.That(menu, Is.Not.Null);
-                Assert.That(Object.FindObjectsByType<PixelMenuButton>(FindObjectsSortMode.None), Has.Length.EqualTo(3));
+                Assert.That(Object.FindObjectsByType<PixelMenuButton>(FindObjectsSortMode.None), Has.Length.EqualTo(2));
                 Assert.That(EventSystem.current.GetComponent<InputSystemUIInputModule>(), Is.Not.Null);
                 Assert.That(Object.FindFirstObjectByType<PhaseZeroDiagnostics>(), Is.Null);
-                var button = destination == GameScene.DifficultySelect ? menu.Singleplayer : menu.Options;
+                var button = destination == GameScene.PlayerSelect ? menu.Play : menu.Options;
                 Assert.That(button.interactable, Is.True);
                 ClickThroughRaycast(button);
                 var deadline = Time.realtimeSinceStartup + 10f;
@@ -55,20 +55,18 @@ namespace PenaltyKing.Tests
         }
 
         [UnityTest]
-        public IEnumerator MultiplayerIsVisibleDisabledAndCannotNavigate()
+        public IEnumerator OnlineIsVisibleDisabledAndCannotNavigate()
         {
-            yield return SceneManager.LoadSceneAsync("MainMenu");
+            yield return SceneManager.LoadSceneAsync("PlayerSelect");
             yield return null;
-            var menu = Object.FindFirstObjectByType<MainMenuController>();
-            Assert.That(menu.Multiplayer.gameObject.activeInHierarchy, Is.True);
-            Assert.That(menu.Multiplayer.interactable, Is.False);
-            var label = menu.Multiplayer.transform.Find("Face/Coming Soon Badge/Coming Soon").GetComponent<Text>();
-            Assert.That(label.text, Is.EqualTo("YAKINDA"));
-            ClickThroughRaycast(menu.Multiplayer);
+            var screen = Object.FindFirstObjectByType<PlayerSelectController>();
+            Assert.That(screen.Online.gameObject.activeInHierarchy, Is.True);
+            Assert.That(screen.Online.interactable, Is.False);
+            Assert.That(screen.Online.transform.Find("Face/Coming Soon Badge"), Is.Null);
+            ClickThroughRaycast(screen.Online);
             yield return null;
-            yield return null;
-            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo("MainMenu"));
-            Assert.That(menu.GetComponent<SceneNavigator>().IsLoading, Is.False);
+            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo("PlayerSelect"));
+            Assert.That(SceneTransition.IsBusy, Is.False);
         }
 
         [UnityTest]
@@ -76,7 +74,7 @@ namespace PenaltyKing.Tests
         {
             yield return SceneManager.LoadSceneAsync("MainMenu");
             yield return null;
-            var button = Object.FindFirstObjectByType<MainMenuController>().Singleplayer;
+            var button = Object.FindFirstObjectByType<MainMenuController>().Play;
             var data = Pointer(button);
             var normal = button.targetGraphic.canvasRenderer.GetColor();
             button.OnPointerEnter(data);

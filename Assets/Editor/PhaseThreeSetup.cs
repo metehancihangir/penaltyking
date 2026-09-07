@@ -47,7 +47,7 @@ namespace PenaltyKing.Editor
             EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         }
 
-        private static void CreateMode()
+        internal static void CreateMode()
         {
             var panel = CreatePanel("ModeSelect", "MOD SEÇ", "2 / 2 · SINGLEPLAYER");
             var difficulty = Label("Selected Difficulty", panel, "Zorluk: Orta", new Vector2(380, 28), new Vector2(0, 129), 18, C("BAEB71"));

@@ -55,7 +55,7 @@ namespace PenaltyKing.Tests
                 game.SetMusicVolume(0.25f);
                 game.SetSfxVolume(0.65f);
                 yield return SceneManager.LoadSceneAsync("MainMenu");
-                foreach (GameScene scene in System.Enum.GetValues(typeof(GameScene)))
+                foreach (var scene in new[] { GameScene.MainMenu, GameScene.PlayerSelect, GameScene.ModeSelect, GameScene.Gameplay, GameScene.Options })
                 {
                     var navigator = Object.FindFirstObjectByType<SceneNavigator>();
                     Assert.That(navigator, Is.Not.Null);
