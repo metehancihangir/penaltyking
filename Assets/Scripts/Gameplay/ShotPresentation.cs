@@ -25,6 +25,8 @@ namespace PenaltyKing
         private bool initialized;
         private int generation;
         public bool IsPlaying { get; private set; }
+        public bool IsPaused { get; private set; }
+        public void SetPaused(bool paused) => IsPaused = paused;
         public ShotAnimationPhase Phase { get; private set; }
         public float Elapsed { get; private set; }
         public Vector2 BallPosition => ball.rectTransform.anchoredPosition;
@@ -59,9 +61,10 @@ namespace PenaltyKing
             ResetPose(); current = shot; IsPlaying = true;
             var runGeneration = ++generation;
             var kicked = false; var impacted = false;
-            for (var time = 0f; time < Duration; time += Time.unscaledDeltaTime)
+            for (var time = 0f; time < Duration; time += IsPaused ? 0 : Time.unscaledDeltaTime)
             {
                 if (runGeneration != generation) yield break;
+                if (IsPaused) { yield return null; continue; }
                 Sample(shot, time);
                 if (!kicked && time >= ContactTime) { kicked = true; Kick?.Invoke(); }
                 if (!impacted && time >= ImpactTime) { impacted = true; Impact?.Invoke(shot); }
@@ -76,7 +79,7 @@ namespace PenaltyKing
             ResetPose(); Completed?.Invoke();
         }
 
-        public void Cancel() { generation++; IsPlaying = false; ResetPose(); }
+        public void Cancel() { IsPaused = false; generation++; IsPlaying = false; ResetPose(); }
 
         public void ResetPose()
         {

@@ -17,6 +17,9 @@ namespace PenaltyKing
         public Slider Music => music;
         public Slider Sfx => sfx;
         public PixelMenuButton Back => back;
+        [SerializeField] private bool embedded;
+        public event System.Action Closed;
+        public void ConfigureEmbedded() => embedded = true;
         private GameManager state;
         private bool pendingSave;
         private float saveAt;
@@ -65,7 +68,7 @@ namespace PenaltyKing
             pendingSave = false;
         }
 
-        private void GoBack() { Flush(); GetComponent<SceneNavigator>().Navigate(GameScene.MainMenu); }
+        private void GoBack() { Flush(); if (embedded) Closed?.Invoke(); else GetComponent<SceneNavigator>().Navigate(GameScene.MainMenu); }
         private void OnApplicationPause(bool paused) { if (paused) Flush(); }
         private void OnApplicationFocus(bool focused) { if (!focused) Flush(); }
         private void OnApplicationQuit() => Flush();

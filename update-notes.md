@@ -2,7 +2,7 @@
 
 Tarih: 7 Eylül 2026
 
-Durum: Güncelleme Faz 1–3 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
+Durum: Güncelleme Faz 1–4 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
 
 ## Kapsam ve öncelik
 
@@ -94,30 +94,30 @@ Kabul: Endless'ta art arda kurtarışlar oyunu bitirmez. Sabit Round'da iki oyun
 
 ### Modül 4.1 — Tam ekran kompozisyon
 
-- [ ] Stadyumu küçük bir oyun paneli yerine tüm ekranı kaplayacak şekilde düzenle.
-- [ ] Üstteki mevcut Endless, Gol ve Şut değerlerini kaldır; yerlerini yeni skor tabelası alsın.
-- [ ] Alttaki Bir yöne dokun ve SOL / ORTA / SAĞ yazılarını kaldır. Görünmez dokunma bölgeleri kullanılabilir kalmalı.
-- [ ] Gece stadyumunu ekran kenarlarına kadar uzat; skor ve kontrolleri çentik/güvenli alan içinde tut.
-- [ ] Dikey ve yatay ekranlarda top, şutçu, kaleci ve kale okunabilir kalsın; görselleri esnetme.
+- [x] Stadyumu küçük bir oyun paneli yerine tüm ekranı kaplayacak şekilde düzenle.
+- [x] Üstteki mevcut Endless, Gol ve Şut değerlerini kaldır; yerlerini yeni skor tabelası alsın.
+- [x] Alttaki Bir yöne dokun ve SOL / ORTA / SAĞ yazılarını kaldır. Görünmez dokunma bölgeleri kullanılabilir kalmalı.
+- [x] Gece stadyumunu ekran kenarlarına kadar uzat; skor ve kontrolleri çentik/güvenli alan içinde tut.
+- [x] Dikey ve yatay ekranlarda top, şutçu, kaleci ve kale okunabilir kalsın; görselleri esnetme.
 
 ### Modül 4.2 — Skor tabelası
 
-- [ ] Referanstaki üst bant, karşılıklı oyuncu alanları, ortadaki skor ve atış işaretlerinden yararlanarak özgün piksel tabela oluştur.
-- [ ] Player 1 ve Player 2 adlarını ve ayrı skorlarını göster; aktif oyuncuyu ayırt et.
-- [ ] Sabit Round'da bekleyen atış/gol/kurtarış işaretlerini göster.
-- [ ] Endless için büyüyüp ekranı taşırmayan sınırlı bir son atış geçmişi tasarla; toplam skor görünür kalsın.
-- [ ] Referanstaki gerçek takım adlarını, logoları ve reklamları kullanma.
+- [x] Referanstaki üst bant, karşılıklı oyuncu alanları, ortadaki skor ve atış işaretlerinden yararlanarak özgün piksel tabela oluştur.
+- [x] Player 1 ve Player 2 adlarını ve ayrı skorlarını göster; aktif oyuncuyu ayırt et.
+- [x] Sabit Round'da bekleyen atış/gol/kurtarış işaretlerini göster.
+- [x] Endless için büyüyüp ekranı taşırmayan sınırlı bir son atış geçmişi tasarla; toplam skor görünür kalsın.
+- [x] Referanstaki gerçek takım adlarını, logoları ve reklamları kullanma.
 
 Kabul: Oyun sahnesi ekranı doldurur. Eski sayaç/yönerge metinleri yoktur. Tabela küçük telefon ekranında okunur ve dokunma bölgelerini kapatmaz.
 
 ### Modül 4.3 — Oyun içi ayarlar paneli
 
-- [ ] Sağ üst köşeye küçük, oyunun stiline uygun piksel dişli simgesi yerleştir; görünümü küçük olsa da dokunma alanı rahat kullanılabilir olsun ve skor tabelasıyla çakışmasın.
-- [ ] Simgeye dokunulduğunda mevcut oyun sahnesi üzerinde ayarlar paneli açılsın; Options sahnesine geçilmesin ve maçtan çıkılmasın.
-- [ ] Panelde Music Volume, SFX Volume ve Titreşim aç/kapat kontrolü bulunsun. Ana menü Options ekranıyla aynı tercihleri kullansın ve değişiklikleri anında uygulasın.
-- [ ] Panel açıkken alttaki yön seçimi, rehber ve telefon devri girişlerini engelle; panel açma/kapatma dokunuşu oyuna sızmasın.
-- [ ] Panel kapatılınca skor, şut hakları, roller, gizli seçimler ve sıra korunsun; maç sıfırlanmasın.
-- [ ] Önerilen davranış: panel açıkken şut animasyonu ve sıra ilerlemesi duraklasın; kapatıldığında aynı noktadan devam etsin. Ayar değişikliklerini duyabilmek için ambiyans ses ayarına göre çalmayı sürdürsün. Mevcut animasyonlar ölçeklenmemiş zaman kullandığından yalnızca zaman ölçeğini sıfırlamakla yetinilmesin.
+- [x] Sağ üst köşeye küçük, oyunun stiline uygun piksel dişli simgesi yerleştir; görünümü küçük olsa da dokunma alanı rahat kullanılabilir olsun ve skor tabelasıyla çakışmasın.
+- [x] Simgeye dokunulduğunda mevcut oyun sahnesi üzerinde ayarlar paneli açılsın; Options sahnesine geçilmesin ve maçtan çıkılmasın.
+- [x] Panelde Music Volume, SFX Volume ve Titreşim aç/kapat kontrolü bulunsun. Ana menü Options ekranıyla aynı tercihleri kullansın ve değişiklikleri anında uygulasın.
+- [x] Panel açıkken alttaki yön seçimi, rehber ve telefon devri girişlerini engelle; panel açma/kapatma dokunuşu oyuna sızmasın.
+- [x] Panel kapatılınca skor, şut hakları, roller, gizli seçimler ve sıra korunsun; maç sıfırlanmasın.
+- [x] Önerilen davranış: panel açıkken şut animasyonu ve sıra ilerlemesi duraklasın; kapatıldığında aynı noktadan devam etsin. Ayar değişikliklerini duyabilmek için ambiyans ses ayarına göre çalmayı sürdürsün. Mevcut animasyonlar ölçeklenmemiş zaman kullandığından yalnızca zaman ölçeğini sıfırlamakla yetinilmesin.
 
 Kabul: Oyunun herhangi bir aşamasında ayarlar açılıp kapatılabilir; maç durumu kaybolmaz, arkada seçim yapılamaz ve ses/titreşim tercihleri iki ayarlar arayüzünde tutarlıdır.
 

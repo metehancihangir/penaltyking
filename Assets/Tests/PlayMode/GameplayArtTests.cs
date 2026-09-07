@@ -20,8 +20,9 @@ namespace PenaltyKing.Tests
             yield return SceneManager.LoadSceneAsync("Gameplay");
             yield return null;
             var layout = Object.FindFirstObjectByType<GameplayStageLayout>();
-            var safe = (RectTransform)layout.transform.parent;
-            safe.GetComponent<SafeAreaPanel>().enabled = false;
+            var safe = new GameObject("Test Viewport", typeof(RectTransform)).GetComponent<RectTransform>();
+            safe.SetParent(layout.transform.parent, false);
+            layout.transform.SetParent(safe, false);
             safe.anchorMin = safe.anchorMax = new Vector2(.5f, .5f);
             var controller = Object.FindFirstObjectByType<GameplayController>();
             yield return LocalTestInput.Continue(controller);

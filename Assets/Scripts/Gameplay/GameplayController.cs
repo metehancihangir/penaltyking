@@ -33,6 +33,14 @@ namespace PenaltyKing
         [SerializeField] private Text player1Summary, player2Summary;
         public PixelMenuButton Exit => exit;
         public Text ResultTitle => resultTitle;
+        public bool SettingsOpen { get; private set; }
+        public void SetSettingsOpen(bool open)
+        {
+            SettingsOpen = open;
+            handoff.InputBlocked = open;
+            if (presentation != null) presentation.SetPaused(open);
+            GetComponent<GameplayAudio>()?.PauseCue(open);
+        }
         public void ConfigureMatchUi(PixelMenuButton exitButton, Text first, Text second)
         { exit = exitButton; player1Summary = first; player2Summary = second; }
         public PenaltyRound Round { get; private set; }
@@ -104,7 +112,7 @@ namespace PenaltyKing
         private void ShootRight() => Shoot(ShotDirection.Right);
         private void Shoot(ShotDirection direction)
         {
-            if (navigator.IsLoading) return;
+            if (navigator.IsLoading || SettingsOpen) return;
             if (State == PlayState.Ready)
             {
                 Round.ChooseShot(direction);
@@ -158,7 +166,7 @@ namespace PenaltyKing
         private IEnumerator ShowResult()
         {
             // Readability hold only. Final ball, player and keeper animations belong to Phase 6.
-            yield return new WaitForSecondsRealtime(resultHoldSeconds);
+            for (var elapsed = 0f; elapsed < resultHoldSeconds; elapsed += SettingsOpen ? 0 : Time.unscaledDeltaTime) yield return null;
             FinishShot();
         }
 
@@ -181,7 +189,7 @@ namespace PenaltyKing
 
         private void Restart()
         {
-            if (navigator.IsLoading || State != PlayState.Finished) return;
+            if (navigator.IsLoading || SettingsOpen || State != PlayState.Finished) return;
             StartRound();
         }
 
@@ -227,7 +235,7 @@ namespace PenaltyKing
         private static string Name(ShotDirection direction) => direction == ShotDirection.Left ? "Sol" : direction == ShotDirection.Center ? "Orta" : "Sağ";
         private void GoHome()
         {
-            if (navigator.IsLoading || State == PlayState.Leaving) return;
+            if (navigator.IsLoading || SettingsOpen || State == PlayState.Leaving) return;
             State = PlayState.Leaving;
             EnableZones(false);
             StopAllCoroutines();
