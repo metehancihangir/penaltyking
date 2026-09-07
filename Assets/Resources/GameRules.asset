@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f029edbeae1f46bb474f4e5a3e926, type: 3}
   m_Name: GameRules
   m_EditorClassIdentifier: PenaltyKing.Runtime::PenaltyKing.GameRules
-  easySaveProbability: 0.2
-  mediumSaveProbability: 0.35
-  hardSaveProbability: 0.5
   fixedRoundShots: 5

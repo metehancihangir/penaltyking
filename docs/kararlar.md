@@ -20,3 +20,5 @@ Beş boş 2D sahne, sahne geçiş altyapısı, kalıcı oturum yöneticileri ve 
 Yeni kararların kaynağı kökteki update-notes.md dosyasıdır; eski kararların çelişen maddelerinin yerine geçer. Bot/zorluk kaldırılacak; aynı telefonda iki oyuncu, rol değişimi ve telefon devri olacak. Sabit Round oyuncu başına 5 şut ve beraberlikle bitiş; Endless otomatik bitişsiz olacak. Options'a kalıcı titreşim tercihi ve oyun içi ayarlara erişim eklenir. Golde kısa titreşim ve ouuffff taraftar tepkisi istenir.
 
 Güncelleme Faz 1: Menü/oyuncu/mod seçimi ve titreşim tercihi uygulandı. Yerel maç sistemi Faz 2'yi bekler; yeni menü bot maçını başlatmaz. Önceki APK güncellenmedi. Rapor: docs/update-faz-1-raporu.md.
+
+Güncelleme Faz 2 ile iki insanın yön seçimi, telefon devri ve rol değişimi bağlandı; eski bot/zorluk kodu ve sahnesi kaldırıldı. Oyuncu skorları ayrıdır. Sabit Round/Endless temel kuralları yerel modele uyarlandı; Faz 3 yaşam döngüsü işleri bekliyor. Rapor: docs/update-faz-2-raporu.md.

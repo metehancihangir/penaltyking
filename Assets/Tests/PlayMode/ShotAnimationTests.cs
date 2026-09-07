@@ -14,7 +14,7 @@ namespace PenaltyKing.Tests
         public IEnumerator OpenGame()
         {
             RuntimeBootstrap.EnsureServices();
-            GameManager.Instance.SelectDifficulty(Difficulty.Medium);
+            GameManager.Instance.SelectLocalMultiplayer();
             GameManager.Instance.SelectMode(GameMode.FixedRound);
             yield return SceneManager.LoadSceneAsync("Gameplay"); yield return null;
         }
@@ -37,7 +37,7 @@ namespace PenaltyKing.Tests
             animation.Impact += shot => { Assert.That(animation.Elapsed, Is.GreaterThanOrEqualTo(ShotPresentation.ImpactTime)); cues.Add("impact"); };
             animation.Completed += () => cues.Add("complete");
             Time.timeScale = 0;
-            game.Right.OnPointerDown(new PointerEventData(EventSystem.current));
+            yield return LocalTestInput.Choose(game, game.Right, game.Left);
             Assert.That(game.Round.ShotsTaken, Is.EqualTo(1));
             Assert.That(animation.BallPosition, Is.EqualTo(animation.BallRestPosition));
             Assert.That(cues, Is.Empty);
@@ -52,7 +52,7 @@ namespace PenaltyKing.Tests
             Assert.That(cues, Is.EqualTo(new[] { "kick", "impact", "complete" }));
             Assert.That(animation.IsPlaying, Is.False);
             Assert.That(animation.BallPosition, Is.EqualTo(animation.BallRestPosition));
-            Assert.That(game.State, Is.EqualTo(PlayState.Ready));
+            Assert.That(game.State, Is.EqualTo(PlayState.PassingPhone));
         }
 
         [UnityTest]
@@ -84,7 +84,7 @@ namespace PenaltyKing.Tests
             var cueCount = 0;
             game.Presentation.Kick += () => cueCount++;
             game.Presentation.Impact += shot => cueCount++;
-            game.Left.OnPointerDown(new PointerEventData(EventSystem.current));
+            yield return LocalTestInput.Choose(game, game.Left, game.Center);
             yield return SceneManager.LoadSceneAsync("MainMenu");
             yield return new WaitForSecondsRealtime(1.1f);
             Assert.That(cueCount, Is.Zero);

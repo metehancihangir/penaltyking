@@ -44,13 +44,12 @@ namespace PenaltyKing.Tests
             RuntimeBootstrap.EnsureServices();
             var game = GameManager.Instance;
             var audio = AudioManager.Instance;
-            var oldDifficulty = game.SelectedDifficulty;
             var oldMode = game.SelectedMode;
             var oldMusic = game.MusicVolume;
             var oldSfx = game.SfxVolume;
             try
             {
-                game.SelectDifficulty(Difficulty.Hard);
+                game.SelectLocalMultiplayer();
                 game.SelectMode(GameMode.Endless);
                 game.SetMusicVolume(0.25f);
                 game.SetSfxVolume(0.65f);
@@ -71,7 +70,6 @@ namespace PenaltyKing.Tests
                     Assert.That(AudioManager.Instance, Is.SameAs(audio));
                     Assert.That(Object.FindObjectsByType<GameManager>(FindObjectsSortMode.None), Has.Length.EqualTo(1));
                     Assert.That(Object.FindObjectsByType<AudioManager>(FindObjectsSortMode.None), Has.Length.EqualTo(1));
-                    Assert.That(game.SelectedDifficulty, Is.EqualTo(Difficulty.Hard));
                     Assert.That(game.SelectedMode, Is.EqualTo(GameMode.Endless));
                     Assert.That(audio.MusicSource.volume, Is.EqualTo(0.25f).Within(0.001f));
                     Assert.That(audio.SfxSource.volume, Is.EqualTo(0.65f).Within(0.001f));
@@ -81,7 +79,7 @@ namespace PenaltyKing.Tests
             }
             finally
             {
-                game.SelectDifficulty(oldDifficulty);
+                game.SelectLocalMultiplayer();
                 game.SelectMode(oldMode);
                 game.SetMusicVolume(oldMusic);
                 game.SetSfxVolume(oldSfx);

@@ -23,13 +23,8 @@ namespace PenaltyKing.Tests
 
         private static IEnumerator Open(float probability)
         {
-            var state = GameManager.Instance; var backup = JsonUtility.ToJson(state.Rules);
-            try
-            {
-                JsonUtility.FromJsonOverwrite("{\"mediumSaveProbability\":" + probability.ToString(System.Globalization.CultureInfo.InvariantCulture) + "}", state.Rules);
-                state.SelectDifficulty(Difficulty.Medium); state.SelectMode(GameMode.FixedRound);
-            }
-            finally { JsonUtility.FromJsonOverwrite(backup, state.Rules); }
+            GameManager.Instance.SelectLocalMultiplayer();
+            GameManager.Instance.SelectMode(GameMode.FixedRound);
             yield return SceneManager.LoadSceneAsync("Gameplay"); yield return null;
         }
 
@@ -51,7 +46,7 @@ namespace PenaltyKing.Tests
                     impacts++; Assert.That(bus.SfxSource.clip, Is.SameAs(probability == 0 ? clips.GoalClip : clips.SaveClip));
                     Assert.That(bus.SfxSource.isPlaying, Is.True);
                 };
-                game.Left.OnPointerDown(new PointerEventData(EventSystem.current));
+                yield return LocalTestInput.Choose(game, game.Left, probability == 0 ? game.Right : game.Left);
                 Assert.That(bus.SfxSource.isPlaying, Is.False, "No kick sound before foot contact");
                 var deadline = Time.realtimeSinceStartup + 4;
                 while (game.State == PlayState.ShowingShot)
@@ -69,7 +64,7 @@ namespace PenaltyKing.Tests
         {
             yield return Open(0);
             var game = Object.FindFirstObjectByType<GameplayController>(); var bus = AudioManager.Instance;
-            game.Center.OnPointerDown(new PointerEventData(EventSystem.current));
+            yield return LocalTestInput.Choose(game, game.Center, game.Left);
             yield return new WaitForSecondsRealtime(1.0f);
             Assert.That(bus.SfxSource.isPlaying && bus.CrowdSource.isPlaying, Is.True);
             GameManager.Instance.SetMusicVolume(.17f); GameManager.Instance.SetSfxVolume(.36f);

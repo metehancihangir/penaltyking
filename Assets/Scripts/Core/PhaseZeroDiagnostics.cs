@@ -32,11 +32,11 @@ namespace PenaltyKing
             GUILayout.EndHorizontal();
             var state = GameManager.Instance;
             GUILayout.Space(16);
-            GUILayout.Label($"Preserved state: {state.SelectedDifficulty} / {state.SelectedMode}");
+            GUILayout.Label($"Preserved state: {state.SelectedMode}");
             GUILayout.Label($"Music: {state.MusicVolume:F2} / SFX + crowd: {state.SfxVolume:F2}");
-            if (GUILayout.Button("Set test state: Hard / Endless / Music 0.25 / SFX 0.65", GUILayout.Height(48)))
+            if (GUILayout.Button("Set test state: Local / Endless / Music 0.25 / SFX 0.65", GUILayout.Height(48)))
             {
-                state.SelectDifficulty(Difficulty.Hard);
+                state.SelectLocalMultiplayer();
                 state.SelectMode(GameMode.Endless);
                 state.SetMusicVolume(0.25f);
                 state.SetSfxVolume(0.65f);

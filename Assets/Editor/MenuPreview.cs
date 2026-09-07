@@ -35,7 +35,7 @@ namespace PenaltyKing.Editor
         public static void CaptureSelections()
         {
             Directory.CreateDirectory("docs/previews");
-            foreach (var sceneName in new[] { "DifficultySelect", "ModeSelect" })
+            foreach (var sceneName in new[] { "PlayerSelect", "ModeSelect" })
             {
                 EditorSceneManager.OpenScene($"Assets/Scenes/{sceneName}.unity");
                 Render(1280, 720, "landscape", sceneName);

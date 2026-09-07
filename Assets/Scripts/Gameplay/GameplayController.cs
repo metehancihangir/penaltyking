@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace PenaltyKing
 {
-    public enum PlayState { Ready, ShowingShot, Finished, NeedsSelection }
+    public enum PlayState { Ready, ShowingShot, Finished, NeedsSelection, PassingPhone, ChoosingKeeper }
 
     [RequireComponent(typeof(SceneNavigator))]
     public sealed class GameplayController : MonoBehaviour
@@ -36,11 +36,12 @@ namespace PenaltyKing
         public Text ShotCounter => shotCounter;
         public Text ResultScore => resultScore;
         public bool ResultVisible => resultPanel.activeSelf;
-        private readonly System.Random random = new System.Random();
+        [SerializeField] private TurnHandoff handoff;
+        public TurnHandoff Handoff => handoff;
+        public void ConfigureHandoff(TurnHandoff overlay) => handoff = overlay;
         private SceneNavigator navigator;
         private GameMode mode;
         private int shotLimit;
-        private float saveProbability;
 
         public void ConfigureComposition(Vector2 ballRest, Vector2 keeperRest, float spacing, float targetY, float flightScale)
         {
@@ -73,22 +74,20 @@ namespace PenaltyKing
             left.onClick.AddListener(ShootLeft); center.onClick.AddListener(ShootCenter); right.onClick.AddListener(ShootRight);
             replay.onClick.AddListener(Restart); home.onClick.AddListener(GoHome);
             var state = GameManager.Instance;
-            if (!state.HasDifficultySelection || !state.HasModeSelection)
+            if (!state.IsLocalMultiplayer || !state.HasModeSelection)
             {
                 State = PlayState.NeedsSelection;
                 EnableZones(false);
                 resultPanel.SetActive(true);
-                resultTitle.text = state.IsLocalMultiplayer ? "2 KİŞİLİK" : "SEÇİM GEREKLİ";
-                resultScore.text = state.IsLocalMultiplayer
-                    ? "İki kişilik maç henüz hazır değil." : "Ana menüden oyuncu ve mod seç.";
+                resultTitle.text = "SEÇİM GEREKLİ";
+                resultScore.text = "Ana menüden oyuncu ve mod seç.";
                 score.text = shotCounter.text = modeLabel.text = feedback.text = directions.text = "";
                 replay.gameObject.SetActive(false);
                 return;
             }
             mode = state.SelectedMode;
             shotLimit = state.SelectedRoundShots;
-            saveProbability = state.SelectedSaveProbability;
-            modeLabel.text = $"{(mode == GameMode.FixedRound ? "SABİT ROUND" : "ENDLESS")} · {ModeSelectController.DifficultyName(state.SelectedDifficulty)}";
+            modeLabel.text = mode == GameMode.FixedRound ? "SABİT ROUND" : "ENDLESS";
             StartRound();
         }
 
@@ -97,11 +96,26 @@ namespace PenaltyKing
         private void ShootRight() => Shoot(ShotDirection.Right);
         private void Shoot(ShotDirection direction)
         {
-            if (State != PlayState.Ready || navigator.IsLoading) return;
+            if (navigator.IsLoading) return;
+            if (State == PlayState.Ready)
+            {
+                Round.ChooseShot(direction);
+                EnableZones(false);
+                feedback.text = directions.text = "";
+                State = PlayState.PassingPhone;
+                handoff.Show(Round.KeeperPlayer, true, () =>
+                {
+                    State = PlayState.ChoosingKeeper;
+                    feedback.text = $"PLAYER {Round.KeeperPlayer} · KURTARIŞ";
+                    directions.text = "Bir yöne dokun.";
+                    EnableZones(true);
+                });
+                return;
+            }
+            if (State != PlayState.ChoosingKeeper) return;
             State = PlayState.ShowingShot;
             EnableZones(false);
-            // Both directions are committed in the same input callback, before visual feedback.
-            var shot = Round.Shoot(direction);
+            var shot = Round.ChooseKeeper(direction);
             LastShot = shot;
             if (presentation != null)
             {
@@ -109,12 +123,12 @@ namespace PenaltyKing
                 StartCoroutine(AnimateShot(shot));
                 return;
             }
-            ball.anchoredPosition = new Vector2(DirectionX(direction), ballTargetY);
+            ball.anchoredPosition = new Vector2(DirectionX(shot.PlayerDirection), ballTargetY);
             ball.localScale = Vector3.one * ballFlightScale;
             keeper.anchoredPosition = new Vector2(DirectionX(shot.KeeperDirection), keeperRestPosition.y);
             feedback.text = shot.Outcome == ShotOutcome.Goal ? "GOL!" : "KURTARIŞ!";
             feedback.color = shot.Outcome == ShotOutcome.Goal ? new Color32(186, 235, 113, 255) : new Color32(255, 195, 128, 255);
-            directions.text = $"Şut: {Name(direction)}  ·  Kaleci: {Name(shot.KeeperDirection)}";
+            directions.text = $"Şut: {Name(shot.PlayerDirection)}  ·  Kaleci: {Name(shot.KeeperDirection)}";
             RefreshScore();
             StartCoroutine(ShowResult());
         }
@@ -145,8 +159,8 @@ namespace PenaltyKing
             if (Round.IsOver)
             {
                 State = PlayState.Finished;
-                resultTitle.text = mode == GameMode.FixedRound ? "ROUND TAMAMLANDI" : "SERİ SONA ERDİ";
-                resultScore.text = mode == GameMode.FixedRound ? $"{Round.Goals} / {Round.ShotLimit} GOL" : $"{Round.Goals} GOL";
+                resultTitle.text = Round.Player1.Goals == Round.Player2.Goals ? "BERABERE" : $"PLAYER {(Round.Player1.Goals > Round.Player2.Goals ? 1 : 2)} KAZANDI";
+                resultScore.text = $"{Round.Player1.Goals}  -  {Round.Player2.Goals}";
                 resultPanel.SetActive(true);
             }
             else ReadyForShot();
@@ -162,7 +176,8 @@ namespace PenaltyKing
         {
             StopAllCoroutines();
             if (presentation != null) presentation.Cancel();
-            Round = new PenaltyRound(mode, shotLimit, saveProbability, random);
+            Round = new PenaltyRound(mode, shotLimit);
+            handoff.Hide();
             LastShot = null;
             resultPanel.SetActive(false);
             RefreshScore();
@@ -171,21 +186,27 @@ namespace PenaltyKing
 
         private void ReadyForShot()
         {
-            State = PlayState.Ready;
+            State = PlayState.PassingPhone;
+            LastShot = null;
             ball.anchoredPosition = ballRestPosition;
             ball.localScale = Vector3.one;
             keeper.anchoredPosition = keeperRestPosition;
             if (presentation != null) presentation.ResetPose();
-            feedback.text = "BİR YÖNE DOKUN";
+            feedback.text = $"PLAYER {Round.ShooterPlayer} · ŞUT";
             feedback.color = new Color32(227, 238, 230, 255);
             directions.text = "Sol, orta veya sağ.";
-            EnableZones(true);
+            EnableZones(false);
+            handoff.Show(Round.ShooterPlayer, false, () =>
+            {
+                State = PlayState.Ready;
+                EnableZones(true);
+            });
         }
 
         private void RefreshScore()
         {
-            score.text = $"GOL  {Round.Goals}";
-            shotCounter.text = mode == GameMode.FixedRound ? $"ŞUT  {Round.ShotsTaken} / {Round.ShotLimit}" : $"ŞUT  {Round.ShotsTaken}";
+            score.text = $"P1 {Round.Player1.Goals}  -  {Round.Player2.Goals} P2";
+            shotCounter.text = mode == GameMode.FixedRound ? $"ŞUT  {Round.ShotsTaken} / {Round.ShotLimit * 2}" : $"ŞUT  {Round.ShotsTaken}";
         }
         private void EnableZones(bool enabled) { left.interactable = center.interactable = right.interactable = enabled; }
         private float DirectionX(ShotDirection direction) => ((int)direction - 1) * targetSpacing;

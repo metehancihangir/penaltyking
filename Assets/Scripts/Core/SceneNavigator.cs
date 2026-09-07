@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace PenaltyKing
 {
-    public enum GameScene { MainMenu, DifficultySelect, ModeSelect, Gameplay, Options, PlayerSelect }
+    public enum GameScene { MainMenu = 0, ModeSelect = 2, Gameplay = 3, Options = 4, PlayerSelect = 5 }
 
     public sealed class SceneNavigator : MonoBehaviour
     {

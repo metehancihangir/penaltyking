@@ -54,12 +54,12 @@ namespace PenaltyKing.Editor
             CenterButton(modes.FixedRound, "Sabit Round", 40);
             CenterButton(modes.Endless, "Endless", -60);
             CenterButton(modes.Back, "Geri", -214);
-            modes.Configure(modes.FixedRound, modes.Endless, modes.Back, null, null);
+            modes.Configure(modes.FixedRound, modes.Endless, modes.Back);
             Save();
 
             // Reuse the common camera/input shell, then replace all difficulty content.
-            EditorSceneManager.OpenScene("Assets/Scenes/DifficultySelect.unity");
-            Object.DestroyImmediate(Object.FindFirstObjectByType<DifficultySelectController>());
+            EditorSceneManager.OpenScene("Assets/Scenes/PlayerSelect.unity");
+            Object.DestroyImmediate(Object.FindFirstObjectByType<PlayerSelectController>());
             panel = GameObject.Find("Selection Panel").transform;
             for (var i = panel.childCount - 1; i >= 0; i--)
             {

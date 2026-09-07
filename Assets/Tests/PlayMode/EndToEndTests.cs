@@ -35,47 +35,29 @@ namespace PenaltyKing.Tests
         { Time.timeScale = 1; yield return SceneManager.LoadSceneAsync("MainMenu"); GameManager.Instance.BeginSelection(); }
 
         [UnityTest]
-        public IEnumerator LegacyRoundPresentationStillSupportsReplayAndHomeDuringMigration()
+        public IEnumerator MenuStartsLocalMatchAndTenHumanShotsReachSummary()
         {
             RuntimeBootstrap.EnsureServices();
-            foreach (var mode in new[] { GameMode.FixedRound, GameMode.Endless })
+            yield return SceneManager.LoadSceneAsync("MainMenu"); yield return null;
+            Press(Object.FindFirstObjectByType<MainMenuController>().Play);
+            yield return SceneReady("PlayerSelect");
+            Press(Object.FindFirstObjectByType<PlayerSelectController>().Local);
+            yield return SceneReady("ModeSelect");
+            Press(Object.FindFirstObjectByType<ModeSelectController>().FixedRound);
+            yield return SceneReady("Gameplay");
+            var game = Object.FindFirstObjectByType<GameplayController>();
+            for (var i = 0; i < 10; i++)
             {
-                yield return SceneManager.LoadSceneAsync("MainMenu"); yield return null;
-                // Legacy mechanics remain until Update Phase 2; no longer reachable from Play.
-                var state = GameManager.Instance; var backup = JsonUtility.ToJson(state.Rules);
-                try
-                {
-                    JsonUtility.FromJsonOverwrite("{\"mediumSaveProbability\":1}", state.Rules);
-                    state.SelectDifficulty(Difficulty.Medium);
-                    state.SelectMode(mode);
-                }
-                finally { JsonUtility.FromJsonOverwrite(backup, state.Rules); }
-                yield return SceneManager.LoadSceneAsync("Gameplay");
-                yield return SceneReady("Gameplay");
-                var game = Object.FindFirstObjectByType<GameplayController>();
-                var shots = mode == GameMode.FixedRound ? game.Round.ShotLimit : 1;
-                for (var i = 0; i < shots; i++)
-                {
-                    Press(i % 2 == 0 ? game.Left : game.Right);
-                    var deadline = Time.realtimeSinceStartup + 4;
-                    while (game.State == PlayState.ShowingShot)
-                    { Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline)); yield return null; }
-                    yield return null;
-                }
-                Assert.That(game.ResultVisible, Is.True);
-                Assert.That(game.ResultScore.text, Is.EqualTo(mode == GameMode.FixedRound ? "0 / 5 GOL" : "0 GOL"));
-                Press(game.Replay); Assert.That(game.State, Is.EqualTo(PlayState.Ready));
-                Assert.That(game.Round.Goals, Is.Zero);
-                // Return through the visible summary again, never via hidden controls.
-                for (var i = 0; i < shots; i++)
-                {
-                    Press(game.Center);
-                    while (game.State == PlayState.ShowingShot) yield return null;
-                    yield return null;
-                }
-                Press(game.Home); yield return SceneReady("MainMenu");
-                Assert.That(AudioManager.Instance.StadiumActive, Is.False);
+                yield return LocalTestInput.Choose(game, game.Left, game.Left);
+                yield return LocalTestInput.Finish(game);
             }
+            Assert.That(game.ResultVisible, Is.True);
+            Assert.That(game.ResultScore.text, Is.EqualTo("0  -  0"));
+            yield return null; // Let the newly activated summary register with the UI raycaster.
+            Press(game.Replay);
+            Assert.That(game.Round.ShotsTaken, Is.Zero);
+            Assert.That(game.Round.ShooterPlayer, Is.EqualTo(1));
+            Assert.That(game.Handoff.Visible, Is.True);
         }
 
         [UnityTest]

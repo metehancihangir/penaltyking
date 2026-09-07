@@ -19,11 +19,10 @@ namespace PenaltyKing.Editor
             Directory.CreateDirectory("Assets/Resources");
             if (AssetDatabase.LoadAssetAtPath<GameRules>("Assets/Resources/GameRules.asset") == null)
                 AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<GameRules>(), "Assets/Resources/GameRules.asset");
-            CreateDifficulty();
             CreateMode();
             AssetDatabase.SaveAssets();
             EditorSceneManager.OpenScene("Assets/Scenes/MainMenu.unity");
-            Debug.Log("[Phase 3] Difficulty and mode screens saved. Rules: editable GameRules asset.");
+            Debug.Log("[Phase 3] Mode screen saved. Rules: editable GameRules asset.");
         }
 
         public static void BuildAndPreview()
@@ -32,25 +31,9 @@ namespace PenaltyKing.Editor
             MenuPreview.CaptureSelections();
         }
 
-        private static void CreateDifficulty()
-        {
-            var panel = CreatePanel("DifficultySelect", "ZORLUK SEÇ", "1 / 2 · SINGLEPLAYER");
-            Label("Subtitle", panel, "Kalecinin seviyesini belirle.", new Vector2(380, 24), new Vector2(0, 135), 17, C("AEC4C0"));
-            var easy = Button(panel, "Kolay", 65, true, false);
-            var medium = Button(panel, "Orta", -23, true, false);
-            var hard = Button(panel, "Zor", -111, true, false);
-            Label("Fixed Difficulty", panel, "Zorluk maç boyunca sabit kalır.", new Vector2(390, 24), new Vector2(0, -165), 14, C("86A9A6"));
-            var back = BackButton(panel, -224);
-            var controller = Object.FindFirstObjectByType<SceneNavigator>().gameObject.AddComponent<DifficultySelectController>();
-            controller.Configure(easy, medium, hard, back);
-            EditorUtility.SetDirty(controller);
-            EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-        }
-
         internal static void CreateMode()
         {
             var panel = CreatePanel("ModeSelect", "MOD SEÇ", "2 / 2 · SINGLEPLAYER");
-            var difficulty = Label("Selected Difficulty", panel, "Zorluk: Orta", new Vector2(380, 28), new Vector2(0, 129), 18, C("BAEB71"));
             var fixedRound = Button(panel, "Sabit Round", 44, true, true);
             var rules = AssetDatabase.LoadAssetAtPath<GameRules>("Assets/Resources/GameRules.asset");
             var description = Label("Round Description", panel, $"{rules.FixedRoundShots} şut. Her gol skora eklenir.", new Vector2(380, 28), new Vector2(0, -13), 16, C("AEC4C0"));
@@ -58,7 +41,7 @@ namespace PenaltyKing.Editor
             Label("Endless Description", panel, "İlk kurtarışa kadar devam et.", new Vector2(380, 28), new Vector2(0, -148), 16, C("AEC4C0"));
             var back = BackButton(panel, -224);
             var controller = Object.FindFirstObjectByType<SceneNavigator>().gameObject.AddComponent<ModeSelectController>();
-            controller.Configure(fixedRound, endless, back, difficulty, description);
+            controller.Configure(fixedRound, endless, back);
             EditorUtility.SetDirty(controller);
             EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         }
@@ -66,8 +49,6 @@ namespace PenaltyKing.Editor
         private static Transform CreatePanel(string sceneName, string title, string step)
         {
             EditorSceneManager.OpenScene($"Assets/Scenes/{sceneName}.unity");
-            var oldDifficulty = Object.FindFirstObjectByType<DifficultySelectController>();
-            if (oldDifficulty != null) Object.DestroyImmediate(oldDifficulty);
             var oldMode = Object.FindFirstObjectByType<ModeSelectController>();
             if (oldMode != null) Object.DestroyImmediate(oldMode);
             var diagnostics = Object.FindFirstObjectByType<PhaseZeroDiagnostics>();
