@@ -22,22 +22,25 @@ namespace PenaltyKing
             var parent = transform.parent as RectTransform;
             if (parent == null) return;
             var size = parent.rect.size;
-            var scale = Mathf.Max(0.01f, Mathf.Min((size.x - 24) / 960f, (size.y - 140) / 640f));
-            var height = Mathf.Clamp((size.y - 140) / scale, 640, 1500);
+            var scale = Mathf.Max(.01f, size.x / 960f);
+            var height = size.y / scale;
             stage.sizeDelta = new Vector2(960, height);
             stage.localScale = new Vector3(scale, scale, 1);
             if (controller == null || Mathf.Approximately(lastHeight, height)) return;
             lastHeight = height;
             var extra = (height - 640) * .5f;
-            sky.anchoredPosition = new Vector2(0, 254.375f + extra);
-            stands.anchoredPosition = new Vector2(0, 99.6875f + extra);
-            crowd.anchoredPosition = new Vector2(0, 57 + extra);
-            pitch.sizeDelta = new Vector2(960, 330.625f + height - 640);
-            pitch.anchoredPosition = new Vector2(0, -154.6875f);
-            goal.anchoredPosition = new Vector2(0, 94 + extra);
-            zones.anchoredPosition = new Vector2(0, extra);
-            shooter.anchoredPosition = new Vector2(-100, -224 - extra);
-            controller.ConfigureComposition(new Vector2(0, -213 - extra), new Vector2(0, 37 + extra), 190, 58 + extra, .55f);
+            var headerSpace = Mathf.Max(0, (height / 960f - .65f) * 70);
+            sky.sizeDelta = new Vector2(960, 131.25f + headerSpace);
+            sky.anchoredPosition = new Vector2(0, 254.375f + extra - headerSpace * .5f);
+            stands.anchoredPosition = new Vector2(0, 99.6875f + extra - headerSpace);
+            crowd.anchoredPosition = new Vector2(0, 57 + extra - headerSpace);
+            pitch.sizeDelta = new Vector2(960, 330.625f + height - 640 - headerSpace);
+            pitch.anchoredPosition = new Vector2(0, -154.6875f - headerSpace * .5f);
+            goal.anchoredPosition = new Vector2(0, 94 + extra - headerSpace);
+            zones.anchoredPosition = new Vector2(0, extra - headerSpace);
+            var ballY = -height * .5f + Mathf.Lerp(110, 180, Mathf.Clamp01((height - 640) / 1100));
+            shooter.anchoredPosition = new Vector2(-100, ballY - 11);
+            controller.ConfigureComposition(new Vector2(0, ballY), new Vector2(0, 37 + extra - headerSpace), 190, 58 + extra - headerSpace, .55f);
         }
         private void OnEnable() { lastHeight = -1; Fit(); }
         private void LateUpdate() => Fit();

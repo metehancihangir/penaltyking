@@ -16,7 +16,7 @@ Sol üstteki küçük Menü düğmesi iki modda da görünürdür. İlk sıra ka
 
 Unity PlayMode testlerine iki oyuncunun ayrı ayrı kazanması, on şuttan önce bitmeme, tam sıfırlama sonrası yeniden şut, on iki atışlık Endless ve beş farklı aşamada çıkış senaryoları eklendi. Mevcut beraberlik uçtan uca testine sonuç başlığı kontrolü eklendi.
 
-Test çıktısı: `TestResults/update3.xml`. Günlük: `Logs/update3-tests.log`.
+**36/36 Unity PlayMode testi geçti; başarısız test yok.** Test çıktısı: `TestResults/update3.xml`. Günlük: `Logs/update3-tests.log`.
 
 Sonuç paneli 390×844 ve 1280×720 yerleşim önizlemelerinde incelendi. Devir kartının üzerindeki Menü düğmesinin dikey önizlemesi de kontrol edildi. Bunlar editör yerleşim önizlemeleridir; çalışan maçtan ekran görüntüleri değildir.
 

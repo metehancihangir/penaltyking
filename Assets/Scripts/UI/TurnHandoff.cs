@@ -16,6 +16,7 @@ namespace PenaltyKing
         private int freeFrames;
         private int shownFrame, pressedPointer = int.MinValue;
         private float shownAt;
+        public bool InputBlocked { get; set; }
         public bool Visible => gameObject.activeSelf;
         public string Title => title.text;
         public string Role => role.text;
@@ -61,14 +62,14 @@ namespace PenaltyKing
 
         public void OnPointerDown(PointerEventData data)
         {
-            if (!released || Time.frameCount <= shownFrame || data.button != PointerEventData.InputButton.Left) return;
+            if (InputBlocked || !released || Time.frameCount <= shownFrame || data.button != PointerEventData.InputButton.Left) return;
             freeFrames = 0;
             if (pressedPointer == int.MinValue) pressedPointer = data.pointerId;
         }
 
         public void OnPointerClick(PointerEventData data)
         {
-            if (pressedPointer != data.pointerId || data.button != PointerEventData.InputButton.Left) return;
+            if (InputBlocked || pressedPointer != data.pointerId || data.button != PointerEventData.InputButton.Left) return;
             var action = continueAction;
             Hide();
             action?.Invoke();

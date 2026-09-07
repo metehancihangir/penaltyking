@@ -24,3 +24,5 @@ Güncelleme Faz 1: Menü/oyuncu/mod seçimi ve titreşim tercihi uygulandı. Yer
 Güncelleme Faz 2 ile iki insanın yön seçimi, telefon devri ve rol değişimi bağlandı; eski bot/zorluk kodu ve sahnesi kaldırıldı. Oyuncu skorları ayrıdır. Sabit Round/Endless temel kuralları yerel modele uyarlandı; Faz 3 yaşam döngüsü işleri bekliyor. Rapor: docs/update-faz-2-raporu.md.
 
 Güncelleme Faz 3: Sonuç ekranı iki oyuncu ve haklarıyla yenilendi. Maçın her aşamasında Menü çıkışı kullanılabilir; bekleyen girişler, animasyon ve ses temizlenir. Tekrar Oyna aynı modu koruyup maç verilerini sıfırlar. Ayrıntılar docs/update-faz-3-raporu.md dosyasındadır.
+
+Güncelleme Faz 4: Tam ekran saha, beşer atış göstergeli iki oyunculu tabela ve sağ üst piksel dişli üzerinden oyun içi ayarlar uygulandı. Ayarlarda animasyon/girişler duraklar; ambiyans SFX kontrolüyle sürer. Higgsfield ile ayrı konsept görseli üretildi; gerçek UI Unity öğelerinden kuruldu. Rapor: docs/update-faz-4-raporu.md.

@@ -100,9 +100,13 @@ namespace PenaltyKing.Editor
             foreach (var text in Object.FindObjectsByType<Text>(FindObjectsSortMode.None))
                 text.font.RequestCharactersInTexture(text.text, text.fontSize, text.fontStyle);
             Canvas.ForceUpdateCanvases();
+            foreach (var board in Object.FindObjectsByType<MatchScoreboard>(FindObjectsSortMode.None)) board.Fit();
+            foreach (var panel in Object.FindObjectsByType<FitPanelToSafeArea>(FindObjectsSortMode.None)) panel.Fit();
             // Render twice to allow the font atlas and target-sized UI geometry to settle.
             camera.Render();
             foreach (var stage in Object.FindObjectsByType<GameplayStageLayout>(FindObjectsSortMode.None)) stage.Fit();
+            foreach (var board in Object.FindObjectsByType<MatchScoreboard>(FindObjectsSortMode.None)) board.Fit();
+            foreach (var panel in Object.FindObjectsByType<FitPanelToSafeArea>(FindObjectsSortMode.None)) panel.Fit();
             Canvas.ForceUpdateCanvases();
             camera.Render();
             foreach (var button in Object.FindObjectsByType<Selectable>(FindObjectsSortMode.None))
