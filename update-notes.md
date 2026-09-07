@@ -2,7 +2,7 @@
 
 Tarih: 7 Eylül 2026
 
-Durum: Güncelleme Faz 1 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
+Durum: Güncelleme Faz 1–2 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
 
 ## Kapsam ve öncelik
 
@@ -41,33 +41,35 @@ Kullanıcı aynı mesajın başında Multiplayer yazısının ortalanmasını is
 
 Kabul: Ana menüde yalnızca iki ana eylem vardır. Play → 2 Kişilik → mod seçimi yolu çalışır; Online pasiftir. Geri dönüşler doğru ekrana gider ve kaldırılan metinler görünmez.
 
-Faz 1 sınırı: Menü ve seçim akışı tamamlandı. Yerel maçın sıra/şut sistemi Faz 2’de bağlanacak; bu arada mod seçimi sonrasında bot maçı başlatılmaz. Eski zorluk sahnesi derleme listesinden çıkarıldı; eski oyun mantığının koddan tamamen kaldırılması Faz 2 kapsamındadır. Titreşim tercihi kaydedilir; fiziksel gol titreşimi Faz 6 kapsamındadır.
+Faz 1 tesliminde menü ve seçim akışı tamamlandı. Faz 2 ile yerel maç bağlandı ve eski bot/zorluk kodu ile sahnesi kaldırıldı. Titreşim tercihi kaydedilir; fiziksel gol titreşimi Faz 6 kapsamındadır.
 
 ## Güncelleme Faz 2 — Aynı telefonda iki oyuncu ve sıra sistemi
 
 ### Modül 2.1 — İnsan kontrollü şut ve kurtarış
 
-- [ ] Botun kaleci yönü üretimini ve kurtarış olasılıklarını aktif oyun mantığından çıkar.
-- [ ] Zorluk seçimi zorunluluğunu, oturumdaki zorluk bağımlılığını ve ilgili aktif yapılandırmayı kaldır.
-- [ ] Player 1 ve Player 2 için ayrı kimlik, skor ve şut geçmişi tut.
-- [ ] İlk oyuncu şut yönünü, diğer oyuncu kurtarış yönünü seçsin.
-- [ ] Her iki seçim tamamlandığında mevcut şut/kaleci animasyonunu bu iki insanın seçimiyle oynat.
-- [ ] Aynı yön kurtarış, farklı yön gol kuralını koru; rastgele bot kararı verme.
+- [x] Botun kaleci yönü üretimini ve kurtarış olasılıklarını aktif oyun mantığından çıkar.
+- [x] Zorluk seçimi zorunluluğunu, oturumdaki zorluk bağımlılığını ve ilgili aktif yapılandırmayı kaldır.
+- [x] Player 1 ve Player 2 için ayrı kimlik, skor ve şut geçmişi tut.
+- [x] İlk oyuncu şut yönünü, diğer oyuncu kurtarış yönünü seçsin.
+- [x] Her iki seçim tamamlandığında mevcut şut/kaleci animasyonunu bu iki insanın seçimiyle oynat.
+- [x] Aynı yön kurtarış, farklı yön gol kuralını koru; rastgele bot kararı verme.
 
 ### Modül 2.2 — Telefon devri ve rol değişimi
 
-- [ ] Şut seçimi → telefon devri → kaleci seçimi → animasyon/sonuç → sonraki sıra durumlarını açıkça yönet.
-- [ ] Şut seçimini devretme ekranında gizle; seçili yönü vurgulama veya topu önceden hareket ettirme yoluyla ikinci oyuncuya açıklama.
-- [ ] Sıra dışı girişleri, çift dokunmayı ve animasyon sırasında yeniden seçimi engelle.
-- [ ] Aktif şutçuyu ve kaleciyi kısa, okunaklı bir gösterimle belirt.
-- [ ] Rol değişimini ve yeni maçta sıfırlamayı uygula.
-- [ ] Telefon devrinde kısa, kullanıcı dostu bir piksel geçiş animasyonu göster. Örnek başlık: “Sıra PLAYER 2'de”; alt bilgi: “Kurtarış sırası” veya “Şut sırası” ve “Devam etmek için dokun”. Oyuncu numarası ve rol sıraya göre değişsin.
-- [ ] Devir ekranında herhangi bir yere dokunulduğunda panel kapansın; bu dokunuş tüketilsin ve yön seçmek için yeni bir dokunuş gereksin.
-- [ ] Önceki yön seçimini yapan parmağın basılı tutulması veya bırakılması devir panelini kapatmasın; panel yeni bir dokunuş beklesin.
+- [x] Şut seçimi → telefon devri → kaleci seçimi → animasyon/sonuç → sonraki sıra durumlarını açıkça yönet.
+- [x] Şut seçimini devretme ekranında gizle; seçili yönü vurgulama veya topu önceden hareket ettirme yoluyla ikinci oyuncuya açıklama.
+- [x] Sıra dışı girişleri, çift dokunmayı ve animasyon sırasında yeniden seçimi engelle.
+- [x] Aktif şutçuyu ve kaleciyi kısa, okunaklı bir gösterimle belirt.
+- [x] Rol değişimini ve yeni maçta sıfırlamayı uygula.
+- [x] Telefon devrinde kısa, kullanıcı dostu bir piksel geçiş animasyonu göster. Örnek başlık: “Sıra PLAYER 2'de”; alt bilgi: “Kurtarış sırası” veya “Şut sırası” ve “Devam etmek için dokun”. Oyuncu numarası ve rol sıraya göre değişsin.
+- [x] Devir ekranında herhangi bir yere dokunulduğunda panel kapansın; bu dokunuş tüketilsin ve yön seçmek için yeni bir dokunuş gereksin.
+- [x] Önceki yön seçimini yapan parmağın basılı tutulması veya bırakılması devir panelini kapatmasın; panel yeni bir dokunuş beklesin.
 
 Onaylanan tasarım: İlk şutta Player 1 şutçu, Player 2 kaleci olur; her tamamlanan şuttan sonra roller değişir. Telefon devrinde sıradaki oyuncu ekrana dokunarak devam eder. Kalecilik yapan oyuncu sonraki şutta şutçu olacağından aynı kişiye gereksiz telefon devri istenmez; yeni rol kısa bir bildirimle anlatılır. Aynı fiziksel ekranı izleyerek yapılan seçimi görmeyi yazılımla tamamen engellemek mümkün olmadığından devretme akışı seçimleri sonradan açığa çıkarmamalıdır.
 
 Kabul: Her sonuç iki insanın seçimiyle oluşur. Şut yönü kaleci seçim ekranında sızmaz. Skor doğru oyuncuya yazılır ve roller belirlenen sırada değişir.
+
+Faz 2 entegrasyon notu: Çalışan yerel maç için kişi başı 5 şut ve kurtarışta devam eden Endless temel kuralları da yeni modele uyarlandı. Faz 3’ün maç yaşam döngüsü, çıkış ve sonuç ekranı çalışmaları henüz tamamlandı sayılmaz.
 
 ## Güncelleme Faz 3 — Mod kuralları ve maç yaşam döngüsü
 

@@ -64,16 +64,15 @@ namespace PenaltyKing.Tests
                 Click(Object.FindFirstObjectByType<PlayerSelectController>().Local);
                 yield return WaitForScene("ModeSelect");
                 var modes = Object.FindFirstObjectByType<ModeSelectController>();
-                Assert.That(modes.DifficultyLabel, Is.Null);
-                Assert.That(GameManager.Instance.HasDifficultySelection, Is.False);
                 Assert.That(GameManager.Instance.IsLocalMultiplayer, Is.True);
                 Click(mode == GameMode.FixedRound ? modes.FixedRound : modes.Endless);
                 yield return WaitForScene("Gameplay");
                 Assert.That(GameManager.Instance.SelectedMode, Is.EqualTo(mode));
                 var game = Object.FindFirstObjectByType<GameplayController>();
-                Assert.That(game.Round, Is.Null, "Phase 1 must not substitute a bot for the pending local game.");
+                Assert.That(game.Round, Is.Not.Null);
+                Assert.That(game.Handoff.Visible, Is.True);
                 Assert.That(game.Left.interactable, Is.False);
-                Click(game.Home);
+                game.GetComponent<SceneNavigator>().Navigate(GameScene.MainMenu);
                 yield return WaitForScene("MainMenu");
             }
         }

@@ -15,7 +15,7 @@ namespace PenaltyKing.Tests
         public IEnumerator FinalArtKeepsTouchTargetsAndActorsVisibleWhenAspectChanges()
         {
             RuntimeBootstrap.EnsureServices();
-            GameManager.Instance.SelectDifficulty(Difficulty.Medium);
+            GameManager.Instance.SelectLocalMultiplayer();
             GameManager.Instance.SelectMode(GameMode.FixedRound);
             yield return SceneManager.LoadSceneAsync("Gameplay");
             yield return null;
@@ -24,6 +24,7 @@ namespace PenaltyKing.Tests
             safe.GetComponent<SafeAreaPanel>().enabled = false;
             safe.anchorMin = safe.anchorMax = new Vector2(.5f, .5f);
             var controller = Object.FindFirstObjectByType<GameplayController>();
+            yield return LocalTestInput.Continue(controller);
             foreach (var size in new[] { new Vector2(960, 720), new Vector2(390, 844) })
             {
                 safe.sizeDelta = size;

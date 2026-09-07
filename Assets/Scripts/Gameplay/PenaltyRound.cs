@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PenaltyKing
 {
@@ -18,42 +19,64 @@ namespace PenaltyKing
         }
     }
 
-    // Pure round logic: no timing, UI, animation or mutable difficulty configuration.
+    public sealed class PlayerRoundStats
+    {
+        private readonly List<ShotOutcome> history = new List<ShotOutcome>();
+        public IReadOnlyList<ShotOutcome> History { get; }
+        public int Goals { get; private set; }
+        public int Shots { get; private set; }
+        public PlayerRoundStats() => History = history.AsReadOnly();
+        internal void Record(ShotOutcome outcome)
+        {
+            Shots++;
+            if (outcome == ShotOutcome.Goal) Goals++;
+            // Endless sessions keep bounded presentation history, independent of totals.
+            if (history.Count == 64) history.RemoveAt(0);
+            history.Add(outcome);
+        }
+    }
+
+    // Both directions are supplied by people. The first choice remains private until resolution.
     public sealed class PenaltyRound
     {
-        private readonly Random random;
+        private ShotDirection? pendingShot;
         public GameMode Mode { get; }
         public int ShotLimit { get; }
-        public float SaveProbability { get; }
-        public int ShotsTaken { get; private set; }
-        public int Goals { get; private set; }
-        public bool IsOver { get; private set; }
+        public PlayerRoundStats Player1 { get; } = new PlayerRoundStats();
+        public PlayerRoundStats Player2 { get; } = new PlayerRoundStats();
+        public int ShotsTaken => Player1.Shots + Player2.Shots;
+        public int ShooterPlayer => ShotsTaken % 2 + 1;
+        public int KeeperPlayer => 3 - ShooterPlayer;
+        public bool HasShotSelection => pendingShot.HasValue;
+        public bool IsOver => Mode == GameMode.FixedRound && Player1.Shots >= ShotLimit && Player2.Shots >= ShotLimit;
 
-        public PenaltyRound(GameMode mode, int shotLimit, float saveProbability, Random random = null)
+        public PenaltyRound(GameMode mode, int shotLimit)
         {
             if (!Enum.IsDefined(typeof(GameMode), mode)) throw new ArgumentOutOfRangeException(nameof(mode));
             if (shotLimit < 1) throw new ArgumentOutOfRangeException(nameof(shotLimit));
-            if (float.IsNaN(saveProbability) || saveProbability < 0 || saveProbability > 1)
-                throw new ArgumentOutOfRangeException(nameof(saveProbability));
-            Mode = mode;
-            ShotLimit = shotLimit;
-            SaveProbability = saveProbability;
-            this.random = random ?? new Random();
+            Mode = mode; ShotLimit = shotLimit;
         }
 
-        public ShotResult Shoot(ShotDirection direction)
+        public void ChooseShot(ShotDirection direction)
         {
-            if (IsOver) throw new InvalidOperationException("The round has ended.");
-            if (!Enum.IsDefined(typeof(ShotDirection), direction)) throw new ArgumentOutOfRangeException(nameof(direction));
-            // First decide whether the keeper guesses correctly. On a miss, choose
-            // equally between the OTHER two directions, so configured odds are exact.
-            var keeper = random.NextDouble() < SaveProbability ? direction
-                : (ShotDirection)(((int)direction + random.Next(1, 3)) % 3);
-            var result = new ShotResult(direction, keeper);
-            ShotsTaken++;
-            if (result.Outcome == ShotOutcome.Goal) Goals++;
-            IsOver = Mode == GameMode.FixedRound ? ShotsTaken >= ShotLimit : result.Outcome == ShotOutcome.Save;
+            Validate(direction);
+            if (IsOver || pendingShot.HasValue) throw new InvalidOperationException("Not awaiting a shot.");
+            pendingShot = direction;
+        }
+
+        public ShotResult ChooseKeeper(ShotDirection direction)
+        {
+            Validate(direction);
+            if (IsOver || !pendingShot.HasValue) throw new InvalidOperationException("Not awaiting a keeper.");
+            var result = new ShotResult(pendingShot.Value, direction);
+            pendingShot = null;
+            (ShooterPlayer == 1 ? Player1 : Player2).Record(result.Outcome);
             return result;
+        }
+
+        private static void Validate(ShotDirection direction)
+        {
+            if (!Enum.IsDefined(typeof(ShotDirection), direction)) throw new ArgumentOutOfRangeException(nameof(direction));
         }
     }
 }

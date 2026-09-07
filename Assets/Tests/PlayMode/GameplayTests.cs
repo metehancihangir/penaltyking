@@ -1,217 +1,149 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using UnityEngine.UI;
-
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 namespace PenaltyKing.Tests
 {
     public sealed class GameplayTests
     {
-        private Difficulty oldDifficulty;
-        private GameMode oldMode;
-
-        [SetUp]
-        public void RememberSelections()
+        [UnitySetUp]
+        public IEnumerator Open()
         {
             RuntimeBootstrap.EnsureServices();
-            oldDifficulty = GameManager.Instance.SelectedDifficulty;
-            oldMode = GameManager.Instance.SelectedMode;
+            GameManager.Instance.SelectLocalMultiplayer();
+            GameManager.Instance.SelectMode(GameMode.Endless);
+            yield return SceneManager.LoadSceneAsync("Gameplay"); yield return null;
         }
-
         [UnityTearDown]
-        public IEnumerator RestoreSelections()
-        {
-            yield return SceneManager.LoadSceneAsync("MainMenu");
-            GameManager.Instance.SelectDifficulty(oldDifficulty);
-            GameManager.Instance.SelectMode(oldMode);
-            GameManager.Instance.BeginSelection();
-        }
-
-        private static IEnumerator StartGame(GameMode mode, float probability)
-        {
-            var state = GameManager.Instance;
-            var backup = JsonUtility.ToJson(state.Rules);
-            try
-            {
-                var json = "{\"mediumSaveProbability\":" + probability.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",\"fixedRoundShots\":5}";
-                JsonUtility.FromJsonOverwrite(json, state.Rules);
-                state.SelectDifficulty(Difficulty.Medium);
-                state.SelectMode(mode);
-            }
-            finally { JsonUtility.FromJsonOverwrite(backup, state.Rules); }
-            yield return SceneManager.LoadSceneAsync("Gameplay");
-            yield return null;
-        }
-
-        private static PointerEventData Pointer(Button button)
-        {
-            Canvas.ForceUpdateCanvases();
-            var canvas = button.GetComponentInParent<Canvas>();
-            var pointer = new PointerEventData(EventSystem.current)
-            {
-                position = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, button.transform.position),
-                button = PointerEventData.InputButton.Left
-            };
-            var hits = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pointer, hits);
-            Assert.That(hits, Is.Not.Empty);
-            Assert.That(hits[0].gameObject.GetComponentInParent<Button>(), Is.SameAs(button));
-            return pointer;
-        }
-
-        private static void Tap(ShotZone zone)
-        {
-            var pointer = Pointer(zone);
-            zone.OnPointerDown(pointer);
-            zone.OnPointerUp(pointer);
-            zone.OnPointerClick(pointer); // Release must NOT create a second shot.
-        }
-
-        private static IEnumerator WaitForResult(GameplayController game)
-        {
-            var deadline = Time.realtimeSinceStartup + 4;
-            while (game.State == PlayState.ShowingShot)
-            {
-                Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline));
-                yield return null;
-            }
-            // Newly activated summary graphics join the canvas/raycast registry on the next frame.
-            yield return null;
-        }
+        public IEnumerator Close()
+        { yield return SceneManager.LoadSceneAsync("MainMenu"); GameManager.Instance.BeginSelection(); }
 
         [UnityTest]
-        public IEnumerator FixedRoundScoresFiveShotsBlocksDoubleTapsAndReplaysCleanly()
+        public IEnumerator HiddenShotDoesNotMoveBallOrPlaySoundAndTwoPeopleResolveIt()
         {
-            yield return StartGame(GameMode.FixedRound, .35f);
             var game = Object.FindFirstObjectByType<GameplayController>();
-            Assert.That(Object.FindFirstObjectByType<PhaseZeroDiagnostics>(), Is.Null);
-            Assert.That(Object.FindObjectsByType<ShotZone>(FindObjectsSortMode.None), Has.Length.EqualTo(3));
-            Assert.That(Object.FindObjectsByType<Slider>(FindObjectsSortMode.None), Is.Empty);
-            var goals = 0;
-            for (var i = 0; i < 5; i++)
-            {
-                var zone = i % 3 == 0 ? game.Left : i % 3 == 1 ? game.Center : game.Right;
-                Tap(zone);
-                Assert.That(game.State, Is.EqualTo(PlayState.ShowingShot));
-                Assert.That(game.LastShot.Value.PlayerDirection, Is.EqualTo((ShotDirection)(i % 3)));
-                game.Right.OnPointerDown(new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left });
-                Assert.That(game.Round.ShotsTaken, Is.EqualTo(i + 1));
-                if (game.LastShot.Value.Outcome == ShotOutcome.Goal) goals++;
-                Assert.That(game.Round.Goals, Is.EqualTo(goals));
-                Assert.That(game.Round.SaveProbability, Is.EqualTo(.35f));
-                yield return WaitForResult(game);
-                Assert.That(game.ScoreLabel.text, Is.EqualTo($"GOL  {goals}"));
-                Assert.That(game.ShotCounter.text, Is.EqualTo($"ŞUT  {i + 1} / 5"));
-            }
-            Assert.That(game.State, Is.EqualTo(PlayState.Finished));
-            Assert.That(game.ResultVisible, Is.True);
-            Assert.That(game.ResultScore.text, Is.EqualTo($"{goals} / 5 GOL"));
-            game.Left.OnPointerDown(new PointerEventData(EventSystem.current));
-            Assert.That(game.Round.ShotsTaken, Is.EqualTo(5));
-            game.Replay.OnPointerClick(Pointer(game.Replay));
-            Assert.That(game.State, Is.EqualTo(PlayState.Ready));
-            Assert.That(game.Round.Goals, Is.Zero);
-            Assert.That(game.Round.ShotsTaken, Is.Zero);
+            yield return LocalTestInput.Continue(game);
+            var rest = game.Presentation.BallPosition;
+            LocalTestInput.Press(game.Right);
+            Assert.That(game.State, Is.EqualTo(PlayState.PassingPhone));
+            Assert.That(game.Handoff.Title, Does.Contain("PLAYER 2"));
+            Assert.That(game.Handoff.Role, Does.Contain("Kurtarış"));
             Assert.That(game.LastShot, Is.Null);
-            Assert.That(game.ResultVisible, Is.False);
-            Assert.That(game.Round.SaveProbability, Is.EqualTo(.35f));
-            Tap(game.Center);
+            Assert.That(game.Presentation.BallPosition, Is.EqualTo(rest));
+            Assert.That(game.Presentation.IsPlaying, Is.False);
+            Assert.That(AudioManager.Instance.SfxSource.isPlaying, Is.False);
+            Assert.That(game.Round.ShotsTaken, Is.Zero);
+            // A second direct direction event cannot overwrite the private shot.
+            game.Left.OnPointerDown(new PointerEventData(EventSystem.current));
+            yield return LocalTestInput.Continue(game);
+            Assert.That(game.State, Is.EqualTo(PlayState.ChoosingKeeper));
+            Assert.That(game.Round.ShotsTaken, Is.Zero, "Dismissal is not a direction choice");
+            LocalTestInput.Press(game.Right);
+            Assert.That(game.LastShot.Value.Outcome, Is.EqualTo(ShotOutcome.Save));
+            Assert.That(game.Round.Player1.Shots, Is.EqualTo(1));
+            game.Center.OnPointerDown(new PointerEventData(EventSystem.current));
             Assert.That(game.Round.ShotsTaken, Is.EqualTo(1));
-            yield return WaitForResult(game);
+            yield return LocalTestInput.Finish(game);
+            Assert.That(game.Handoff.Title, Does.Contain("PLAYER 2"));
+            Assert.That(game.Handoff.Role, Is.EqualTo("Şut sırası"));
+            yield return LocalTestInput.Choose(game, game.Left, game.Right);
+            Assert.That(game.Round.Player2.Goals, Is.EqualTo(1));
+            Assert.That(game.Round.Player1.Goals, Is.Zero);
+            yield return LocalTestInput.Finish(game);
+            Assert.That(game.Handoff.Title, Does.Contain("PLAYER 1"));
         }
 
         [UnityTest]
-        public IEnumerator EndlessFirstSaveShowsZeroScoreAndHomeReturnsToMenu()
+        public IEnumerator OverlayRejectsOldClickAndMismatchedPointer()
         {
-            yield return StartGame(GameMode.Endless, 1f);
             var game = Object.FindFirstObjectByType<GameplayController>();
-            Tap(game.Right);
-            Assert.That(game.LastShot.Value.KeeperDirection, Is.EqualTo(ShotDirection.Right));
-            yield return WaitForResult(game);
-            Assert.That(game.Round.IsOver, Is.True);
-            Assert.That(game.Round.Goals, Is.Zero);
-            Assert.That(game.ResultScore.text, Is.EqualTo("0 GOL"));
-            game.Home.OnPointerClick(Pointer(game.Home));
-            var deadline = Time.realtimeSinceStartup + 10;
-            while (SceneManager.GetActiveScene().name != "MainMenu")
-            {
-                Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline));
-                yield return null;
-            }
+            yield return LocalTestInput.Continue(game);
+            LocalTestInput.Press(game.Left);
+            var old = new PointerEventData(EventSystem.current) { pointerId = 1 };
+            game.Handoff.OnPointerClick(old);
+            Assert.That(game.Handoff.Visible, Is.True);
+            game.Handoff.OnPointerDown(old);
+            game.Handoff.OnPointerClick(old);
+            Assert.That(game.Handoff.Visible, Is.True, "Same frame as show cannot dismiss");
+            yield return null; yield return null;
+            game.Handoff.OnPointerDown(old);
+            game.Handoff.OnPointerClick(new PointerEventData(EventSystem.current) { pointerId = 2 });
+            Assert.That(game.Handoff.Visible, Is.True);
+            game.Handoff.OnPointerClick(old);
+            Assert.That(game.State, Is.EqualTo(PlayState.ChoosingKeeper));
+            Assert.That(game.Round.ShotsTaken, Is.Zero);
         }
 
         [UnityTest]
-        public IEnumerator EndlessGoalsContinueBeyondFixedRoundShotCount()
+        public IEnumerator CanceledGestureAllowsANewPointerToContinue()
         {
-            yield return StartGame(GameMode.Endless, 0f);
             var game = Object.FindFirstObjectByType<GameplayController>();
-            for (var i = 0; i < 6; i++)
-            {
-                Tap(game.Left);
-                Assert.That(game.LastShot.Value.KeeperDirection, Is.Not.EqualTo(ShotDirection.Left));
-                yield return WaitForResult(game);
-                Assert.That(game.State, Is.EqualTo(PlayState.Ready));
-                Assert.That(game.Round.Goals, Is.EqualTo(i + 1));
-                Assert.That(game.ResultVisible, Is.False);
-            }
-            Assert.That(game.ShotCounter.text, Is.EqualTo("ŞUT  6"));
+            yield return null; yield return null;
+            game.Handoff.OnPointerDown(new PointerEventData(EventSystem.current) { pointerId = 5 });
+            // No click: simulate a canceled gesture, followed by an all-pointers-up frame.
+            yield return null; yield return null;
+            var fresh = new PointerEventData(EventSystem.current) { pointerId = 6 };
+            game.Handoff.OnPointerDown(fresh);
+            game.Handoff.OnPointerClick(fresh);
+            Assert.That(game.State, Is.EqualTo(PlayState.Ready));
+            Assert.That(game.Round.HasShotSelection, Is.False);
         }
 
         [UnityTest]
-        public IEnumerator TouchDeviceCommitsShotOnPressAndReleaseDoesNotShootAgain()
+        public IEnumerator RealHeldTouchCannotDismissHandoffOnRelease()
         {
-            yield return StartGame(GameMode.FixedRound, 0f);
             var game = Object.FindFirstObjectByType<GameplayController>();
-            var point = Pointer(game.Right).position;
-            var oldBackground = InputSystem.settings.backgroundBehavior;
+            yield return LocalTestInput.Continue(game);
+            var previousBackground = InputSystem.settings.backgroundBehavior;
 #if UNITY_EDITOR
-            var oldEditor = InputSystem.settings.editorInputBehaviorInPlayMode;
+            var previousEditor = InputSystem.settings.editorInputBehaviorInPlayMode;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
 #endif
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             var screen = InputSystem.AddDevice<Touchscreen>();
+            var position = LocalTestInput.Pointer(game.Left).position;
             try
             {
-                InputSystem.QueueStateEvent(screen, new TouchState { touchId = 77, phase = UnityEngine.InputSystem.TouchPhase.Began, position = point });
-                InputSystem.Update();
-                yield return null;
-                yield return null;
-                Assert.That(game.Round.ShotsTaken, Is.EqualTo(1));
-                Assert.That(game.LastShot.Value.PlayerDirection, Is.EqualTo(ShotDirection.Right));
-                InputSystem.QueueStateEvent(screen, new TouchState { touchId = 77, phase = UnityEngine.InputSystem.TouchPhase.Ended, position = point });
-                InputSystem.Update();
-                yield return null;
-                yield return null;
-                Assert.That(game.Round.ShotsTaken, Is.EqualTo(1));
+                InputSystem.QueueStateEvent(screen, new TouchState { touchId = 88, phase = UnityEngine.InputSystem.TouchPhase.Began, position = position });
+                InputSystem.Update(); yield return null; yield return null;
+                Assert.That(game.Handoff.Visible, Is.True);
+                Assert.That(game.Round.HasShotSelection, Is.True);
+                InputSystem.QueueStateEvent(screen, new TouchState { touchId = 88, phase = UnityEngine.InputSystem.TouchPhase.Ended, position = position });
+                InputSystem.Update(); yield return null; yield return null;
+                Assert.That(game.Handoff.Visible, Is.True);
+                Assert.That(game.Round.ShotsTaken, Is.Zero);
+                InputSystem.QueueStateEvent(screen, new TouchState { touchId = 89, phase = UnityEngine.InputSystem.TouchPhase.Began, position = position });
+                InputSystem.Update(); yield return null;
+                InputSystem.QueueStateEvent(screen, new TouchState { touchId = 89, phase = UnityEngine.InputSystem.TouchPhase.Ended, position = position });
+                InputSystem.Update(); yield return null; yield return null;
+                Assert.That(game.Handoff.Visible, Is.False);
+                Assert.That(game.State, Is.EqualTo(PlayState.ChoosingKeeper));
+                Assert.That(game.Round.ShotsTaken, Is.Zero);
             }
             finally
             {
                 InputSystem.RemoveDevice(screen);
-                InputSystem.settings.backgroundBehavior = oldBackground;
+                InputSystem.settings.backgroundBehavior = previousBackground;
 #if UNITY_EDITOR
-                InputSystem.settings.editorInputBehaviorInPlayMode = oldEditor;
+                InputSystem.settings.editorInputBehaviorInPlayMode = previousEditor;
 #endif
             }
-            yield return WaitForResult(game);
         }
 
         [UnityTest]
-        public IEnumerator GameplayWithoutSelectionsCannotShoot()
+        public IEnumerator MissingSelectionCannotStartAMatch()
         {
             GameManager.Instance.BeginSelection();
-            yield return SceneManager.LoadSceneAsync("Gameplay");
-            yield return null;
+            yield return SceneManager.LoadSceneAsync("Gameplay"); yield return null;
             var game = Object.FindFirstObjectByType<GameplayController>();
             Assert.That(game.State, Is.EqualTo(PlayState.NeedsSelection));
             Assert.That(game.Round, Is.Null);
-            Assert.That(game.Left.interactable || game.Center.interactable || game.Right.interactable, Is.False);
-            Assert.That(game.Home.gameObject.activeInHierarchy, Is.True);
+            Assert.That(game.Left.interactable, Is.False);
+            Assert.That(game.Handoff.Visible, Is.False);
         }
     }
 }
