@@ -36,11 +36,14 @@ namespace PenaltyKing
             crowd.anchoredPosition = new Vector2(0, 57 + extra - headerSpace);
             pitch.sizeDelta = new Vector2(960, 330.625f + height - 640 - headerSpace);
             pitch.anchoredPosition = new Vector2(0, -154.6875f - headerSpace * .5f);
-            goal.anchoredPosition = new Vector2(0, 94 + extra - headerSpace);
+            goal.anchoredPosition = new Vector2(0, 72.4f + extra - headerSpace);
             zones.anchoredPosition = new Vector2(0, extra - headerSpace);
-            var ballY = -height * .5f + Mathf.Lerp(110, 180, Mathf.Clamp01((height - 640) / 1100));
-            shooter.anchoredPosition = new Vector2(-100, ballY - 11);
-            controller.ConfigureComposition(new Vector2(0, ballY), new Vector2(0, 37 + extra - headerSpace), 190, 58 + extra - headerSpace, .55f);
+            var ballY = -height * .5f + Mathf.Lerp(155, 240, Mathf.Clamp01((height - 640) / 1100));
+            var actorHeight = Mathf.Lerp(210, 240, Mathf.Clamp01((height - 640) / 1100));
+            if (controller.Presentation != null) controller.Presentation.ConfigureActorScale(actorHeight, .85f);
+            pitch.GetComponent<PixelPitch>()?.SetSpot(ballY - 12 - pitch.anchoredPosition.y);
+            shooter.anchoredPosition = new Vector2(-100 * actorHeight / 160, ballY - 11 * actorHeight / 160);
+            controller.ConfigureComposition(new Vector2(0, ballY), new Vector2(0, 28.45f + extra - headerSpace), 152, 43.6f + extra - headerSpace, .55f);
         }
         private void OnEnable() { lastHeight = -1; Fit(); }
         private void LateUpdate() => Fit();

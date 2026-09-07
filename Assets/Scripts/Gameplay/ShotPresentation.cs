@@ -21,6 +21,12 @@ namespace PenaltyKing
         [SerializeField] private Sprite[] shooterFrames, sideFrames, centerFrames;
         private Vector2 ballRest, keeperRest, shooterRest, crowdRest, stageRest;
         private float spacing = 190, targetY = 58;
+        [SerializeField] private float shooterHeight = 160, keeperSize = 1;
+        public float ShooterHeight => shooterHeight;
+        public Vector2 ShooterPosition => shooter.rectTransform.anchoredPosition;
+        public Vector2 KeeperPosition => keeper.rectTransform.anchoredPosition;
+        public void ConfigureActorScale(float height, float keeperScale)
+        { shooterHeight = height; keeperSize = keeperScale; }
         private ShotResult current;
         private bool initialized;
         private int generation;
@@ -50,7 +56,7 @@ namespace PenaltyKing
         public void SetComposition(Vector2 ballStart, Vector2 keeperStart, float distance, float goalY)
         {
             ballRest = ballStart; keeperRest = keeperStart; spacing = distance; targetY = goalY;
-            shooterRest = new Vector2(-100, ballStart.y - 11);
+            shooterRest = new Vector2(-100 * shooterHeight / 160, ballStart.y - 11 * shooterHeight / 160);
             crowdRest = new Vector2(0, keeperStart.y + 20);
             if (!initialized) { stageRest = stage.anchoredPosition; initialized = true; }
             if (IsPlaying) Sample(current, Elapsed); else ResetPose();
@@ -88,8 +94,8 @@ namespace PenaltyKing
             ball.rectTransform.anchoredPosition = ballRest;
             ball.rectTransform.localScale = Vector3.one; ball.rectTransform.localRotation = Quaternion.identity;
             ball.color = Color.white;
-            Pose(keeper, keeperIdle, 114, false, keeperRest, 1);
-            Pose(shooter, shooterIdle, 160, false, shooterRest, 1);
+            Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
+            Pose(shooter, shooterIdle, shooterHeight, false, shooterRest, 1);
             crowd.anchoredPosition = crowdRest; stage.anchoredPosition = stageRest;
             foreach (var image in trail) image.enabled = false;
             foreach (var image in dust) image.enabled = false;
@@ -110,10 +116,11 @@ namespace PenaltyKing
             var run = Mathf.Clamp01(time / ContactTime);
             var recover = Mathf.Clamp01((time - 1.6f) / .6f);
             var playerFrame = time < .18f ? 0 : time < .32f ? 1 : time < .62f ? 2 : 3;
-            var foot = shooterRest + new Vector2(0, -80);
-            var contactFoot = ballRest + new Vector2(-69, -92);
+            var actorScale = shooterHeight / 160;
+            var foot = shooterRest + new Vector2(0, -80 * actorScale);
+            var contactFoot = ballRest + new Vector2(-69, -92) * actorScale;
             var playerFoot = Vector2.Lerp(Vector2.Lerp(foot, contactFoot, run), foot, recover);
-            Pose(shooter, shooterFrames[playerFrame], 160, false, playerFoot + new Vector2(0, 80), 1);
+            Pose(shooter, shooterFrames[playerFrame], shooterHeight, false, playerFoot + new Vector2(0, 80 * actorScale), 1);
 
             var dive = Mathf.SmoothStep(0, 1, Mathf.Clamp01((time - .16f) / (ImpactTime - .16f)));
             var landing = Mathf.Clamp01((time - 1.02f) / .35f);
@@ -121,22 +128,22 @@ namespace PenaltyKing
             var position = keeperRest;
             if (sign == 0)
             {
-                position.y += Mathf.Sin(dive * Mathf.PI) * 14;
-                position.y -= landing * 17 * (1 - recover);
+                position.y += Mathf.Sin(dive * Mathf.PI) * 14 * keeperSize;
+                position.y -= landing * 17 * keeperSize * (1 - recover);
                 var height = keeperFrame == 2 ? 90 : keeperFrame == 0 ? 106 : 114;
-                Pose(keeper, centerFrames[keeperFrame], height, false, position, 1);
+                Pose(keeper, centerFrames[keeperFrame], height * keeperSize, false, position, 1);
             }
             else
             {
-                var airborne = new Vector2(sign * (spacing - 65), targetY - 16);
+                var airborne = new Vector2(sign * (spacing - 65 * keeperSize), targetY - 16 * keeperSize);
                 position = Vector2.Lerp(keeperRest, airborne, dive);
-                position.y += Mathf.Sin(dive * Mathf.PI) * 20;
-                position.y = Mathf.Lerp(position.y, keeperRest.y - 34, landing);
+                position.y += Mathf.Sin(dive * Mathf.PI) * 20 * keeperSize;
+                position.y = Mathf.Lerp(position.y, keeperRest.y - 34 * keeperSize, landing);
                 position = Vector2.Lerp(position, keeperRest, recover);
                 var extent = keeperFrame == 0 ? 116 : keeperFrame == 3 ? 95 : 154;
-                Pose(keeper, sideFrames[keeperFrame], extent, keeperFrame != 3, position, sign);
+                Pose(keeper, sideFrames[keeperFrame], extent * keeperSize, keeperFrame != 3, position, sign);
             }
-            if (time > 2.02f) Pose(keeper, keeperIdle, 114, false, keeperRest, 1);
+            if (time > 2.02f) Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
 
             var ballPosition = Trajectory(target, flight);
             if (time < ContactTime) ballPosition = ballRest;
@@ -146,12 +153,12 @@ namespace PenaltyKing
                 if (shot.Outcome == ShotOutcome.Goal)
                     ballPosition = Vector2.Lerp(target, target + new Vector2(0, -48), settle) + new Vector2(0, Mathf.Abs(Mathf.Sin(settle * Mathf.PI * 2)) * 8 * (1 - settle));
                 else
-                    ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
+                    ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57 * keeperSize), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
             }
             ball.rectTransform.anchoredPosition = ballPosition;
             ball.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .55f, flight);
             ball.rectTransform.localRotation = Quaternion.Euler(0, 0, time < ContactTime ? 0 : (time - ContactTime) * -780);
-            shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57, flight));
+            shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57 * keeperSize, flight));
             shadow.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .5f, flight);
             for (var i = 0; i < trail.Length; i++)
             {

@@ -34,10 +34,13 @@ namespace PenaltyKing
         public PixelMenuButton Exit => exit;
         public Text ResultTitle => resultTitle;
         public bool SettingsOpen { get; private set; }
+        public bool TutorialOpen { get; private set; }
+        public void SetTutorialOpen(bool open)
+        { TutorialOpen = open; handoff.InputBlocked = SettingsOpen || TutorialOpen; }
         public void SetSettingsOpen(bool open)
         {
             SettingsOpen = open;
-            handoff.InputBlocked = open;
+            handoff.InputBlocked = open || TutorialOpen;
             if (presentation != null) presentation.SetPaused(open);
             GetComponent<GameplayAudio>()?.PauseCue(open);
         }
@@ -112,7 +115,7 @@ namespace PenaltyKing
         private void ShootRight() => Shoot(ShotDirection.Right);
         private void Shoot(ShotDirection direction)
         {
-            if (navigator.IsLoading || SettingsOpen) return;
+            if (navigator.IsLoading || SettingsOpen || TutorialOpen) return;
             if (State == PlayState.Ready)
             {
                 Round.ChooseShot(direction);
@@ -189,7 +192,7 @@ namespace PenaltyKing
 
         private void Restart()
         {
-            if (navigator.IsLoading || SettingsOpen || State != PlayState.Finished) return;
+            if (navigator.IsLoading || SettingsOpen || TutorialOpen || State != PlayState.Finished) return;
             StartRound();
         }
 
