@@ -1,0 +1,58 @@
+{
+  "resolution": [
+    720,
+    1280
+  ],
+  "coldMenuNoInput": true,
+  "checks": [
+    "Goal and save via real taps",
+    "Portrait composition",
+    "Settings resume",
+    "Nonzero audio output for music, crowd, kick, goal, save"
+  ],
+  "audioOutput": [
+    {
+      "cue": "menu",
+      "playing": "True",
+      "volume": 0.7,
+      "peak": 0.143183
+    },
+    {
+      "cue": "crowd",
+      "playing": "True",
+      "volume": 0.8,
+      "peak": 0.068237
+    },
+    {
+      "cue": "Kick",
+      "playing": "True",
+      "volume": 0.8,
+      "peak": 0.012153
+    },
+    {
+      "cue": "GoalCrowd",
+      "playing": "True",
+      "volume": 0.8,
+      "peak": 0.421607
+    },
+    {
+      "cue": "Kick",
+      "playing": "True",
+      "volume": 0.8,
+      "peak": 0.015554
+    },
+    {
+      "cue": "SaveOff",
+      "playing": "True",
+      "volume": 0.8,
+      "peak": 0.116824
+    },
+    {
+      "cue": "menu",
+      "playing": "True",
+      "volume": 0.7,
+      "peak": 0.149038
+    }
+  ],
+  "note": "Digital source output measured; physical speaker listening is not automated."
+}

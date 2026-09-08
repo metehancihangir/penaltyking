@@ -9,6 +9,7 @@ namespace PenaltyKing
         public static void EnsureServices()
         {
             Application.targetFrameRate = 60;
+            Application.runInBackground = true;
             QualitySettings.vSyncCount = 0;
             if (GameManager.Instance == null)
                 new GameObject("GameManager").AddComponent<GameManager>();

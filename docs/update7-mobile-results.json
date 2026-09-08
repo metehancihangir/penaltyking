@@ -1,0 +1,292 @@
+{
+  "device": "Android 11 API30 x86_64 emulator; host GPU; 1536 MB configured RAM",
+  "checks": [
+    "Fresh guide",
+    "Fixed 5 shots each, draw",
+    "Replay",
+    "In-game settings and resume",
+    "Menu options",
+    "Landscape rotation",
+    "Endless survives saves and >10 attempts",
+    "Guide stays completed after app restart"
+  ],
+  "performanceWindows": [
+    {
+      "frames": 298,
+      "fps": 59.6,
+      "p95Ms": 16.68,
+      "maxMs": 33.35
+    },
+    {
+      "frames": 299,
+      "fps": 59.6,
+      "p95Ms": 16.68,
+      "maxMs": 50.02
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 298,
+      "fps": 59.4,
+      "p95Ms": 16.68,
+      "maxMs": 50.04
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.7,
+      "maxMs": 16.71
+    },
+    {
+      "frames": 300,
+      "fps": 59.8,
+      "p95Ms": 16.68,
+      "maxMs": 33.32
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.68
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 59.8,
+      "p95Ms": 16.68,
+      "maxMs": 33.32
+    },
+    {
+      "frames": 300,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 301,
+      "fps": 60.0,
+      "p95Ms": 16.68,
+      "maxMs": 16.69
+    },
+    {
+      "frames": 300,
+      "fps": 59.8,
+      "p95Ms": 16.68,
+      "maxMs": 33.33
+    }
+  ],
+  "touchQueueMs": [
+    21.878,
+    7.386,
+    19.057,
+    11.682,
+    14.281,
+    23.153,
+    13.015,
+    15.613,
+    15.052,
+    13.594,
+    16.144,
+    22.858,
+    17.032,
+    22.122,
+    18.182,
+    22.84,
+    5.203,
+    6.19,
+    19.587,
+    19.795,
+    8.009,
+    22.008,
+    10.404,
+    5.602,
+    18.302,
+    18.772,
+    17.954,
+    8.689,
+    8.701,
+    17.602,
+    19.697,
+    10.62,
+    17.031,
+    5.834,
+    6.253,
+    13.692,
+    12.892,
+    9.995,
+    18.92,
+    11.262,
+    17.283,
+    14.056,
+    11.701,
+    12.282,
+    16.37,
+    8.909
+  ],
+  "physicalVibration": "Deferred by user; emulator is not physical verification"
+}

@@ -49,3 +49,9 @@ Yeniden üretim: Unity `PenaltyKing.Editor.UpdateAudioSource.Decode`, ardından 
 - GoalVictory ve MenuPixelTheme: proje için özgün sentez, melodi ve düzen; dış müzik örneği kullanılmadı.
 - `Tools/build_pre7_audio.py` ile yeniden üretilebilir. Girdi, önceki Faz 6 kaynaklarından üretilen ChantDrumLoop ve GoalOuff'tur. Bu kaynaklar aktif çalınmaz ancak yeniden üretim için korunur.
 - Sayısal sonuçlar: `pre7-metrics.json`. İşitsel kabul ve uzun süreli rahatlık kullanıcı kontrolünü bekler.
+
+## 8 Eylül 2026 — Yalnız gerçek tribün kayıtları
+
+Son kullanıcı geri bildirimiyle sentetik davul/tom katmanı ve GoalVictory melodisi oynanıştan çıkarıldı. Aktif ambiyans `CrowdChant.wav`, felix.blume'nin yukarıda belgelenen gerçek maç kaydından üretilen ChantDrumLoop'un dengelenmiş kopyasıdır. Kayıttaki doğal tribün/davul sesleri korunur; üzerine ritim veya müzik eklenmez. Aktif gol sesi `GoalCrowd.wav`, huubjeroen'nin yukarıdaki gerçek GoalCheer kaydından gelir. Kick ve SaveOff korunur. Menü müziği yalnız menülerde çalar.
+
+Yeniden üretim: `Tools/build_crowd_revision.py`, ardından `PenaltyKing.Editor.CrowdRevision.Setup`. Ölçümler: `crowd-revision-metrics.json`. Önceki dosyalar tarihsel üretimi korumak için bulunur ancak Gameplay sahnesine bağlı değildir. Ses uygunluğu dinlenmiş gibi varsayılmaz; kaynak türü ve sayısal çıkış doğrulanır.

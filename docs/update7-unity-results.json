@@ -1,0 +1,212 @@
+{
+  "result": {
+    "id": "2",
+    "testcasecount": "48",
+    "result": "Passed",
+    "total": "48",
+    "passed": "48",
+    "failed": "0",
+    "inconclusive": "0",
+    "skipped": "0",
+    "asserts": "0",
+    "engine-version": "3.5.0.0",
+    "clr-version": "4.0.30319.42000",
+    "start-time": "2026-09-08 12:06:09Z",
+    "end-time": "2026-09-08 12:09:21Z",
+    "duration": "191,7201764"
+  },
+  "tests": [
+    {
+      "name": "PenaltyKing.Tests.EndToEndTests.FadeBlocksInputAcrossSceneBoundaryAndWorksWithPausedTime",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.EndToEndTests.MenuStartsLocalMatchAndTenHumanShotsReachSummary",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.FirstPlayGuideTests.GuideConsumesInputAndPersistsOnlyWhenCompleted",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.FirstPlayGuideTests.PracticeTargetsNeverCommitAMatchChoice",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.FirstPlayGuideTests.SettingsBlockGuideAndPartialGuideRestarts",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayArtTests.FinalArtKeepsTouchTargetsAndActorsVisibleWhenAspectChanges",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayAudioTests.ClipsHaveSignalHeadroomAndSeamlessLoopBoundary",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayAudioTests.LeavingBeforeContactAndOpeningWithoutSelectionsAreSilent",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayAudioTests.RealClipsPlayAtContactAndCorrectOutcomeThenStopOnExit",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayAudioTests.SfxControlsPlayingAmbienceAndReactionIndependentlyOfMusic",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayHapticsTests.OnlyGoalsAtImpactPulseOnceEvenWhenSilentAndPaused",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayTests.CanceledGestureAllowsANewPointerToContinue",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayTests.HiddenShotDoesNotMoveBallOrPlaySoundAndTwoPeopleResolveIt",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayTests.MissingSelectionCannotStartAMatch",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayTests.OverlayRejectsOldClickAndMismatchedPointer",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayTests.RealHeldTouchCannotDismissHandoffOnRelease",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayUiTests.PausedShotFreezesAndResumesWithoutDuplicatingAudioEvents",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayUiTests.PitchFillsViewportAtBothAspectRatiosWithoutScalingActorsUnevenly",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayUiTests.ScoreboardAndSettingsStayInsideReducedSafeAreas",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayUiTests.ScoreboardShowsBoundedHumanResultsAndOldLabelsAreHidden",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.GameplayUiTests.SettingsPreserveEverySelectionStageAndSharePreferences",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.InfrastructureTests.AllScenesPreserveSessionAndAudioServices",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.InfrastructureTests.CrowdAmbienceFollowsSfxAndIsIndependentOfMusic",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.InfrastructureTests.DuplicateManagersDoNotReplaceOrDuplicateServices",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.InfrastructureTests.TouchBeginTriggersOnceAndReleaseDoesNotTrigger",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.MainMenuTests.ActiveButtonsNavigateToTheirExactDestinations",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.MainMenuTests.ButtonHoverAndPressHaveDistinctFeedbackAndReleaseRestoresFace",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.MainMenuTests.OnlineIsVisibleDisabledAndCannotNavigate",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.MatchLifecycleTests.EitherPlayerCanWinOnlyAfterTenShotsAndReplayClearsEveryPlayerField",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.MatchLifecycleTests.EndlessContinuesBeyondTenShotsWithGoalsAndSavesAndCanExit",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.MatchLifecycleTests.ExitWorksDuringEveryTurnStageAndCancelsPendingCuesAndSelections",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.OptionsTests.BackSavesImmediatelyAndReturnsToMainMenu",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.OptionsTests.ExactlyTwoSlidersDragAndUpdateIndependentChannelsImmediately",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.OptionsTests.RecreatedServicesAndScreenRestoreSavedVolumes",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.OptionsTests.VibrationToggleRespondsToPointerAndIsIndependentOfAudio",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PenaltyRoundTests.EndlessKeepsPlayingAndHistoryStorageIsBounded",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PenaltyRoundTests.EveryHumanDirectionPairResolvesWithoutRandomness",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PenaltyRoundTests.InvalidOrderAndDuplicateChoicesCannotChangeScoreOrHiddenChoice",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PenaltyRoundTests.RolesAlternateAndScoresBelongToTheShooter",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PitchCompositionTests.TargetsAndSpotFollowPortraitAndLandscapeComposition",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PreSevenPolishTests.AllStandSectionsCelebrateOnlyOnGoalAndReset",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.PreSevenPolishTests.MenuThemeAndStadiumStayOnTheirOwnScreensAndHandoffKeepsAudio",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.SelectionTests.BackReturnsThroughPlayerSelectionAndClearsSession",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.SelectionTests.BothModesAcceptLocalSelectionWithoutDifficultyOrStartingABot",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.SelectionTests.DirectModeEntryRequiresPlayerSelectionAndRapidTapsKeepFirstMode",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.ShotAnimationTests.LeavingDuringRunUpCancelsPendingSoundCues",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.ShotAnimationTests.ThreeSaveDirectionsHaveDistinctPosesAndOnlyGoalsCelebrate",
+      "result": "Passed"
+    },
+    {
+      "name": "PenaltyKing.Tests.ShotAnimationTests.TouchStartsRunUpThenExactlyOneKickImpactAndCompletionEvenAtZeroTimeScale",
+      "result": "Passed"
+    }
+  ]
+}

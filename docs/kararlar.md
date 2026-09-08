@@ -29,3 +29,4 @@ Güncelleme Faz 4: Tam ekran saha, beşer atış göstergeli iki oyunculu tabela
 Güncelleme Faz 5: İlk kullanım rehberi, %20 küçük kale, büyütülmüş şutçu ve yeni perspektif saha çizgileri uygulandı. 44/44 test geçti. Rapor: docs/update-faz-5-raporu.md.
 
 Güncelleme Faz 6: Davullu CC0 maç döngüsü ve kısa ouff gol uyarlaması bağlandı. 65 ms Android titreşim darbesi yalnız gol Impact olayında, ortak tercih açıkken istenir. 10/10 hedefli test geçti; gerçek dinleme ve telefon kontrolü bekliyor. Rapor: docs/update-faz-6-raporu.md.
+8 Eylül 2026 son referans: Büyük ceza alanı oyuncunun ayaklarına uzanacak; önceki kaleye yaklaştırma yorumu kaldırıldı. Son altı düzeltme ve bu yerleşim Güncelleme Faz 7 paketine dahil. 48/48 Unity testi geçti. Yeni APK: Builds/Android/PenaltyKing-update7.apk; ayrıntılar docs/update-faz-7-raporu.md.

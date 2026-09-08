@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,6 +25,9 @@ namespace PenaltyKing
             stadiumOwner = owner;
             CrowdSource.clip = ambience;
             CrowdSource.Play();
+#if DEVELOPMENT_BUILD
+            StartCoroutine(MeasureOutput("crowd", CrowdSource));
+#endif
         }
 
         public void PlayStadiumCue(Object owner, AudioClip clip)
@@ -32,6 +36,9 @@ namespace PenaltyKing
             SfxSource.Stop();
             SfxSource.clip = clip;
             SfxSource.Play();
+#if DEVELOPMENT_BUILD
+            StartCoroutine(MeasureOutput(clip.name, SfxSource));
+#endif
         }
 
         public void EndStadium(Object owner)
@@ -62,6 +69,13 @@ namespace PenaltyKing
             ApplyVolumes(state.MusicVolume, state.SfxVolume);
             menuTheme = Resources.Load<AudioClip>("Audio/MenuPixelTheme");
             SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        // BeforeSceneLoad creates services before the scene's AudioListener exists.
+        // Start also covers pressing Play directly in MainMenu without navigation.
+        private IEnumerator Start()
+        {
+            yield return null;
             OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
 
@@ -69,8 +83,29 @@ namespace PenaltyKing
         {
             if (scene.name == "Gameplay") { MusicSource.Stop(); return; }
             if (menuTheme != null && !MusicSource.isPlaying)
-            { MusicSource.clip = menuTheme; MusicSource.Play(); }
+            {
+                MusicSource.clip = menuTheme; MusicSource.Play();
+#if DEVELOPMENT_BUILD
+                StartCoroutine(MeasureOutput("menu", MusicSource));
+#endif
+            }
         }
+
+#if DEVELOPMENT_BUILD
+        private IEnumerator MeasureOutput(string cue, AudioSource source)
+        {
+            yield return new WaitForSecondsRealtime(.1f);
+            var samples = new float[1024];
+            float peak = 0;
+            for (var frame = 0; frame < 6; frame++)
+            {
+                source.GetOutputData(samples, 0);
+                foreach (var sample in samples) peak = Mathf.Max(peak, Mathf.Abs(sample));
+                yield return new WaitForSecondsRealtime(.025f);
+            }
+            Debug.Log(System.FormattableString.Invariant($"[MobileAudio] cue={cue} playing={source.isPlaying} volume={source.volume:F3} outputPeak={peak:F6}"));
+        }
+#endif
 
         private AudioSource CreateSource(string channelName, bool loop)
         {
