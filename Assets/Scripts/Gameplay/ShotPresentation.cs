@@ -94,7 +94,7 @@ namespace PenaltyKing
             if (ball == null) return;
             Phase = ShotAnimationPhase.Idle; Elapsed = 0; CrowdCelebrating = false;
             ball.rectTransform.anchoredPosition = ballRest;
-            ball.rectTransform.localScale = Vector3.one; ball.rectTransform.localRotation = Quaternion.identity;
+            ball.rectTransform.localScale = Vector3.one * 1.5f; ball.rectTransform.localRotation = Quaternion.identity;
             ball.color = Color.white;
             Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
             Pose(shooter, shooterIdle, shooterHeight, false, shooterRest, 1);
@@ -159,7 +159,7 @@ namespace PenaltyKing
                     ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57 * keeperSize), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
             }
             ball.rectTransform.anchoredPosition = ballPosition;
-            ball.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .55f, flight);
+            ball.rectTransform.localScale = Vector3.one * 1.5f * Mathf.Lerp(1, .55f, flight);
             ball.rectTransform.localRotation = Quaternion.Euler(0, 0, time < ContactTime ? 0 : (time - ContactTime) * -780);
             shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57 * keeperSize, flight));
             shadow.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .5f, flight);

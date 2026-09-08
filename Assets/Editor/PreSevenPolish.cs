@@ -19,11 +19,11 @@ namespace PenaltyKing.Editor
    var accent=(RectTransform)card.Find("Accent");accent.anchoredPosition=new Vector2(0,60);if(card.GetComponent<FitPanelToSafeArea>()==null)card.gameObject.AddComponent<FitPanelToSafeArea>();
    PolishGuide(game,canvas);Crowds();
    var sound=game.GetComponent<GameplayAudio>();
-   foreach(var path in new[]{"Assets/Audio/Stadium/CalmDrumLoop.wav","Assets/Audio/Stadium/GoalVictory.wav","Assets/Audio/Stadium/SaveOff.wav","Assets/Resources/Audio/MenuPixelTheme.wav"})
+   foreach(var path in new[]{"Assets/Audio/Stadium/CrowdChant.wav","Assets/Audio/Stadium/GoalCrowd.wav","Assets/Audio/Stadium/SaveOff.wav","Assets/Resources/Audio/MenuPixelTheme.wav"})
    {
     AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);var importer=(AudioImporter)AssetImporter.GetAtPath(path);var settings=importer.defaultSampleSettings;settings.loadType=AudioClipLoadType.DecompressOnLoad;settings.compressionFormat=AudioCompressionFormat.PCM;settings.preloadAudioData=true;importer.defaultSampleSettings=settings;importer.SaveAndReimport();
    }
-   sound.Configure(AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Stadium/CalmDrumLoop.wav"),sound.KickClip,AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Stadium/GoalVictory.wav"),AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Stadium/SaveOff.wav"));
+   sound.Configure(AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Stadium/CrowdChant.wav"),sound.KickClip,AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Stadium/GoalCrowd.wav"),AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Stadium/SaveOff.wav"));
    EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();Capture();EditorSceneManager.OpenScene("Assets/Scenes/MainMenu.unity");
    Debug.Log("[Pre7] Polish scene and audio saved.");
   }

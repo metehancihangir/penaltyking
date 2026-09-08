@@ -1,49 +1,33 @@
 # Penalty King
 
-Unity 6000.4.4f1 / C# / Universal 2D. Mobil öncelikli piksel penaltı oyunu.
+Unity 6000.4.4f1 / C# / Universal 2D. Gece stadyumunda, aynı telefonda iki oyunculu piksel penaltı oyunu.
 
-## Açılış
+## Güncel Android paketi
 
-Unity Hub → Projects → Add → Add project from disk ile bu klasörü seçin. Unity **6000.4.4f1** ile açın. `Assets/Scenes/MainMenu.unity` sahnesini açıp **Play** tuşuna basın.
+`Builds/Android/PenaltyKing-update7-crowd.apk` — sürüm 0.2.2 (kod 4), Android 8+, ARM64/x86_64, development/test paketi. Belirgin ceza sahası perspektifi, %50 büyük top ve gerçek taraftar seslerini içerir. Önceki `PenaltyKing-update7.apk` sürüm 0.2.0'dır.
 
-**Faz 0–8 tamamlandı.** Android test paketi: `Builds/Android/PenaltyKing-development.apk` (94,3 MiB, Android 8+, ARM64/x86_64). Son doğrulama: 33/33 Unity testi; Android 11 emülatöründe dikey/yatay iki mod ve tekrar/menü akışı başarılı, 59,8–60 FPS. Ayrıntılar `docs/faz-8-raporu.md` dosyasındadır.
+Güncelleme Faz 7: 48/48 Unity PlayMode testi geçti. Android doğrulama ayrıntıları ve paket özeti `docs/update-faz-7-raporu.md` dosyasındadır. Fiziksel titreşim testi kullanıcı isteğiyle ertelendi; yeni seslerin uzun süreli rahatlığı kullanıcı dinlemesini bekler.
 
-## Güncelleme serisi — Faz 1–6
+## Unity'de açılış
 
-Menü: **Play → Online (pasif) / 2 Kişilik → Sabit Round / Endless**. Bot ve zorluk kodu kaldırıldı.
+Unity Hub ile bu proje klasörünü açın. Project panelinde **Assets → Scenes → MainMenu** sahnesine çift tıklayın, üstte **▶ Play** düğmesine basın. Boş Untitled sahnesi oyunu içermez.
 
-Aynı telefonda iki oyuncu oynar. Önce PLAYER 1 şut yönünü seçer. Telefon devri ekranı seçimi gizler; PLAYER 2 ekrana dokunarak paneli kapatır ve yeni bir dokunuşla kaleci yönünü seçer. İki seçim tamamlanınca animasyon oynar. Aynı yön kurtarış, farklı yön goldür. Sonraki şutta roller değişir. Kalecilik yapan kişi bir sonraki şutçu olduğundan bu rol değişiminde telefonu geri vermek gerekmez.
+**Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ yönlerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış yönünü seçin. Aynı yön kurtarış, farklı yön gol. Her atışta roller değişir.
 
-Her oyuncunun skoru ve atış geçmişi ayrıdır. Sabit Round için temel kural kişi başı 5 şut; Endless kurtarışlarda da sürer. Sonuç ekranı iki oyuncunun skorlarını, kullanılan haklarını ve kazananı veya beraberliği gösterir. Tekrar Oyna aynı modda skorları, geçmişi ve sırayı sıfırlar. Sol üstteki Menü düğmesi devir ve animasyon dahil her aşamada maçı kapatır; sesler durur ve seçimler temizlenir. Faz 4 ile saha tam ekran oldu; üstte oyuncu adları, ayrı skorlar ve beşer atış işareti vardır. Endless son beş sonucu gösterir; toplam skor korunur.
+Sabit Round: oyuncu başına 5 şut; beraberlikte biter. Endless kurtarışlarda da devam eder. Tekrar Oyna aynı modla yeni maç başlatır. Menü düğmesi maçtan çıkar. Üst tabelada oyuncu skorları ve beşer son atış görünür.
 
-Options: Music Volume, SFX Volume ve kalıcı Titreşim anahtarı. Faz 6 ile davullu tezahürat, kısa gol tepkisi ve 65 ms Android gol titreşimi bağlandı (işitsel/gerçek telefon kabulü bekliyor); sağ üst piksel dişli, maçtan ayrılmadan aynı ayarları açar. Panel açıkken animasyon ve seçimler durur; Devam Et aynı noktaya döner.
+Music Volume menü müziğini, SFX Volume davul/tezahürat ve olay seslerini yönetir. Sağ üst dişli maçı terk etmeden ayarları açar; animasyon/girişler durur. Sıra kartı ise ambiyansı kesmez. Titreşim tercihi kalıcı ve sesten bağımsızdır; Android gol anında 65 ms tek darbe ister.
 
-Mevcut Android APK eski sürümdür. Güncel oyunu Unity'de `Assets/Scenes/MainMenu.unity` sahnesinden Play ile inceleyebilirsiniz. Devir ekranını kapatıp ardından sol/orta/sağ bölgesine dokunun. Faz 5 için yeni APK üretilmedi. İlk yerel maçta üç adımlı rehber açılır. Kale küçültüldü, şutçu büyütüldü ve ceza alanı çizgileri yeniden çizildi. Faz 5: 44/44 PlayMode testi başarılı; rapor `docs/update-faz-5-raporu.md`.
+## Güncel görsel ve sesler
 
-Plan: `update-notes.md`. Rapor: `docs/update-faz-4-raporu.md`. Menü üreticisi **Penalty King → Updates → Phase 1 - Build menus**, devretme ekranı üreticisi **Phase 2 - Build turn handoff**. Maç kontrolleri üreticisi **Phase 3 - Build match controls**, son HUD üreticisi **Phase 4 - Build full screen HUD**. Ardından `UpdatePhaseFiveSetup.Build` rehber/sahayı, **Phase 6 - Connect crowd and haptics** ses/titreşimi kurar. Faz 6: 10/10 hedefli test ve Android kod derlemesi geçti; rapor `docs/update-faz-6-raporu.md`. Eski gameplay üreticileri çalıştırılırsa sonrasında animasyon, ses ve güncel devir ekranı tekrar bağlanmalıdır.
+Büyük ceza alanı kullanıcının mavi çizgili referansı doğrultusunda oyuncunun ayaklarına kadar uzanır. Küçük kale alanı geride, penaltı noktası topun zemin konumundadır. Tüm tribünler golde kutlar. Rehberdeki denemeler maça işlemez. Menüde özgün chiptune, sahada ek sentetik ritim içermeyen gerçek tribün kaydı, golde gerçek taraftar sevinci ve kurtarışta kısık off uyarlaması kullanılır.
 
-## Proje yapısı
+Ses kaynakları/lisanslar: `docs/audio-source/README.md`. Değişiklik planı: `update-notes.md`. Tarihsel faz 0–8 raporları önceki sürümü anlatır; güncel doğrulama yerine kullanılmaz.
 
-- `Assets/Scenes`: MainMenu, PlayerSelect, ModeSelect, Gameplay, Options.
-- `Assets/Scripts/Core`: oturum, ses, titreşim tercihi ve sahne geçişleri.
-- `Assets/Scripts/Gameplay/PenaltyRound.cs`: iki insanın yönleri, oyuncu skorları, atış geçmişi ve rol sırası.
-- `Assets/Scripts/Gameplay/GameplayController.cs`: gizli şut seçimi, devir, kaleci seçimi ve animasyon akışı.
-- `Assets/Scripts/UI/TurnHandoff.cs`: tam ekran telefon devri ve yeni dokunuş gereksinimi.
-- `Assets/Scripts/Gameplay/ShotPresentation.cs`, `GameplayAudio.cs`: animasyonlar ve olaylara bağlı sesler.
-- `Assets/Tests/PlayMode`: iki oyuncu, dokunma, ses, animasyon ve menü testleri.
+## Geliştirme ve test
 
-## Test
+**Window → General → Test Runner → PlayMode → Run All**.
 
-Unity menüsünde **Window → General → Test Runner → PlayMode → Run All**.
+Son sahne üreticisi `PenaltyKing.Editor.PreSevenPolish.Build`; önceki üreticileri çalıştırırsanız bunu en son çalıştırın. Güncel APK üreticisi `PenaltyKing.Editor.CrowdRevision.Android`. Test emülatörü için `Tools/update7_android_smoke.py` gerçek Android dokunmaları gönderir; geliştirme loglarından durum ve performans toplar. `Tools/playback_fix_android_smoke.py` tıklama öncesi müziği, beş sesin dijital çıkışını ve dikey kadrajı kontrol eder.
 
-Komut satırı (PowerShell):
-
-```powershell
-& 'C:\Program Files\Unity\Hub\Editor\6000.4.4f1\Editor\Unity.exe' -batchmode -projectPath "$PWD" -runTests -testPlatform PlayMode -testResults "$PWD/TestResults/phase8.xml" -logFile "$PWD/Logs/phase8-tests.log"
-```
-
-Test komutunda `-quit` kullanılmaz; test çalıştırıcısı tamamlanınca kapanır. Aynı proje Unity Editor'de açıkken ikinci bir Unity işlemiyle test çalıştırmayın.
-
-## Kapsam ve onay
-
-Güncel kararlar `docs/kararlar.md` dosyasındadır. Oyuncu görünür ve vuruş animasyonu Faz 6 kapsamındadır. Gece atmosferi sabittir; kalabalık ambiyansı SFX kanalındadır. Her faz sonunda kullanıcı onayı beklenir.
+Aynı proje Unity Editor'de açıkken ikinci bir batch Unity başlatmayın. Fiziksel cihazın verileri otomatik test tarafından temizlenmez; temiz kayıt testi yalnız ayrılmış emülatörde yapılır.

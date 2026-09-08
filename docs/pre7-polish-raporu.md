@@ -18,7 +18,7 @@ Yeni tepe/RMS: ambiyans 0,200/0,030; gol 0,553/0,130; kurtarış 0,272/0,050. Bi
 
 ## 3. Referans oynanış ve ceza alanı
 
-Verilen görsel projenin yatay kompozisyonuyla örtüşür; kale, şutçu, tabela ve gece atmosferi korundu. Ceza alanı ön çizgisi kaleye yaklaştırıldı, trapez biraz daraltıldı. Penaltı noktası topun altındaki zemin konumunda daha küçük bir piksel işareti oldu. Dikey görünüm saha boyunu uyarlamaya devam eder.
+Verilen görsel projenin yatay kompozisyonuyla örtüşür; kale, şutçu, tabela ve gece atmosferi korundu. Son mavi çizgili referansla ceza alanı yeniden derinleştirildi; ön çizgi oyuncunun ayaklarına yaklaşır. Küçük kale alanı geride kalır. Penaltı noktası topun altındaki zemin konumunda daha küçük bir piksel işareti oldu. Dikey görünüm saha boyunu uyarlamaya devam eder.
 
 ## 4. Tüm tribünler
 
@@ -36,7 +36,7 @@ MenuPixelTheme: bu proje için özgün 16 ölçülük, 120 BPM chiptune; üçgen
 
 Unity sahne üretimi ve yatay/dikey önizleme başarılı (`Logs/pre7-build-final.log`).
 
-Test sonucu bekleniyor.
+Son yerleşim dahil 48/48 test Güncelleme Faz 7 koşusunda geçti: `docs/update-faz-7-raporu.md`.
 
 Önizlemeler: `docs/previews/pre7-gameplay-landscape.png`, `pre7-gameplay-portrait.png`, `pre7-handoff-landscape.png`, `pre7-handoff-portrait.png`, `pre7-guide-portrait.png`, `pre7-guide-landscape.png`, `pre7-gameplay-goal.png`.
 

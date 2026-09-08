@@ -1,0 +1,14 @@
+{
+  "CrowdChant": {
+    "source": "ChantDrumLoop",
+    "seconds": 24.0,
+    "peak": 0.18999999999999997,
+    "rms": 0.04196610593833339
+  },
+  "GoalCrowd": {
+    "source": "GoalCheer",
+    "seconds": 1.1799791666666666,
+    "peak": 0.5399144697388322,
+    "rms": 0.13
+  }
+}

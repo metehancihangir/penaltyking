@@ -177,20 +177,22 @@ Kabul: Gol başına tek kısa titreşim vardır; kapalı ayarda ve kurtarışta 
 
 ## Güncelleme Faz 7 — Entegrasyon, test ve yeni APK
 
-- [ ] Eski bot/zorluk ve ilk kurtarışta bitiş testlerini yeni kurallara uyarla.
-- [ ] Menü, pasif Online, yerel oyuncu seçimi ve geri gezinme akışlarını doğrula.
-- [ ] İki insanın tüm yön eşleşmelerinde gol/kurtarış hesabını doğrula.
-- [ ] Gizli seçim, telefon devri, rol değişimi, çift dokunma ve skor sahipliği senaryolarını test et.
-- [ ] Sabit Round'un eşit haklarını, beraberliği ve tekrar oynamayı test et.
-- [ ] Endless'ın çok sayıda gol/kurtarıştan sonra devam ettiğini ve geçmiş göstergesinin sınırlı kaldığını doğrula.
-- [ ] İlk kullanım rehberini temiz kayıtla ve sonraki açılışta test et.
-- [ ] Tam ekran yerleşimini, güvenli alanları ve animasyon hizasını dikey/yatay telefon ölçülerinde incele.
-- [ ] SFX sıfır/orta/yüksek seviyelerde ses davranışını kontrol et.
-- [ ] Gol tepkisinin “ouuffff” olduğunu, ambiyansta davul bulunduğunu ve seslerin doğru olayda çaldığını dinleyerek doğrula.
-- [ ] Gol titreşimini gerçek telefonda, tercih açık/kapalıyken ve SFX sıfırken kontrol et; ayarın yeniden açılışta korunduğunu doğrula.
-- [ ] Oyun içi ayarları şut seçimi, telefon devri, kaleci seçimi ve animasyon aşamalarında açıp kapat; maç durumunun korunduğunu, giriş sızıntısı ve yinelenen gol sesi/titreşim olmadığını doğrula.
-- [ ] Android performansını ve dokunma tepkisini yeniden ölç; yeni test APK'sı ve test raporu üret.
-- [ ] README, kararlar, kapsam ve teslim notlarını uygulanan son davranışla güncelle.
+Uygulama, 48/48 Unity testi, Android emülatör testi ve yeni APK teslimi tamamlandı. Kullanıcıya bağlı dinleme/ertelenmiş fiziksel titreşim kontrolleri aşağıda açık tutuldu. Rapor: `docs/update-faz-7-raporu.md`.
+
+- [x] Eski bot/zorluk ve ilk kurtarışta bitiş testlerini yeni kurallara uyarla.
+- [x] Menü, pasif Online, yerel oyuncu seçimi ve geri gezinme akışlarını doğrula.
+- [x] İki insanın tüm yön eşleşmelerinde gol/kurtarış hesabını doğrula.
+- [x] Gizli seçim, telefon devri, rol değişimi, çift dokunma ve skor sahipliği senaryolarını test et.
+- [x] Sabit Round'un eşit haklarını, beraberliği ve tekrar oynamayı test et.
+- [x] Endless'ın çok sayıda gol/kurtarıştan sonra devam ettiğini ve geçmiş göstergesinin sınırlı kaldığını doğrula.
+- [x] İlk kullanım rehberini temiz kayıtla ve sonraki açılışta test et.
+- [x] Tam ekran yerleşimini, güvenli alanları ve animasyon hizasını dikey/yatay telefon ölçülerinde incele.
+- [x] SFX sıfır/orta/yüksek seviyelerde ses davranışını kontrol et.
+- [ ] Son kullanıcı isteğine göre yeni arcade gol sesini, kurtarıştaki kısık off tepkisini ve sakin davul ağırlıklı ambiyansı dinleyerek değerlendir (kullanıcı kontrolü bekliyor).
+- [ ] Gol titreşimini gerçek telefonda kontrol et (kullanıcı isteğiyle ertelendi). Tercih ve olay zamanlaması otomatik testte doğrulandı.
+- [x] Oyun içi ayarları şut seçimi, telefon devri, kaleci seçimi ve animasyon aşamalarında açıp kapat; maç durumunun korunduğunu, giriş sızıntısı ve yinelenen gol sesi/titreşim olmadığını doğrula.
+- [x] Android performansını ve dokunma tepkisini yeniden ölç; yeni test APK'sı ve test raporu üret.
+- [x] README, kararlar, kapsam ve teslim notlarını uygulanan son davranışla güncelle.
 
 Kabul: Yeni APK yukarıdaki güncellemeleri içerir; test edilen cihaz/emülatör ve kalan sınırlamalar raporlanır. Önceki 33/33 test sonucu yeni sürümün doğrulaması olarak kullanılmaz.
 
@@ -230,3 +232,15 @@ Bu kontrol dosya farkı incelemesidir; bu belge hazırlanırken Unity testi veya
 ## 8 Eylül 2026 — Faz 7 öncesi altı ek düzeltme
 
 Yeni talep: saha üstünde kısa sıra kartı ve kesilmeyen ambiyans; daha sakin davul ağırlıklı miks; olumlu gol sesi ve kurtarışta kısık off; referansla uyumlu geriye alınmış ceza alanı çizgisi; tüm tribünlerin kutlaması; etkileşimli rehber; piksel menü müziği. Önceki golde off kararı bu taleple değişti. Uygulama ve doğrulama raporu: `docs/pre7-polish-raporu.md`. Faz 7 / APK çalışması henüz başlatılmadı.
+
+## 8 Eylül 2026 — Faz 7 sonrası dikey kadraj ve ses düzeltmesi
+
+Faz 7 tamamlandı; yukarıdaki başlangıç notu tarihseldir. Kullanıcı dikey oynanışı korumayı seçti. Uzayan kale–top mesafesi kaldırıldı, dikey kale/oyuncu ve çizgi oranları yenilendi. İlk sahnede tıklamasız müzik başlangıcı ve pencere odağı kaybında sesin devamı düzeltildi. Taraftar, top, gol ve kurtarış sesleri Android dijital çıkış ölçümüyle kontrol edildi. Güncel paket 0.2.1: `Builds/Android/PenaltyKing-update7-fix.apk`. Ayrıntılar: `docs/playback-fix-raporu.md`. Fiziksel titreşim testi ertelenmiş kalıyor.
+
+## 8 Eylül 2026 — Perspektif, top ve taraftar revizyonu (0.2.2)
+
+- Kullanıcı önceki sessizliğin SFX seviyesinin sıfır olmasından kaynaklandığını doğruladı; bu nedenle sessizlik bir ses motoru arızası olarak değerlendirilmez. Kullanıcının ses ayarları değiştirilmez.
+- Büyük ceza sahası belirgin yamuk perspektifine alındı; arka genişlik azaltıldı, öndeki genişlik artırıldı. Küçük kale alanı büyük alanın içinde kalır.
+- Topun görünür çapı %50 büyütüldü; şut uçuşu ve dönüşünde büyüklük korunur.
+- Oynanıştaki ilave sentetik davul ritmi kaldırıldı; gerçek tribün kaydı kullanılır. Goldeki melodik GoalVictory kaldırıldı, gerçek toplu taraftar sevinci GoalCrowd bağlandı. Menü müziği menülerde kalır.
+- Paket: `Builds/Android/PenaltyKing-update7-crowd.apk` (0.2.2 / kod 4). Üretici: `PenaltyKing.Editor.CrowdRevision.Android`.
