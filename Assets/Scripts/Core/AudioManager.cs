@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PenaltyKing
 {
@@ -12,6 +13,7 @@ namespace PenaltyKing
         public AudioSource CrowdSource { get; private set; }
         private GameManager state;
         private Object stadiumOwner;
+        private AudioClip menuTheme;
         public bool StadiumActive => stadiumOwner != null;
 
         public void BeginStadium(Object owner, AudioClip ambience)
@@ -58,6 +60,16 @@ namespace PenaltyKing
             state = GameManager.Instance;
             state.VolumeChanged += ApplyVolumes;
             ApplyVolumes(state.MusicVolume, state.SfxVolume);
+            menuTheme = Resources.Load<AudioClip>("Audio/MenuPixelTheme");
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "Gameplay") { MusicSource.Stop(); return; }
+            if (menuTheme != null && !MusicSource.isPlaying)
+            { MusicSource.clip = menuTheme; MusicSource.Play(); }
         }
 
         private AudioSource CreateSource(string channelName, bool loop)
@@ -80,6 +92,7 @@ namespace PenaltyKing
 
         private void OnDestroy()
         {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
             if (state != null) state.VolumeChanged -= ApplyVolumes;
             if (Instance == this) Instance = null;
         }

@@ -21,6 +21,18 @@ namespace PenaltyKing.Tests
    yield return SceneManager.LoadSceneAsync("Gameplay");yield return null;
    Assert.That(Object.FindFirstObjectByType<FirstPlayGuide>().Visible,Is.False);Assert.That(PlayerPrefs.GetInt(FirstPlayGuide.CompletedKey),Is.EqualTo(1));
   }
+  [UnityTest] public IEnumerator PracticeTargetsNeverCommitAMatchChoice()
+  {
+   var practice=Object.FindFirstObjectByType<GuidePractice>();
+   var buttons=practice.transform.Find("Directions").GetComponentsInChildren<UnityEngine.UI.Button>();
+   Assert.That(buttons.Length,Is.EqualTo(3));
+   LocalTestInput.Press(buttons[0]);
+   Assert.That(game.Round.HasShotSelection,Is.False);Assert.That(game.Round.ShotsTaken,Is.Zero);
+   Assert.That(practice.transform.Find("Description").GetComponent<UnityEngine.UI.Text>().text,Does.Contain("Harika"));
+   var settings=Object.FindFirstObjectByType<InGameSettings>();LocalTestInput.Press(settings.OpenButton);yield return null;
+   var detail=practice.transform.Find("Description").GetComponent<UnityEngine.UI.Text>().text;
+   buttons[1].onClick.Invoke();Assert.That(practice.transform.Find("Description").GetComponent<UnityEngine.UI.Text>().text,Is.EqualTo(detail));
+  }
   [UnityTest] public IEnumerator SettingsBlockGuideAndPartialGuideRestarts()
   {
    LocalTestInput.Press(guide.Next);yield return null;

@@ -26,3 +26,6 @@ Güncelleme Faz 2 ile iki insanın yön seçimi, telefon devri ve rol değişimi
 Güncelleme Faz 3: Sonuç ekranı iki oyuncu ve haklarıyla yenilendi. Maçın her aşamasında Menü çıkışı kullanılabilir; bekleyen girişler, animasyon ve ses temizlenir. Tekrar Oyna aynı modu koruyup maç verilerini sıfırlar. Ayrıntılar docs/update-faz-3-raporu.md dosyasındadır.
 
 Güncelleme Faz 4: Tam ekran saha, beşer atış göstergeli iki oyunculu tabela ve sağ üst piksel dişli üzerinden oyun içi ayarlar uygulandı. Ayarlarda animasyon/girişler duraklar; ambiyans SFX kontrolüyle sürer. Higgsfield ile ayrı konsept görseli üretildi; gerçek UI Unity öğelerinden kuruldu. Rapor: docs/update-faz-4-raporu.md.
+Güncelleme Faz 5: İlk kullanım rehberi, %20 küçük kale, büyütülmüş şutçu ve yeni perspektif saha çizgileri uygulandı. 44/44 test geçti. Rapor: docs/update-faz-5-raporu.md.
+
+Güncelleme Faz 6: Davullu CC0 maç döngüsü ve kısa ouff gol uyarlaması bağlandı. 65 ms Android titreşim darbesi yalnız gol Impact olayında, ortak tercih açıkken istenir. 10/10 hedefli test geçti; gerçek dinleme ve telefon kontrolü bekliyor. Rapor: docs/update-faz-6-raporu.md.

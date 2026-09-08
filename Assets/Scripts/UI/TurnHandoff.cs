@@ -26,8 +26,8 @@ namespace PenaltyKing
         public void Show(int player, bool keeper, Action onContinue)
         {
             continueAction = onContinue;
-            title.text = $"Sıra PLAYER {player}'de";
-            role.text = keeper ? "Telefonu devret\nKurtarış sırası" : "Şut sırası";
+            title.text = $"{(keeper ? "Kurtarış" : "Şut")} Sırası\nPLAYER {player}'de";
+            role.text = keeper ? "Kurtarış sırası" : "Şut sırası";
             shownFrame = Time.frameCount;
             shownAt = Time.unscaledTime;
             released = false;

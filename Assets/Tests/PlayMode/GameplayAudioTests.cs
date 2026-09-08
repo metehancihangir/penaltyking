@@ -84,6 +84,7 @@ namespace PenaltyKing.Tests
         {
             yield return Open(0);
             var clips = Object.FindFirstObjectByType<GameplayAudio>();
+            Assert.That(clips.Ambience.name, Is.EqualTo("CalmDrumLoop")); Assert.That(clips.GoalClip.name, Is.EqualTo("GoalVictory"));
             foreach (var clip in new[] { clips.Ambience, clips.KickClip, clips.GoalClip, clips.SaveClip })
             {
                 Assert.That(clip.loadState, Is.EqualTo(AudioDataLoadState.Loaded));
@@ -116,3 +117,4 @@ namespace PenaltyKing.Tests
         }
     }
 }
+
