@@ -19,3 +19,7 @@ MemoryCaptures/
 Recordings/
 __pycache__/
 .utmp/
+# Reproducible decoded audio intermediates (original MP3s are versioned)
+/docs/audio-source/chant-drums.wav
+/docs/audio-source/crowd-ooh.wav
+/docs/previews/*-audition.wav

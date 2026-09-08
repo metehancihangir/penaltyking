@@ -8,7 +8,7 @@ Unity Hub → Projects → Add → Add project from disk ile bu klasörü seçin
 
 **Faz 0–8 tamamlandı.** Android test paketi: `Builds/Android/PenaltyKing-development.apk` (94,3 MiB, Android 8+, ARM64/x86_64). Son doğrulama: 33/33 Unity testi; Android 11 emülatöründe dikey/yatay iki mod ve tekrar/menü akışı başarılı, 59,8–60 FPS. Ayrıntılar `docs/faz-8-raporu.md` dosyasındadır.
 
-## Güncelleme serisi — Faz 1–4
+## Güncelleme serisi — Faz 1–6
 
 Menü: **Play → Online (pasif) / 2 Kişilik → Sabit Round / Endless**. Bot ve zorluk kodu kaldırıldı.
 
@@ -16,11 +16,11 @@ Aynı telefonda iki oyuncu oynar. Önce PLAYER 1 şut yönünü seçer. Telefon 
 
 Her oyuncunun skoru ve atış geçmişi ayrıdır. Sabit Round için temel kural kişi başı 5 şut; Endless kurtarışlarda da sürer. Sonuç ekranı iki oyuncunun skorlarını, kullanılan haklarını ve kazananı veya beraberliği gösterir. Tekrar Oyna aynı modda skorları, geçmişi ve sırayı sıfırlar. Sol üstteki Menü düğmesi devir ve animasyon dahil her aşamada maçı kapatır; sesler durur ve seçimler temizlenir. Faz 4 ile saha tam ekran oldu; üstte oyuncu adları, ayrı skorlar ve beşer atış işareti vardır. Endless son beş sonucu gösterir; toplam skor korunur.
 
-Options: Music Volume, SFX Volume ve kalıcı Titreşim anahtarı. Fiziksel gol titreşimi ve yeni tezahürat Faz 6'da bağlanacak; sağ üst piksel dişli, maçtan ayrılmadan aynı ayarları açar. Panel açıkken animasyon ve seçimler durur; Devam Et aynı noktaya döner.
+Options: Music Volume, SFX Volume ve kalıcı Titreşim anahtarı. Faz 6 ile davullu tezahürat, kısa gol tepkisi ve 65 ms Android gol titreşimi bağlandı (işitsel/gerçek telefon kabulü bekliyor); sağ üst piksel dişli, maçtan ayrılmadan aynı ayarları açar. Panel açıkken animasyon ve seçimler durur; Devam Et aynı noktaya döner.
 
-Mevcut Android APK eski sürümdür. Güncel oyunu Unity'de `Assets/Scenes/MainMenu.unity` sahnesinden Play ile inceleyebilirsiniz. Devir ekranını kapatıp ardından sol/orta/sağ bölgesine dokunun. Faz 4 için yeni APK üretilmedi.
+Mevcut Android APK eski sürümdür. Güncel oyunu Unity'de `Assets/Scenes/MainMenu.unity` sahnesinden Play ile inceleyebilirsiniz. Devir ekranını kapatıp ardından sol/orta/sağ bölgesine dokunun. Faz 5 için yeni APK üretilmedi. İlk yerel maçta üç adımlı rehber açılır. Kale küçültüldü, şutçu büyütüldü ve ceza alanı çizgileri yeniden çizildi. Faz 5: 44/44 PlayMode testi başarılı; rapor `docs/update-faz-5-raporu.md`.
 
-Plan: `update-notes.md`. Rapor: `docs/update-faz-4-raporu.md`. Menü üreticisi **Penalty King → Updates → Phase 1 - Build menus**, devretme ekranı üreticisi **Phase 2 - Build turn handoff**. Maç kontrolleri üreticisi **Phase 3 - Build match controls**, son HUD üreticisi **Phase 4 - Build full screen HUD**. Eski gameplay üreticileri çalıştırılırsa sonrasında animasyon, ses ve güncel devir ekranı tekrar bağlanmalıdır.
+Plan: `update-notes.md`. Rapor: `docs/update-faz-4-raporu.md`. Menü üreticisi **Penalty King → Updates → Phase 1 - Build menus**, devretme ekranı üreticisi **Phase 2 - Build turn handoff**. Maç kontrolleri üreticisi **Phase 3 - Build match controls**, son HUD üreticisi **Phase 4 - Build full screen HUD**. Ardından `UpdatePhaseFiveSetup.Build` rehber/sahayı, **Phase 6 - Connect crowd and haptics** ses/titreşimi kurar. Faz 6: 10/10 hedefli test ve Android kod derlemesi geçti; rapor `docs/update-faz-6-raporu.md`. Eski gameplay üreticileri çalıştırılırsa sonrasında animasyon, ses ve güncel devir ekranı tekrar bağlanmalıdır.
 
 ## Proje yapısı
 

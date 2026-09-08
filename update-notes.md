@@ -125,19 +125,19 @@ Kabul: Oyunun herhangi bir aşamasında ayarlar açılıp kapatılabilir; maç d
 
 ### Modül 5.1 — İlk kullanım rehberi
 
-- [ ] İlk oyunda, penaltı kullanılmadan önce kısa bir piksel rehber paneli göster.
-- [ ] Oklarla dokunulabilir yönleri anlat; az metin, okunaklı font ve anlaşılır görsel geri bildirim kullan.
-- [ ] Yeni iki kişilik düzene uygun olarak şut seçimi, telefon devri ve kaleci seçimini açıkla.
-- [ ] Rehber dokunuşunun yanlışlıkla şut/kurtarış seçmesine izin verme.
-- [ ] Rehber tamamlandı bilgisini sakla; sonraki normal girişlerde yeniden gösterme.
+- [x] İlk oyunda, penaltı kullanılmadan önce kısa bir piksel rehber paneli göster.
+- [x] Oklarla dokunulabilir yönleri anlat; az metin, okunaklı font ve anlaşılır görsel geri bildirim kullan.
+- [x] Yeni iki kişilik düzene uygun olarak şut seçimi, telefon devri ve kaleci seçimini açıkla.
+- [x] Rehber dokunuşunun yanlışlıkla şut/kurtarış seçmesine izin verme.
+- [x] Rehber tamamlandı bilgisini sakla; sonraki normal girişlerde yeniden gösterme.
 
 ### Modül 5.2 — Kale, saha çizgileri ve şutçu
 
-- [ ] Kaleyi mevcut görünümüne göre küçült; kaleci, top hedefleri ve dokunma bölgelerini yeni kale ölçülerine uyarla.
-- [ ] Şutçu futbolcuyu büyüt; hazırlık, temas ve vuruş sonrası karelerinde aynı ölçeği koru.
-- [ ] Mevcut rahatsız edici penaltı/saha çizgisini, referanstaki ceza alanı geometrisi ve perspektifine uygun özgün piksel çizgilerle yeniden düzenle.
-- [ ] Penaltı noktasını ve topun konumunu saha perspektifiyle uyumlu tut.
-- [ ] Top yörüngesini, ayak-top temasını ve kalecinin kurtarış konumlarını yeni kompozisyona göre yeniden ayarla.
+- [x] Kaleyi mevcut görünümüne göre küçült; kaleci, top hedefleri ve dokunma bölgelerini yeni kale ölçülerine uyarla.
+- [x] Şutçu futbolcuyu büyüt; hazırlık, temas ve vuruş sonrası karelerinde aynı ölçeği koru.
+- [x] Mevcut rahatsız edici penaltı/saha çizgisini, referanstaki ceza alanı geometrisi ve perspektifine uygun özgün piksel çizgilerle yeniden düzenle.
+- [x] Penaltı noktasını ve topun konumunu saha perspektifiyle uyumlu tut.
+- [x] Top yörüngesini, ayak-top temasını ve kalecinin kurtarış konumlarını yeni kompozisyona göre yeniden ayarla.
 
 Kesin büyütme/küçültme oranları kullanıcı tarafından verilmedi; dikey/yatay önizlemeler üzerinden belirlenecek.
 
@@ -145,30 +145,32 @@ Kabul: Daha küçük kale ve daha büyük şutçu birlikte dengeli görünür. O
 
 ## Güncelleme Faz 6 — Davullu taraftar tezahüratı ve gol titreşimi
 
+Durum: Uygulama ve 10/10 hedefli Unity testi tamamlandı. İşitsel kabul ve gerçek telefon kontrolü bekliyor. Rapor: `docs/update-faz-6-raporu.md`.
+
 ### Modül 6.1 — Ambiyans değişimi
 
-- [ ] Kafe sohbetini andıran mevcut maç ambiyansını aktif kullanımdan kaldır.
-- [ ] Yerine maç hissi veren toplu taraftar tezahüratı ekle; davul sesi mutlaka bulunmalı.
-- [ ] Özgün veya uygun lisanslı ses kullan; kaynak ve lisans kaydını güncelle.
-- [ ] Döngü geçişini kesintisiz yap; çok gürültülü veya yorucu bir miks oluşturma.
-- [ ] Vuruş, gol ve kurtarış efektlerinin duyulabilirliğini koru.
-- [ ] Gol anındaki mevcut “aaahhhh” taraftar tepkisini kaldır; yerine kullanıcının istediği toplu “ouuffff” tepkisini koy. Bu değişiklik gol olayı içindir; kurtarışa taşınmasın.
+- [x] Kafe sohbetini andıran mevcut maç ambiyansını aktif kullanımdan kaldır.
+- [x] Yerine maç hissi veren toplu taraftar tezahüratı ekle; davul sesi mutlaka bulunmalı.
+- [x] Özgün veya uygun lisanslı ses kullan; kaynak ve lisans kaydını güncelle.
+- [x] Döngü geçişini kesintisiz yap; çok gürültülü veya yorucu bir miks oluşturma.
+- [x] Vuruş, gol ve kurtarış efektlerinin duyulabilirliğini koru.
+- [x] Gol anındaki mevcut “aaahhhh” taraftar tepkisini kaldır; yerine kullanıcının istediği toplu “ouuffff” tepkisini koy. Bu değişiklik gol olayı içindir; kurtarışa taşınmasın.
 
 ### Modül 6.2 — Ses kontrolü ve doğrulama
 
-- [ ] Tezahürat ve davulu SFX Volume kanalına bağla; SFX sıfırken ikisi de susmalı.
-- [ ] Menüye dönüşte stadyum seslerini durdur; tekrar girişte üst üste döngüler başlatma.
+- [x] Tezahürat ve davulu SFX Volume kanalına bağla; SFX sıfırken ikisi de susmalı.
+- [x] Menüye dönüşte stadyum seslerini durdur; tekrar girişte üst üste döngüler başlatma.
 - [ ] Gerçek dinleme ve telefon hoparlöründe kullanıcı kontrolüyle atmosferi değerlendir; yalnızca teknik ses ölçümleri yeterli sayılmasın.
 
 Kabul: Davullu tezahürat duyulur, konuşma/kafe hissi giderilir, ses patlaması veya döngü kopması olmaz. SFX ayarı bütün stadyum seslerini birlikte kontrol eder.
 
 ### Modül 6.3 — Gol titreşimi
 
-- [ ] Golün görsel olarak gerçekleştiği sonuç anında kısa bir telefon titreşimi üret; yön seçilirken veya sonuç daha gösterilmeden titreştirme.
-- [ ] Her gol için yalnızca bir kez tetikle; kurtarışta titreşim verme. Duraklatıp devam etmek aynı golü tekrar titreştirmesin.
-- [ ] Titreşimi Options ve oyun içi paneldeki ortak aç/kapat tercihine bağla; kapalıyken golde titreşim oluşmasın.
-- [ ] Titreşim tercihi SFX Volume'dan bağımsız olsun; ses kısılması titreşim tercihini değiştirmesin.
-- [ ] Önerilen başlangıç tercihi: titreşim açık ve kısa, tek darbe. Desteklemeyen cihazlarda oyun normal devam etsin.
+- [x] Golün görsel olarak gerçekleştiği sonuç anında kısa bir telefon titreşimi üret; yön seçilirken veya sonuç daha gösterilmeden titreştirme.
+- [x] Her gol için yalnızca bir kez tetikle; kurtarışta titreşim verme. Duraklatıp devam etmek aynı golü tekrar titreştirmesin.
+- [x] Titreşimi Options ve oyun içi paneldeki ortak aç/kapat tercihine bağla; kapalıyken golde titreşim oluşmasın.
+- [x] Titreşim tercihi SFX Volume'dan bağımsız olsun; ses kısılması titreşim tercihini değiştirmesin.
+- [x] Önerilen başlangıç tercihi: titreşim açık ve kısa, tek darbe. Desteklemeyen cihazlarda oyun normal devam etsin.
 - [ ] Gerçek telefonda açık/kapalı durumunu ve hissedilen süreyi doğrula; emülatör sonucu fiziksel titreşim doğrulaması yerine geçmesin.
 
 Kabul: Gol başına tek kısa titreşim vardır; kapalı ayarda ve kurtarışta titreşim yoktur. Tercih yeniden açılışta korunur.
@@ -221,3 +223,10 @@ Görseller yerleşim ve görünüş referansıdır; görüntü içindeki metinle
 - LF → CRLF uyarıları satır sonu dönüşümü bildirimidir; tek başına derleme hatası değildir. Bu nedenle toplu satır sonu dönüşümü yapılmadı.
 
 Bu kontrol dosya farkı incelemesidir; bu belge hazırlanırken Unity testi veya APK derlemesi yeniden çalıştırılmadı. İncelenen farklar için ek düzeltme gerekmedi.
+
+8 Eylül 2026 kullanıcı geri bildirimi: Davullu ambiyans beğenildi ve kabul edildi. Gerçek telefon gol titreşim kontrolü kullanıcının isteğiyle sonraya ertelendi; doğrulanmış sayılmaz. Gol tepkisi için ayrıca açık kabul bildirilmedi.
+
+
+## 8 Eylül 2026 — Faz 7 öncesi altı ek düzeltme
+
+Yeni talep: saha üstünde kısa sıra kartı ve kesilmeyen ambiyans; daha sakin davul ağırlıklı miks; olumlu gol sesi ve kurtarışta kısık off; referansla uyumlu geriye alınmış ceza alanı çizgisi; tüm tribünlerin kutlaması; etkileşimli rehber; piksel menü müziği. Önceki golde off kararı bu taleple değişti. Uygulama ve doğrulama raporu: `docs/pre7-polish-raporu.md`. Faz 7 / APK çalışması henüz başlatılmadı.

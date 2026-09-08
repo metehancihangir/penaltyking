@@ -20,7 +20,7 @@ Kale genişliği 600'den 480'e, yüksekliği 216'dan 172,8'e indi (%20). Kaleci 
 
 Unity derleme ve sahne üretimi başarılı: `Logs/update5-final-build.log`.
 
-Test sonucu tamamlandığında buraya işlenecek.
+44/44 Unity PlayMode testi geçti (`TestResults/update5.xml`, `Logs/update5-tests.log`). Rehber giriş engelleme, aynı karede çift ilerleme, kalıcı kayıt, yarım rehber, ayarlardan dönüş ve iki ekran oranındaki hedef hizası dahil mevcut maç testleri başarılı.
 
 Dikey (390×844) ve yatay (1280×720) sahne/rehber önizlemeleri incelendi. Yatay temas karesinde ayak topla, sağ kurtarış karesinde eller topla hizalıdır. Üç hedefin yeni kale içinde kalması otomatik olarak da sınanır. Dikey görünüm sahayı uzatır; oyuncu ve kale oranları korunur.
 

@@ -20,6 +20,7 @@ namespace PenaltyKing
         [SerializeField] private Sprite keeperIdle, shooterIdle;
         [SerializeField] private Sprite[] shooterFrames, sideFrames, centerFrames;
         private Vector2 ballRest, keeperRest, shooterRest, crowdRest, stageRest;
+        private CrowdCelebration allFans;
         private float spacing = 190, targetY = 58;
         [SerializeField] private float shooterHeight = 160, keeperSize = 1;
         public float ShooterHeight => shooterHeight;
@@ -55,6 +56,7 @@ namespace PenaltyKing
 
         public void SetComposition(Vector2 ballStart, Vector2 keeperStart, float distance, float goalY)
         {
+            if (allFans == null) allFans = stage.GetComponentInChildren<CrowdCelebration>();
             ballRest = ballStart; keeperRest = keeperStart; spacing = distance; targetY = goalY;
             shooterRest = new Vector2(-100 * shooterHeight / 160, ballStart.y - 11 * shooterHeight / 160);
             crowdRest = new Vector2(0, keeperStart.y + 20);
@@ -97,6 +99,7 @@ namespace PenaltyKing
             Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
             Pose(shooter, shooterIdle, shooterHeight, false, shooterRest, 1);
             crowd.anchoredPosition = crowdRest; stage.anchoredPosition = stageRest;
+            allFans?.Sample(0, false);
             foreach (var image in trail) image.enabled = false;
             foreach (var image in dust) image.enabled = false;
             foreach (var image in confetti) image.enabled = false;
@@ -177,6 +180,7 @@ namespace PenaltyKing
             }
             CrowdCelebrating = shot.Outcome == ShotOutcome.Goal && time >= ImpactTime && time < 2.05f;
             crowd.anchoredPosition = crowdRest + new Vector2(0, CrowdCelebrating ? Mathf.Abs(Mathf.Sin((time - ImpactTime) * 15)) * 9 : 0);
+            allFans?.Sample(time - ImpactTime, CrowdCelebrating);
             for (var i = 0; i < confetti.Length; i++)
             {
                 var particle = confetti[i]; particle.enabled = CrowdCelebrating;

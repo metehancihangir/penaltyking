@@ -27,10 +27,10 @@ namespace PenaltyKing
             var line=new Color32(210,225,179,255);
             var goalLine=r.yMax-24.625f;
             Quad(vh,r.xMin,goalLine-2,r.width,4,line);
-            var depth=Mathf.Clamp((goalLine-spotY)*.72f,36,320);
-            Box(vh,goalLine,350,442,depth,line);
-            Box(vh,goalLine,252,294,depth*.38f,line);
-            Quad(vh,-7,spotY-2,14,4,line);Quad(vh,-4,spotY-4,8,8,line);
+            var depth=Mathf.Clamp((goalLine-spotY)*.50f,26,260);
+            Box(vh,goalLine,335,405,depth,line);
+            Box(vh,goalLine,252,280,depth*.38f,line);
+            Quad(vh,-5,spotY-2,10,4,line);Quad(vh,-3,spotY-3,6,6,line);
         }
         private static void Box(VertexHelper vh,float top,float backWidth,float frontWidth,float depth,Color32 color)
         {
