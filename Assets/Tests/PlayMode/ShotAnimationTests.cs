@@ -41,7 +41,7 @@ namespace PenaltyKing.Tests
             Assert.That(game.Round.ShotsTaken, Is.EqualTo(1));
             Assert.That(animation.BallPosition, Is.EqualTo(animation.BallRestPosition));
             Assert.That(cues, Is.Empty);
-            yield return new WaitForSecondsRealtime(.42f);
+            yield return new WaitForSecondsRealtime(ShotPresentation.ContactTime + .18f);
             Assert.That(cues, Is.EqualTo(new[] { "kick" }));
             Assert.That(Vector2.Distance(animation.BallPosition, animation.BallRestPosition), Is.GreaterThan(10));
             game.Left.OnPointerDown(new PointerEventData(EventSystem.current));
@@ -65,14 +65,14 @@ namespace PenaltyKing.Tests
                 Assert.That(animation.KeeperSprite.name, Is.EqualTo(direction == ShotDirection.Center ? "KeeperCenter_1" : "KeeperSide_1"));
                 Assert.That(animation.KeeperScale.x, Is.EqualTo(direction == ShotDirection.Left ? -1 : 1));
                 Assert.That(animation.CrowdCelebrating, Is.False);
-                animation.Sample(new ShotResult(direction, direction), 1.2f);
+                animation.Sample(new ShotResult(direction, direction), 1.2f + ShotPresentation.WindupDelay);
                 Assert.That(animation.KeeperSprite.name, Does.EndWith("_2"));
-                animation.Sample(new ShotResult(direction, direction), 1.7f);
+                animation.Sample(new ShotResult(direction, direction), 1.7f + ShotPresentation.WindupDelay);
                 Assert.That(animation.KeeperSprite.name, Does.EndWith("_3"));
             }
             var goal = new ShotResult(ShotDirection.Right, ShotDirection.Left);
             animation.Sample(goal, .5f); Assert.That(animation.CrowdCelebrating, Is.False);
-            animation.Sample(goal, 1.2f); Assert.That(animation.CrowdCelebrating, Is.True);
+            animation.Sample(goal, ShotPresentation.ImpactTime + .3f); Assert.That(animation.CrowdCelebrating, Is.True);
             animation.ResetPose(); Assert.That(animation.CrowdCelebrating, Is.False);
             yield return null;
         }

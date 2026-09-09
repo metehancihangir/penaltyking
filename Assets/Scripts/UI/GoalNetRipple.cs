@@ -10,6 +10,8 @@ namespace PenaltyKing
         public bool Moving => age > 0 && age < 1.05f;
         public void Sample(float seconds, Vector2 impact)
         {
+            // One final rebuild restores the flat net; settled frames need no mesh work.
+            if (seconds < 0 || seconds >= 1.05f) { seconds = -1; impact = Vector2.zero; }
             if (Mathf.Approximately(age,seconds) && hit == impact) return;
             age=seconds; hit=impact; graphic.SetVerticesDirty();
         }
@@ -28,12 +30,12 @@ namespace PenaltyKing
         }
         public override void ModifyMesh(VertexHelper vh)
         {
-            if (!IsActive()) return;
+            if (!IsActive() || !Moving) return;
             var image=(Image)graphic;
             if (image.sprite == null) return;
             var rect=image.GetPixelAdjustedRect();
             var uv=UnityEngine.Sprites.DataUtility.GetOuterUV(image.sprite);
-            vh.Clear(); const int columns=48, rows=20;
+            vh.Clear(); const int columns=32, rows=14;
             for(var y=0;y<=rows;y++) for(var x=0;x<=columns;x++)
             {
                 var u=x/(float)columns; var v=y/(float)rows;

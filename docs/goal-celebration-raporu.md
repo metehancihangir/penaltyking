@@ -1,5 +1,7 @@
 # 9 Eylül — Beş saniyelik gol kutlaması
 
+Bu belge önceki sürümü anlatır. Kullanıcı geri bildirimiyle süre 3 saniyeye indirildi; yeni şut/sevinç pozları ve top/tribün düzenlemeleri `action-revision-raporu.md` içindedir.
+
 Golün ağla buluştuğu andan itibaren 5 saniye boyunca piksel **GOAL!** yazısı gösterilir. Hafif büyüme, lime çerçeveli açık renk harfler ve dört küçük altın/açık mavi havai fişek patlaması kullanılır. Ekran flaşı veya yeni ses eklenmez; gerçek taraftar gol sesi ve ambiyans korunur.
 
 Golü atan oyuncu aynı forma ve beden ölçeğiyle küçük zafer zıplamaları ve gövde salınımı yapar. Yazı, oyuncu, tribünler ve mevcut atış aynı zaman çizelgesini kullanır. Ayarlar veya çıkış onayı açılınca kutlama da durur. Kapatınca kaldığı yerden sürer. Kutlama sonunda oyuncu ve top sıfırlanır, telefon devri başlar. Sabit Round'un son atışında normal şekilde sonuç ekranı açılır. Kurtarışlarda GOAL! gösterilmez ve eski 2,2 saniyelik atış süresi korunur.

@@ -77,7 +77,7 @@ namespace PenaltyKing.Tests
             yield return new WaitForSecondsRealtime(.65f);
             Assert.That(game.Presentation.Elapsed,Is.EqualTo(time));Assert.That(game.Presentation.BallPosition,Is.EqualTo(position));Assert.That(kicks+impacts,Is.Zero);
             LocalTestInput.Press(settings.Options.Back);
-            yield return new WaitForSecondsRealtime(.4f);
+            yield return new WaitForSecondsRealtime(ShotPresentation.ContactTime + .16f);
             Assert.That(kicks,Is.EqualTo(1));Assert.That(impacts,Is.Zero);
             LocalTestInput.Press(settings.OpenButton);yield return null;
             time=game.Presentation.Elapsed;yield return new WaitForSecondsRealtime(.7f);

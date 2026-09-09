@@ -22,12 +22,13 @@ namespace PenaltyKing.Tests
    position=audio.CrowdSource.timeSamples;yield return new WaitForSecondsRealtime(.3f);Assert.That(audio.CrowdSource.timeSamples,Is.GreaterThan(position));
    yield return SceneManager.LoadSceneAsync("MainMenu");yield return null;Assert.That(audio.MusicSource.isPlaying,Is.True);Assert.That(audio.CrowdSource.isPlaying,Is.False);
   }
-  [UnityTest] public IEnumerator AllStandSectionsCelebrateOnlyOnGoalAndReset()
+  [UnityTest] public IEnumerator BackStandSectionsCelebrateWhileFrontStaysStill()
   {
    RuntimeBootstrap.EnsureServices();GameManager.Instance.SelectLocalMultiplayer();GameManager.Instance.SelectMode(GameMode.Endless);yield return SceneManager.LoadSceneAsync("Gameplay");yield return null;
    var game=Object.FindFirstObjectByType<GameplayController>();var fans=Object.FindFirstObjectByType<CrowdCelebration>();Assert.That(fans.Sections.Length,Is.EqualTo(12));
-   game.Presentation.Sample(new ShotResult(ShotDirection.Left,ShotDirection.Right),1.03f);foreach(var section in fans.Sections)Assert.That(section.anchoredPosition.y,Is.GreaterThan(0));
-   game.Presentation.Sample(new ShotResult(ShotDirection.Left,ShotDirection.Left),1.03f);foreach(var section in fans.Sections)Assert.That(section.anchoredPosition,Is.EqualTo(Vector2.zero));
+   game.Presentation.Sample(new ShotResult(ShotDirection.Left,ShotDirection.Right),ShotPresentation.ImpactTime+.13f);
+   for(var i=0;i<fans.Sections.Length;i++) Assert.That(fans.Sections[i].anchoredPosition.y,i<6?Is.GreaterThan(0):Is.EqualTo(0));
+   game.Presentation.Sample(new ShotResult(ShotDirection.Left,ShotDirection.Left),ShotPresentation.ImpactTime+.13f);foreach(var section in fans.Sections)Assert.That(section.anchoredPosition,Is.EqualTo(Vector2.zero));
    game.Presentation.ResetPose();foreach(var section in fans.Sections)Assert.That(section.anchoredPosition,Is.EqualTo(Vector2.zero));
   }
  }

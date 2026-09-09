@@ -2,7 +2,7 @@
 
 Unity 6000.4.4f1 / C# / Universal 2D. Gece stadyumunda, aynı telefonda iki oyunculu piksel penaltı oyunu.
 
-**9 Eylül çalışma sürümü:** yatay oynanış, perspektifli ceza yayı, küçültülmüş top, oyuncuya göre forma renkleri, daha belirgin ağ hareketi, yavaş tribün kutlaması ve menüye çıkış onayı. Golde **5 saniyelik piksel GOAL! / havai fişek / futbolcu sevinci** birlikte oynar; ayarlar veya çıkış onayında durur. Ambiyansın uçları çapraz birleştirilerek kesintisiz 9,25 saniyelik döngü hazırlandı. Kullanıcı isteğiyle yeni APK üretilmedi; aşağıdaki 0.2.2 paketi bu son değişiklikleri içermez. Ayrıntılar: `docs/match-polish-raporu.md`, `docs/goal-celebration-raporu.md`.
+**9 Eylül çalışma sürümü:** sekiz yeni oyuncu pozu ile gerilme/vuruş ve kollarını kaldırma/yumruk sevinci; **3 saniyelik GOAL!** kutlaması. Ön taraftarlar sabit, top gol sonrası ağ tabanında durur, ceza yayı daha geniştir. Yatay oynanış, oyuncuya göre forma renkleri, ağ hareketi ve çıkış onayı korunur. Ambiyans 9,25 saniyelik kesintisiz döngüdür. Kullanıcı isteğiyle yeni APK üretilmedi; aşağıdaki 0.2.2 paketi bu değişiklikleri içermez. Ayrıntılar: `docs/action-revision-raporu.md`.
 
 ## Son Android paketi — 9 Eylül değişikliklerini içermez
 
@@ -14,7 +14,7 @@ Güncelleme Faz 7: 48/48 Unity PlayMode testi geçti. Android doğrulama ayrınt
 
 Unity Hub ile bu proje klasörünü açın. Project panelinde **Assets → Scenes → MainMenu** sahnesine çift tıklayın, üstte **▶ Play** düğmesine basın. Boş Untitled sahnesi oyunu içermez.
 
-Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. Mevcut sahneler hazırdır. Eski üreticilerle yeniden kurulum yapılırsa `PenaltyKing.Editor.LandscapeRevision.Setup`, ardından `PenaltyKing.Editor.MatchPolish.Setup` uygulanır. Gol kutlaması çalışma anında eklenir.
+Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. Mevcut sahneler hazırdır. Eski üreticilerle yeniden kurulum yapılırsa `PenaltyKing.Editor.LandscapeRevision.Setup`, ardından `PenaltyKing.Editor.MatchPolish.Setup` ve en son `PenaltyKing.Editor.ActionRevision.Setup` uygulanır.
 
 **Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ yönlerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış yönünü seçin. Aynı yön kurtarış, farklı yön gol. Her atışta roller değişir.
 

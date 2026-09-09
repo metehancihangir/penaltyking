@@ -10,7 +10,7 @@ namespace PenaltyKing
         {
             if (sections == null) return;
             for (var i = 0; i < sections.Length; i++)
-                sections[i].anchoredPosition = new Vector2(0, celebrating ? Mathf.Abs(Mathf.Sin(time * 7 + i * .32f)) * 5 : 0);
+                sections[i].anchoredPosition = new Vector2(0, celebrating && i < sections.Length / 2 ? Mathf.Abs(Mathf.Sin(time * 7 + i * .32f)) * 5 : 0);
         }
     }
 }

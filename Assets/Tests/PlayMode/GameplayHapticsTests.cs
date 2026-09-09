@@ -25,7 +25,7 @@ namespace PenaltyKing.Tests
    GameManager.Instance.SetVibrationEnabled(true);GameManager.Instance.SetSfxVolume(0);
    yield return LocalTestInput.Choose(game,game.Left,game.Right);Assert.That(pulses,Is.Zero);
    LocalTestInput.Press(settings.OpenButton);yield return new WaitForSecondsRealtime(1.1f);Assert.That(pulses,Is.Zero);
-   LocalTestInput.Press(settings.Options.Back);yield return new WaitForSecondsRealtime(1.02f);Assert.That(pulses,Is.EqualTo(1));Assert.That(impactAt,Is.GreaterThanOrEqualTo(ShotPresentation.ImpactTime));
+   LocalTestInput.Press(settings.Options.Back);yield return new WaitForSecondsRealtime(ShotPresentation.ImpactTime+.12f);Assert.That(pulses,Is.EqualTo(1));Assert.That(impactAt,Is.GreaterThanOrEqualTo(ShotPresentation.ImpactTime));
    LocalTestInput.Press(settings.OpenButton);yield return new WaitForSecondsRealtime(.3f);LocalTestInput.Press(settings.Options.Back);yield return LocalTestInput.Finish(game);Assert.That(pulses,Is.EqualTo(1));
    yield return LocalTestInput.Choose(game,game.Center,game.Center);yield return LocalTestInput.Finish(game);Assert.That(pulses,Is.EqualTo(1));
    GameManager.Instance.SetVibrationEnabled(false);yield return LocalTestInput.Choose(game,game.Left,game.Right);yield return LocalTestInput.Finish(game);Assert.That(pulses,Is.EqualTo(1));

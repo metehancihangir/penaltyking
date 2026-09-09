@@ -14,7 +14,7 @@ namespace PenaltyKing.Tests
             yield return SceneManager.LoadSceneAsync("Gameplay"); yield return null;
         }
         [UnityTearDown] public IEnumerator Close() { yield return SceneManager.LoadSceneAsync("MainMenu"); }
-        [UnityTest] public IEnumerator GoalLastsFiveSecondsPausesAndResetsBeforeNextPlayer()
+        [UnityTest] public IEnumerator GoalLastsThreeSecondsPausesAndResetsBeforeNextPlayer()
         {
             var game = Object.FindFirstObjectByType<GameplayController>(); var p = game.Presentation;
             yield return LocalTestInput.Choose(game, game.Left, game.Right);
@@ -38,7 +38,7 @@ namespace PenaltyKing.Tests
                 lastVisible = p.Elapsed;
                 yield return null;
             }
-            Assert.That(lastVisible, Is.GreaterThan(ShotPresentation.ImpactTime + 4.8f));
+            Assert.That(lastVisible, Is.GreaterThan(ShotPresentation.ImpactTime + 2.8f));
             Assert.That(p.GoalCelebrating || p.CrowdCelebrating, Is.False);
             Assert.That(kits.ShooterPlayer, Is.EqualTo(2));
             Assert.That(game.State, Is.EqualTo(PlayState.PassingPhone));
@@ -49,11 +49,11 @@ namespace PenaltyKing.Tests
             var p = Object.FindFirstObjectByType<ShotPresentation>();
             var goal = new ShotResult(ShotDirection.Left, ShotDirection.Right);
             var save = new ShotResult(ShotDirection.Left, ShotDirection.Left);
-            Assert.That(ShotPresentation.DurationFor(save), Is.EqualTo(2.2f));
-            Assert.That(ShotPresentation.DurationFor(goal) - ShotPresentation.ImpactTime, Is.EqualTo(5).Within(.001f));
+            Assert.That(ShotPresentation.DurationFor(save), Is.EqualTo(ShotPresentation.Duration));
+            Assert.That(ShotPresentation.DurationFor(goal) - ShotPresentation.ImpactTime, Is.EqualTo(3).Within(.001f));
             p.Sample(goal, ShotPresentation.ImpactTime - .01f); Assert.That(p.GoalCelebrating, Is.False);
-            p.Sample(goal, ShotPresentation.ImpactTime + 4.99f); Assert.That(p.GoalCelebrating, Is.True);
-            p.Sample(goal, ShotPresentation.ImpactTime + 5); Assert.That(p.GoalCelebrating, Is.False);
+            p.Sample(goal, ShotPresentation.ImpactTime + 2.99f); Assert.That(p.GoalCelebrating, Is.True);
+            p.Sample(goal, ShotPresentation.ImpactTime + 3); Assert.That(p.GoalCelebrating, Is.False);
             p.Sample(goal, 1.5f); p.Cancel(); Assert.That(p.GoalCelebrating, Is.False);
             p.Sample(save, 1.5f); Assert.That(p.GoalCelebrating || p.CrowdCelebrating, Is.False);
             yield return null;
