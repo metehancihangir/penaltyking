@@ -252,3 +252,11 @@ Kullanıcı dikey kararını değiştirdi: yatay oynanışa geçildi. Referans k
 ## 9 Eylül 2026 — Ek maç düzenlemeleri; APK yok
 
 Perspektifli ceza yayı, %20 küçük top, daha belirgin ağ tepkisi, daha okunur kaleci, oyuncuya bağlı forma renkleri (P1 kırmızı/yeşil, P2 açık mavi/sarı), daha yavaş taraftar zıplaması ve maçı duraklatan menüye çıkış onayı eklendi. Tezahürat birleşimi sessizleştirme yerine 0,75 saniyelik eşit güçlü geçiş kullanır; ilk 10 saniyeden 9,25 saniyelik kesintisiz döngü çıkar. Ayrıntılar: `docs/match-polish-raporu.md`.
+# 9 Eylül 2026 — Beş saniyelik GOAL! kutlaması
+
+- Higgsfield üretimi plan kısıtına takıldı; kullanıcının açık onayıyla Unity piksel animasyonu kullanıldı.
+- Golde 5 saniyelik GOAL! yazısı, küçük altın/açık mavi havai fişekler ve golü atan futbolcuda zafer zıplaması eklendi.
+- Yazı ve futbolcu sevinci birlikte biter; sıradaki telefon devri/penaltı başlar. Maçın son atışında sonuç ekranına geçilir.
+- Ayarlar/çıkış onayı kutlamayı duraklatır, devam edildiğinde aynı noktadan sürer. Kurtarış süresi ve taraftar/top sesleri korunur.
+- Önceki çıkış onayı/maç akışı doğrulaması 9/9 geçti. Yeni kutlamanın test raporu: `docs/goal-celebration-raporu.md`.
+- APK üretilmedi.

@@ -19,3 +19,5 @@ APK oluşturulmadan Unity test sürümü üzerinde çalışıldı.
 Ses: `Tools/build_user_stadium.py`. Sahne: `Penalty King → Apply Match Polish (no APK)` / `PenaltyKing.Editor.MatchPolish.Setup`. Önceki sahne üreticileri çalıştırılırsa bu adım en son uygulanmalıdır. Bu yöntem build çağırmaz.
 
 Unity'de MainMenu sahnesini açıp Game görünümünü 16:9 / 1280×720 seçin. İki atış yaparak rol renklerini, devam eden atış sırasında Menü'ye basarak duraklatma/iptal/çıkışı deneyebilirsiniz.
+
+Devam oturumunda yarım kalan çıkış onayı ve maç akışı testleri **9/9 geçti** (`TestResults/match-polish-resume.xml`). Yeni 5 saniyelik gol kutlamasıyla birlikte yürütülen genişletilmiş ilgili test grubu da **20/20 geçti** (`TestResults/goal-celebration.xml`). Kutlama ayrıntıları `goal-celebration-raporu.md` içindedir. APK oluşturulmadı.

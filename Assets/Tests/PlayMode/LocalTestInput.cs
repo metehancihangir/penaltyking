@@ -42,7 +42,7 @@ namespace PenaltyKing.Tests
         }
         public static IEnumerator Finish(GameplayController game)
         {
-            var deadline = Time.realtimeSinceStartup + 5;
+            var deadline = Time.realtimeSinceStartup + ShotPresentation.ImpactTime + ShotPresentation.GoalCelebrationDuration + 2;
             while (game.State == PlayState.ShowingShot)
             { Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline)); yield return null; }
         }

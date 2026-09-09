@@ -46,7 +46,7 @@ namespace PenaltyKing.Tests
             Assert.That(Vector2.Distance(animation.BallPosition, animation.BallRestPosition), Is.GreaterThan(10));
             game.Left.OnPointerDown(new PointerEventData(EventSystem.current));
             Assert.That(game.Round.ShotsTaken, Is.EqualTo(1));
-            var deadline = Time.realtimeSinceStartup + 4;
+            var deadline = Time.realtimeSinceStartup + ShotPresentation.DurationFor(new ShotResult(ShotDirection.Right, ShotDirection.Left)) + 2;
             while (game.State == PlayState.ShowingShot)
             { Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline)); yield return null; }
             Assert.That(cues, Is.EqualTo(new[] { "kick", "impact", "complete" }));

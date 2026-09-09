@@ -2,7 +2,7 @@
 
 Unity 6000.4.4f1 / C# / Universal 2D. Gece stadyumunda, aynı telefonda iki oyunculu piksel penaltı oyunu.
 
-**9 Eylül çalışma sürümü:** yatay oynanış, %5 küçük kale, geriye alınmış penaltı noktası, kullanıcının 10 saniyelik ambiyansı, kaleci ölçek düzeltmesi ve golde ağ animasyonu. 15/15 ilgili test geçti. Kullanıcı isteğiyle yeni APK üretilmedi; aşağıdaki 0.2.2 paketi bu son değişiklikleri içermez. Ayrıntılar: `docs/landscape-revision-raporu.md`.
+**9 Eylül çalışma sürümü:** yatay oynanış, perspektifli ceza yayı, küçültülmüş top, oyuncuya göre forma renkleri, daha belirgin ağ hareketi, yavaş tribün kutlaması ve menüye çıkış onayı. Golde **5 saniyelik piksel GOAL! / havai fişek / futbolcu sevinci** birlikte oynar; ayarlar veya çıkış onayında durur. Ambiyansın uçları çapraz birleştirilerek kesintisiz 9,25 saniyelik döngü hazırlandı. Kullanıcı isteğiyle yeni APK üretilmedi; aşağıdaki 0.2.2 paketi bu son değişiklikleri içermez. Ayrıntılar: `docs/match-polish-raporu.md`, `docs/goal-celebration-raporu.md`.
 
 ## Son Android paketi — 9 Eylül değişikliklerini içermez
 
@@ -14,11 +14,11 @@ Güncelleme Faz 7: 48/48 Unity PlayMode testi geçti. Android doğrulama ayrınt
 
 Unity Hub ile bu proje klasörünü açın. Project panelinde **Assets → Scenes → MainMenu** sahnesine çift tıklayın, üstte **▶ Play** düğmesine basın. Boş Untitled sahnesi oyunu içermez.
 
-Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. En son sahne kurulum adımı `PenaltyKing.Editor.LandscapeRevision.Setup` yöntemidir; önceki üreticiler kullanılırsa bunu en son çalıştırın.
+Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. Mevcut sahneler hazırdır. Eski üreticilerle yeniden kurulum yapılırsa `PenaltyKing.Editor.LandscapeRevision.Setup`, ardından `PenaltyKing.Editor.MatchPolish.Setup` uygulanır. Gol kutlaması çalışma anında eklenir.
 
 **Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ yönlerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış yönünü seçin. Aynı yön kurtarış, farklı yön gol. Her atışta roller değişir.
 
-Sabit Round: oyuncu başına 5 şut; beraberlikte biter. Endless kurtarışlarda da devam eder. Tekrar Oyna aynı modla yeni maç başlatır. Menü düğmesi maçtan çıkar. Üst tabelada oyuncu skorları ve beşer son atış görünür.
+Sabit Round: oyuncu başına 5 şut; beraberlikte biter. Endless kurtarışlarda da devam eder. Tekrar Oyna aynı modla yeni maç başlatır. Menü düğmesi maçı duraklatıp çıkış onayı sorar; “Maça devam et” aynı noktadan sürdürür. Üst tabelada oyuncu skorları ve beşer son atış görünür.
 
 Music Volume menü müziğini, SFX Volume davul/tezahürat ve olay seslerini yönetir. Sağ üst dişli maçı terk etmeden ayarları açar; animasyon/girişler durur. Sıra kartı ise ambiyansı kesmez. Titreşim tercihi kalıcı ve sesten bağımsızdır; Android gol anında 65 ms tek darbe ister.
 

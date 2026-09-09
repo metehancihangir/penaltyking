@@ -57,3 +57,7 @@ Yeniden üretim: Unity `PenaltyKing.Editor.UpdateAudioSource.Decode`, ardından 
 Son kullanıcı geri bildirimiyle sentetik davul/tom katmanı ve GoalVictory melodisi oynanıştan çıkarıldı. Aktif ambiyans `CrowdChant.wav`, felix.blume'nin yukarıda belgelenen gerçek maç kaydından üretilen ChantDrumLoop'un dengelenmiş kopyasıdır. Kayıttaki doğal tribün/davul sesleri korunur; üzerine ritim veya müzik eklenmez. Aktif gol sesi `GoalCrowd.wav`, huubjeroen'nin yukarıdaki gerçek GoalCheer kaydından gelir. Kick ve SaveOff korunur. Menü müziği yalnız menülerde çalar.
 
 Yeniden üretim: `Tools/build_crowd_revision.py`, ardından `PenaltyKing.Editor.CrowdRevision.Setup`. Ölçümler: `crowd-revision-metrics.json`. Önceki dosyalar tarihsel üretimi korumak için bulunur ancak Gameplay sahnesine bağlı değildir. Ses uygunluğu dinlenmiş gibi varsayılmaz; kaynak türü ve sayısal çıkış doğrulanır.
+
+## 9 Eylül — Kullanıcının stadyum kaydı
+
+Aktif ambiyans `UserStadiumLoop.wav`: kullanıcının sağladığı `638367__usbmed_ambiences_sound_library__colombian_soccer_stadium_crowd_ambix.wav` dosyasının yalnız ilk 10 saniyesi kullanılır. `Tools/build_user_stadium.py` ilk W kanalını stereo olarak işler; 0,75 saniyelik eşit güç çapraz birleştirmeyle sessiz kesinti olmadan 9,25 saniyelik döngü üretir. Sesin perdesi/hızı değiştirilmez. Kaynak ve ölçümler `user-stadium-metrics.json` içinde kayıtlıdır. GOAL! görsel kutlaması yeni bir ses eklemez; GoalCrowd ve mevcut top/kurtarış sesleri korunur.
