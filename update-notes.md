@@ -244,3 +244,11 @@ Faz 7 tamamlandı; yukarıdaki başlangıç notu tarihseldir. Kullanıcı dikey 
 - Topun görünür çapı %50 büyütüldü; şut uçuşu ve dönüşünde büyüklük korunur.
 - Oynanıştaki ilave sentetik davul ritmi kaldırıldı; gerçek tribün kaydı kullanılır. Goldeki melodik GoalVictory kaldırıldı, gerçek toplu taraftar sevinci GoalCrowd bağlandı. Menü müziği menülerde kalır.
 - Paket: `Builds/Android/PenaltyKing-update7-crowd.apk` (0.2.2 / kod 4). Üretici: `PenaltyKing.Editor.CrowdRevision.Android`.
+
+## 9 Eylül 2026 — Yatay test sürümü; APK istenmiyor
+
+Kullanıcı dikey kararını değiştirdi: yatay oynanışa geçildi. Referans kale %5 küçültüldü, penaltı noktası kaleden biraz uzaklaştırıldı. Kullanıcı WAV'ının ilk 10 saniyesi yeni ambiyans oldu. Kalecinin toparlanırken büyümesi ortak atlas ölçeğiyle düzeltildi. Golde topun temas bölgesine ağ dalgalanması eklendi; çerçeve sabit, kurtarışta dalga yok. 15/15 ilgili Unity testi geçti. **APK oluşturulmadı.** Güncel deneme ve kaynak bilgisi: `docs/landscape-revision-raporu.md`.
+
+## 9 Eylül 2026 — Ek maç düzenlemeleri; APK yok
+
+Perspektifli ceza yayı, %20 küçük top, daha belirgin ağ tepkisi, daha okunur kaleci, oyuncuya bağlı forma renkleri (P1 kırmızı/yeşil, P2 açık mavi/sarı), daha yavaş taraftar zıplaması ve maçı duraklatan menüye çıkış onayı eklendi. Tezahürat birleşimi sessizleştirme yerine 0,75 saniyelik eşit güçlü geçiş kullanır; ilk 10 saniyeden 9,25 saniyelik kesintisiz döngü çıkar. Ayrıntılar: `docs/match-polish-raporu.md`.

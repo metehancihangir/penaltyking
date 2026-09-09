@@ -1,0 +1,14 @@
+{
+  "source": "C:\\Users\\Metehan\\Desktop\\638367__usbmed_ambiences_sound_library__colombian_soccer_stadium_crowd_ambix.wav",
+  "sourceChannels": 4,
+  "selectedChannel": 0,
+  "selectionSeconds": [
+    0,
+    10
+  ],
+  "duration": 9.25,
+  "equalPowerOverlapSeconds": 0.75,
+  "boundaryJump": 0.0005872752468270015,
+  "peak": 0.2,
+  "rms": 0.03233393054684343
+}

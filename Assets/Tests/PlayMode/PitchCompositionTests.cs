@@ -15,7 +15,7 @@ namespace PenaltyKing.Tests
    var game=Object.FindFirstObjectByType<GameplayController>();var layout=Object.FindFirstObjectByType<GameplayStageLayout>();
    var viewport=new GameObject("Test Viewport",typeof(RectTransform)).GetComponent<RectTransform>();viewport.SetParent(layout.transform.parent,false);layout.transform.SetParent(viewport,false);
    var goal=(RectTransform)layout.transform.Find("05 Goal and Net");var pitch=Object.FindFirstObjectByType<PixelPitch>();
-   foreach(var size in new[]{new Vector2(960,540),new Vector2(390,844)})
+   foreach(var size in new[]{new Vector2(960,540),new Vector2(390,844),new Vector2(2340,1080)})
    {
     viewport.sizeDelta=size;Canvas.ForceUpdateCanvases();layout.Fit();Canvas.ForceUpdateCanvases();
     Assert.That(goal.rect.width,Is.EqualTo(480));Assert.That(game.Presentation.ShooterHeight,Is.InRange(210f,310f));

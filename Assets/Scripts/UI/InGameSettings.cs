@@ -15,7 +15,7 @@ namespace PenaltyKing
         private void Awake() { open.onClick.AddListener(Open); options.Closed += Close; }
         private void Open()
         {
-            if (SceneTransition.IsBusy || game.State == PlayState.Leaving || Visible) return;
+            if (SceneTransition.IsBusy || game.State == PlayState.Leaving || game.SettingsOpen || Visible) return;
             game.SetSettingsOpen(true);
             shade.SetActive(true);
         }
