@@ -14,6 +14,10 @@ namespace PenaltyKing
         public const float ContactTime = .24f;
         public const float ImpactTime = .9f;
         public const float Duration = 2.2f;
+        public const float GoalCelebrationDuration = 5f;
+        public static float DurationFor(ShotResult shot) => shot.Outcome == ShotOutcome.Goal ? ImpactTime + GoalCelebrationDuration : Duration;
+        private GoalCelebration goalCelebration;
+        public bool GoalCelebrating => goalCelebration != null && goalCelebration.Visible;
         [SerializeField] private Image ball, keeper, shooter, shadow;
         [SerializeField] private RectTransform stage, crowd;
         [SerializeField] private Image[] trail, dust, confetti;
@@ -59,6 +63,18 @@ namespace PenaltyKing
         {
             if (allFans == null) allFans = stage.GetComponentInChildren<CrowdCelebration>();
             if (net == null) net = stage.GetComponentInChildren<GoalNetRipple>();
+            if (goalCelebration == null)
+            {
+                goalCelebration = stage.GetComponentInChildren<GoalCelebration>();
+                if (goalCelebration == null)
+                {
+                    var overlay = new GameObject("GOAL Celebration", typeof(RectTransform), typeof(GoalCelebration));
+                    overlay.transform.SetParent(stage, false);
+                    goalCelebration = overlay.GetComponent<GoalCelebration>();
+                    goalCelebration.rectTransform.sizeDelta = new Vector2(550, 160);
+                }
+            }
+            goalCelebration.rectTransform.anchoredPosition = new Vector2(0, goalY + 70);
             ballRest = ballStart; keeperRest = keeperStart; spacing = distance; targetY = goalY;
             shooterRest = new Vector2(-100 * shooterHeight / 160, ballStart.y - 11 * shooterHeight / 160);
             crowdRest = new Vector2(0, keeperStart.y + 20);
@@ -71,7 +87,8 @@ namespace PenaltyKing
             ResetPose(); current = shot; IsPlaying = true;
             var runGeneration = ++generation;
             var kicked = false; var impacted = false;
-            for (var time = 0f; time < Duration; time += IsPaused ? 0 : Time.unscaledDeltaTime)
+            var duration = DurationFor(shot);
+            for (var time = 0f; time < duration; time += IsPaused ? 0 : Time.unscaledDeltaTime)
             {
                 if (runGeneration != generation) yield break;
                 if (IsPaused) { yield return null; continue; }
@@ -84,7 +101,7 @@ namespace PenaltyKing
             // A long frame can cross both event boundaries. Never lose or duplicate either cue.
             if (!kicked) Kick?.Invoke();
             if (!impacted) Impact?.Invoke(shot);
-            Sample(shot, Duration);
+            Sample(shot, duration);
             IsPlaying = false; Phase = ShotAnimationPhase.Idle;
             ResetPose(); Completed?.Invoke();
         }
@@ -103,6 +120,7 @@ namespace PenaltyKing
             crowd.anchoredPosition = crowdRest; stage.anchoredPosition = stageRest;
             allFans?.Sample(0, false);
             net?.Sample(-1, Vector2.zero);
+            goalCelebration?.Sample(-1);
             foreach (var image in trail) image.enabled = false;
             foreach (var image in dust) image.enabled = false;
             foreach (var image in confetti) image.enabled = false;
@@ -127,6 +145,18 @@ namespace PenaltyKing
             var contactFoot = ballRest + new Vector2(-69, -92) * actorScale;
             var playerFoot = Vector2.Lerp(Vector2.Lerp(foot, contactFoot, run), foot, recover);
             Pose(shooter, shooterFrames[playerFrame], shooterHeight, false, playerFoot + new Vector2(0, 80 * actorScale), 1);
+            var celebrationAge = time - ImpactTime;
+            var celebrating = shot.Outcome == ShotOutcome.Goal && celebrationAge >= 0 && celebrationAge < GoalCelebrationDuration;
+            goalCelebration?.Sample(celebrating ? celebrationAge : -1);
+            if (celebrating)
+            {
+                // Small victory hops with a side-to-side body lean. Keep body size and kit.
+                var envelope = Mathf.Clamp01(celebrationAge / .3f) * Mathf.Clamp01((GoalCelebrationDuration - celebrationAge) / .35f);
+                var hop = Mathf.Max(0, Mathf.Sin(celebrationAge * 6)) * 17 * actorScale * envelope;
+                var sway = Mathf.Sin(celebrationAge * 3) * 7 * envelope;
+                Pose(shooter, shooterIdle, shooterHeight, false, shooterRest + new Vector2(sway, hop), 1);
+                shooter.rectTransform.localRotation = Quaternion.Euler(0, 0, -sway * .55f);
+            }
 
             var dive = Mathf.SmoothStep(0, 1, Mathf.Clamp01((time - .16f) / (ImpactTime - .16f)));
             var landing = Mathf.Clamp01((time - 1.02f) / .35f);
@@ -189,7 +219,7 @@ namespace PenaltyKing
                 dust[i].rectTransform.anchoredPosition = ballRest + new Vector2((i - 2) * kickAge * 65, -12 + kickAge * 25);
                 dust[i].color = new Color(.76f, .78f, .47f, Mathf.Clamp01(1 - kickAge / .24f));
             }
-            CrowdCelebrating = shot.Outcome == ShotOutcome.Goal && time >= ImpactTime && time < 2.05f;
+            CrowdCelebrating = celebrating;
             crowd.anchoredPosition = crowdRest + new Vector2(0, CrowdCelebrating ? Mathf.Abs(Mathf.Sin((time - ImpactTime) * 7)) * 9 : 0);
             allFans?.Sample(time - ImpactTime, CrowdCelebrating);
             for (var i = 0; i < confetti.Length; i++)
@@ -210,6 +240,7 @@ namespace PenaltyKing
             image.rectTransform.sizeDelta = width ? new Vector2(extent, extent / ratio) : new Vector2(extent * ratio, extent);
             image.rectTransform.anchoredPosition = position;
             image.rectTransform.localScale = new Vector3(sign, 1, 1);
+            image.rectTransform.localRotation = Quaternion.identity;
         }
     }
 }

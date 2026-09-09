@@ -48,7 +48,7 @@ namespace PenaltyKing.Tests
                 };
                 yield return LocalTestInput.Choose(game, game.Left, probability == 0 ? game.Right : game.Left);
                 Assert.That(bus.SfxSource.isPlaying, Is.False, "No kick sound before foot contact");
-                var deadline = Time.realtimeSinceStartup + 4;
+                var deadline = Time.realtimeSinceStartup + ShotPresentation.ImpactTime + ShotPresentation.GoalCelebrationDuration + 2;
                 while (game.State == PlayState.ShowingShot)
                 { Assert.That(Time.realtimeSinceStartup, Is.LessThan(deadline)); yield return null; }
                 Assert.That(kicks, Is.EqualTo(1)); Assert.That(impacts, Is.EqualTo(1));
