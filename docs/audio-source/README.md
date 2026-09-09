@@ -1,5 +1,7 @@
 # Ses kaynakları — Faz 7
 
+**9 Eylül 2026 güncel ambiyans:** kullanıcının sağladığı `638367__usbmed_ambiences_sound_library__colombian_soccer_stadium_crowd_ambix.wav` dosyasının ilk 10 saniyesinden `UserStadiumLoop.wav` üretildi. Önceki CrowdChant sahneden çıkarıldı. Ayrıntılar `../landscape-revision-raporu.md`, ölçümler `user-stadium-metrics.json`. Yeni kaynak kullanıcı tarafından sağlanmıştır; aşağıdaki eski kayıtların CC0 tespiti bu dosya için bir lisans doğrulaması değildir. Gol ve kurtarış kayıtları korunmuştur.
+
 7 Eylül 2026'da kaynak sayfalarındaki lisans bilgileri doğrulandı. Aşağıdaki dört kayıt **CC0 1.0** olarak sunuluyor. Kaynak MP3'ler Freesound'un halka açık HQ önizleme bağlantılarından alındı ve `Assets/Audio/Source` altında korundu. Hesapla erişilen orijinal WAV indirmeleri kullanılmadı.
 
 | Oyun dosyası | Kayıt / üretici | Kaynak ve lisans |

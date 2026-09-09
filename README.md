@@ -2,7 +2,9 @@
 
 Unity 6000.4.4f1 / C# / Universal 2D. Gece stadyumunda, aynı telefonda iki oyunculu piksel penaltı oyunu.
 
-## Güncel Android paketi
+**9 Eylül çalışma sürümü:** yatay oynanış, %5 küçük kale, geriye alınmış penaltı noktası, kullanıcının 10 saniyelik ambiyansı, kaleci ölçek düzeltmesi ve golde ağ animasyonu. 15/15 ilgili test geçti. Kullanıcı isteğiyle yeni APK üretilmedi; aşağıdaki 0.2.2 paketi bu son değişiklikleri içermez. Ayrıntılar: `docs/landscape-revision-raporu.md`.
+
+## Son Android paketi — 9 Eylül değişikliklerini içermez
 
 `Builds/Android/PenaltyKing-update7-crowd.apk` — sürüm 0.2.2 (kod 4), Android 8+, ARM64/x86_64, development/test paketi. Belirgin ceza sahası perspektifi, %50 büyük top ve gerçek taraftar seslerini içerir. Önceki `PenaltyKing-update7.apk` sürüm 0.2.0'dır.
 
@@ -11,6 +13,8 @@ Güncelleme Faz 7: 48/48 Unity PlayMode testi geçti. Android doğrulama ayrınt
 ## Unity'de açılış
 
 Unity Hub ile bu proje klasörünü açın. Project panelinde **Assets → Scenes → MainMenu** sahnesine çift tıklayın, üstte **▶ Play** düğmesine basın. Boş Untitled sahnesi oyunu içermez.
+
+Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. En son sahne kurulum adımı `PenaltyKing.Editor.LandscapeRevision.Setup` yöntemidir; önceki üreticiler kullanılırsa bunu en son çalıştırın.
 
 **Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ yönlerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış yönünü seçin. Aynı yön kurtarış, farklı yön gol. Her atışta roller değişir.
 

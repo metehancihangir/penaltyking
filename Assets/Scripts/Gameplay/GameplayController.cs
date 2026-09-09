@@ -211,6 +211,7 @@ namespace PenaltyKing
 
         private void ReadyForShot()
         {
+            GetComponent<PlayerKitColours>()?.SetShooterPlayer(Round.ShooterPlayer);
             State = PlayState.PassingPhone;
             LastShot = null;
             ball.anchoredPosition = ballRestPosition;
@@ -239,6 +240,13 @@ namespace PenaltyKing
         private void GoHome()
         {
             if (navigator.IsLoading || SettingsOpen || State == PlayState.Leaving) return;
+            var confirmation=GetComponent<ExitConfirmation>();
+            if(confirmation!=null && State!=PlayState.NeedsSelection){confirmation.Show();return;}
+            ReturnToMenuConfirmed();
+        }
+        public void ReturnToMenuConfirmed()
+        {
+            if(navigator.IsLoading || SettingsOpen || State==PlayState.Leaving)return;
             State = PlayState.Leaving;
             EnableZones(false);
             StopAllCoroutines();

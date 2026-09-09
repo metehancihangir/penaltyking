@@ -70,6 +70,9 @@ namespace PenaltyKing.Tests
             Assert.That(game.Round.Player1.Goals, Is.EqualTo(6));
             Assert.That(game.Round.Player2.Goals, Is.Zero);
             LocalTestInput.Press(game.Exit);
+            Assert.That(game.GetComponent<ExitConfirmation>().Visible, Is.True);
+            yield return null; // A second gesture occurs after the modal is rendered.
+                LocalTestInput.Press(game.GetComponent<ExitConfirmation>().ConfirmButton);
             yield return WaitForHome();
             Assert.That(AudioManager.Instance.StadiumActive, Is.False);
         }
@@ -89,6 +92,9 @@ namespace PenaltyKing.Tests
                 game.Presentation.Kick += () => cueCount++;
                 game.Presentation.Impact += result => cueCount++;
                 LocalTestInput.Press(game.Exit);
+            Assert.That(game.GetComponent<ExitConfirmation>().Visible, Is.True);
+            yield return null; // A second gesture occurs after the modal is rendered.
+                LocalTestInput.Press(game.GetComponent<ExitConfirmation>().ConfirmButton);
                 Assert.That(game.State, Is.EqualTo(PlayState.Leaving));
                 Assert.That(game.Round, Is.Null);
                 Assert.That(game.LastShot, Is.Null);

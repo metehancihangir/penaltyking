@@ -84,7 +84,7 @@ namespace PenaltyKing.Tests
         {
             yield return Open(0);
             var clips = Object.FindFirstObjectByType<GameplayAudio>();
-            Assert.That(clips.Ambience.name, Is.EqualTo("CrowdChant")); Assert.That(clips.GoalClip.name, Is.EqualTo("GoalCrowd"));
+            Assert.That(clips.Ambience.name, Is.EqualTo("UserStadiumLoop")); Assert.That(clips.GoalClip.name, Is.EqualTo("GoalCrowd"));
             foreach (var clip in new[] { clips.Ambience, clips.KickClip, clips.GoalClip, clips.SaveClip })
             {
                 Assert.That(clip.loadState, Is.EqualTo(AudioDataLoadState.Loaded));
@@ -94,7 +94,7 @@ namespace PenaltyKing.Tests
                 Assert.That(peak, Is.LessThan(.82f)); Assert.That(energy / data.Length, Is.GreaterThan(.00001));
                 if (clip == clips.Ambience)
                 {
-                    Assert.That(clip.length, Is.GreaterThan(20));
+                    Assert.That(clip.length, Is.EqualTo(9.25f).Within(.001f));
                     for (var channel = 0; channel < clip.channels; channel++)
                         Assert.That(Mathf.Abs(data[channel] - data[data.Length - clip.channels + channel]), Is.LessThan(.015f));
                 }

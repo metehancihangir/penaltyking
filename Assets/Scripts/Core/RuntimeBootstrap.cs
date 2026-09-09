@@ -10,6 +10,11 @@ namespace PenaltyKing
         {
             Application.targetFrameRate = 60;
             Application.runInBackground = true;
+            Screen.autorotateToPortrait = false;
+            Screen.autorotateToPortraitUpsideDown = false;
+            Screen.autorotateToLandscapeLeft = true;
+            Screen.autorotateToLandscapeRight = true;
+            Screen.orientation = ScreenOrientation.AutoRotation;
             QualitySettings.vSyncCount = 0;
             if (GameManager.Instance == null)
                 new GameObject("GameManager").AddComponent<GameManager>();

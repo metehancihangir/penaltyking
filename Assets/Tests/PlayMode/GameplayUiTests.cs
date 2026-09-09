@@ -59,6 +59,9 @@ namespace PenaltyKing.Tests
             Assert.That(game.LastShot.Value.KeeperDirection,Is.EqualTo(ShotDirection.Left));
             yield return LocalTestInput.Finish(game);
             LocalTestInput.Press(game.Exit);
+            Assert.That(game.GetComponent<ExitConfirmation>().Visible, Is.True);
+            yield return null; // A second gesture occurs after the modal is rendered.
+            LocalTestInput.Press(game.GetComponent<ExitConfirmation>().ConfirmButton);
             while(SceneTransition.IsBusy)yield return null;
             yield return SceneManager.LoadSceneAsync("Options");yield return null;
             var options=Object.FindFirstObjectByType<OptionsController>();Assert.That(options.Sfx.value,Is.EqualTo(.34f).Within(.001f));Assert.That(options.Vibration.isOn,Is.False);

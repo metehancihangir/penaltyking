@@ -32,6 +32,15 @@ namespace PenaltyKing
             var depth=Mathf.Min(goalLine-spotY+80, goalLine-r.yMin-28);
             Box(vh,goalLine,315+(goalScale-1)*150,430+(goalScale-1)*70,depth,line);
             Box(vh,goalLine,252*goalScale,(280-(goalScale-1)*22)*goalScale,Mathf.Min(48*goalScale,depth*.24f),line);
+            var edge=goalLine-depth;
+            // The penalty arc sits outside the box, towards the camera.
+            for(var i=0;i<64;i++)
+            {
+                var a=Mathf.PI*i/64;var b=Mathf.PI*(i+1)/64;
+                var x=130*Mathf.Cos(a);var next=130*Mathf.Cos(b);
+                var y=edge-25*Mathf.Sin(a);var nextY=edge-25*Mathf.Sin(b);
+                Quad(vh,Mathf.Min(x,next)-1.5f,Mathf.Min(y,nextY)-1.5f,Mathf.Abs(next-x)+3,Mathf.Abs(nextY-y)+3,line);
+            }
             Quad(vh,-5,spotY-2,10,4,line);Quad(vh,-3,spotY-3,6,6,line);
         }
         private static void Box(VertexHelper vh,float top,float backWidth,float frontWidth,float depth,Color32 color)

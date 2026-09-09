@@ -21,6 +21,7 @@ namespace PenaltyKing
         [SerializeField] private Sprite[] shooterFrames, sideFrames, centerFrames;
         private Vector2 ballRest, keeperRest, shooterRest, crowdRest, stageRest;
         private CrowdCelebration allFans;
+        private GoalNetRipple net;
         private float spacing = 190, targetY = 58;
         [SerializeField] private float shooterHeight = 160, keeperSize = 1;
         public float ShooterHeight => shooterHeight;
@@ -57,6 +58,7 @@ namespace PenaltyKing
         public void SetComposition(Vector2 ballStart, Vector2 keeperStart, float distance, float goalY)
         {
             if (allFans == null) allFans = stage.GetComponentInChildren<CrowdCelebration>();
+            if (net == null) net = stage.GetComponentInChildren<GoalNetRipple>();
             ballRest = ballStart; keeperRest = keeperStart; spacing = distance; targetY = goalY;
             shooterRest = new Vector2(-100 * shooterHeight / 160, ballStart.y - 11 * shooterHeight / 160);
             crowdRest = new Vector2(0, keeperStart.y + 20);
@@ -94,12 +96,13 @@ namespace PenaltyKing
             if (ball == null) return;
             Phase = ShotAnimationPhase.Idle; Elapsed = 0; CrowdCelebrating = false;
             ball.rectTransform.anchoredPosition = ballRest;
-            ball.rectTransform.localScale = Vector3.one * 1.5f; ball.rectTransform.localRotation = Quaternion.identity;
+            ball.rectTransform.localScale = Vector3.one * 1.2f; ball.rectTransform.localRotation = Quaternion.identity;
             ball.color = Color.white;
             Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
             Pose(shooter, shooterIdle, shooterHeight, false, shooterRest, 1);
             crowd.anchoredPosition = crowdRest; stage.anchoredPosition = stageRest;
             allFans?.Sample(0, false);
+            net?.Sample(-1, Vector2.zero);
             foreach (var image in trail) image.enabled = false;
             foreach (var image in dust) image.enabled = false;
             foreach (var image in confetti) image.enabled = false;
@@ -143,8 +146,11 @@ namespace PenaltyKing
                 position.y += Mathf.Sin(dive * Mathf.PI) * 20 * keeperSize;
                 position.y = Mathf.Lerp(position.y, keeperRest.y - 34 * keeperSize, landing);
                 position = Vector2.Lerp(position, keeperRest, recover);
-                var extent = keeperFrame == 0 ? 116 : keeperFrame == 3 ? 95 : 154;
-                Pose(keeper, sideFrames[keeperFrame], extent * keeperSize, keeperFrame != 3, position, sign);
+                // Atlas frames share a pixel scale. Normalizing each pose's height made
+                // the crouched recovery body inflate compared with the horizontal dive.
+                var height = sideFrames[keeperFrame].rect.height * 154f / sideFrames[1].rect.width;
+                if (keeperFrame == 3) position.y = keeperRest.y + (height - 114) * keeperSize * .5f;
+                Pose(keeper, sideFrames[keeperFrame], height * keeperSize, false, position, sign);
             }
             if (time > 2.02f) Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
 
@@ -159,7 +165,12 @@ namespace PenaltyKing
                     ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57 * keeperSize), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
             }
             ball.rectTransform.anchoredPosition = ballPosition;
-            ball.rectTransform.localScale = Vector3.one * 1.5f * Mathf.Lerp(1, .55f, flight);
+            if (net != null)
+            {
+                var hit = (Vector2)net.transform.InverseTransformPoint(stage.TransformPoint(target));
+                net.Sample(shot.Outcome == ShotOutcome.Goal ? time - ImpactTime : -1, hit);
+            }
+            ball.rectTransform.localScale = Vector3.one * 1.2f * Mathf.Lerp(1, .55f, flight);
             ball.rectTransform.localRotation = Quaternion.Euler(0, 0, time < ContactTime ? 0 : (time - ContactTime) * -780);
             shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57 * keeperSize, flight));
             shadow.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .5f, flight);
@@ -179,7 +190,7 @@ namespace PenaltyKing
                 dust[i].color = new Color(.76f, .78f, .47f, Mathf.Clamp01(1 - kickAge / .24f));
             }
             CrowdCelebrating = shot.Outcome == ShotOutcome.Goal && time >= ImpactTime && time < 2.05f;
-            crowd.anchoredPosition = crowdRest + new Vector2(0, CrowdCelebrating ? Mathf.Abs(Mathf.Sin((time - ImpactTime) * 15)) * 9 : 0);
+            crowd.anchoredPosition = crowdRest + new Vector2(0, CrowdCelebrating ? Mathf.Abs(Mathf.Sin((time - ImpactTime) * 7)) * 9 : 0);
             allFans?.Sample(time - ImpactTime, CrowdCelebrating);
             for (var i = 0; i < confetti.Length; i++)
             {
