@@ -5,6 +5,7 @@ Shader "PenaltyKing/PlayerKit"
   _Color("Tint",Color)=(1,1,1,1)
   _Kit("Kit",Float)=0
   _Keeper("Keeper",Float)=0
+  _Chroma("Chroma sprite",Float)=0
   _SpriteUV("Sprite UV",Vector)=(0,0,1,1)
   _StencilComp("Stencil Comparison",Float)=8
   _Stencil("Stencil ID",Float)=0
@@ -27,7 +28,7 @@ Shader "PenaltyKing/PlayerKit"
    #include "UnityUI.cginc"
    struct appdata {float4 vertex:POSITION;float4 color:COLOR;float2 uv:TEXCOORD0;};
    struct v2f {float4 vertex:SV_POSITION;fixed4 color:COLOR;float2 uv:TEXCOORD0;float4 local:TEXCOORD1;};
-   sampler2D _MainTex;fixed4 _Color,_TextureSampleAdd;float4 _ClipRect,_SpriteUV;float _Kit,_Keeper;
+   sampler2D _MainTex;fixed4 _Color,_TextureSampleAdd;float4 _ClipRect,_SpriteUV;float _Kit,_Keeper,_Chroma;
    v2f vert(appdata v){v2f o;o.local=v.vertex;o.vertex=UnityObjectToClipPos(v.vertex);o.uv=v.uv;o.color=v.color*_Color;return o;}
    fixed4 frag(v2f i):SV_Target {
     fixed4 c=(tex2D(_MainTex,i.uv)+_TextureSampleAdd)*i.color;
@@ -36,8 +37,10 @@ Shader "PenaltyKing/PlayerKit"
     key=LinearToGammaSpace(key);
     #endif
     float r=key.r,g=key.g,b=key.b;
+    if (_Chroma>.5 && r>.45 && b>.35 && g<min(r,b)*.6) discard;
     float localY=(i.uv.y-_SpriteUV.y)/max(.001,_SpriteUV.w-_SpriteUV.y);
-    if(_Kit>.5 && _Kit<1.5 && localY<.94 && r>g*2.1 && r>b*1.5 && b>g*.65) key=float3(.42,.78,.98)*r;
+    bool redFabric = _Chroma>.5 ? (r>g*3.2 && r>b*2 && r>.18) : (localY<.94 && r>g*2.1 && r>b*1.5 && b>g*.65);
+    if(_Kit>.5 && _Kit<1.5 && redFabric) key=float3(.42,.78,.98)*r;
     if(_Kit>1.5 && g>r*.40 && g<r*1.12 && b<r*.20) key=float3(.22,.88,.38)*max(r,g);
     if(_Keeper>.5 && r>g*1.15 && r<g*1.9 && g>b*1.15 && b>r*.22) key=lerp(key,sqrt(max(key,0)),.16);
     #ifndef UNITY_COLORSPACE_GAMMA

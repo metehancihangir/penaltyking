@@ -37,8 +37,8 @@ namespace PenaltyKing
             for(var i=0;i<64;i++)
             {
                 var a=Mathf.PI*i/64;var b=Mathf.PI*(i+1)/64;
-                var x=130*Mathf.Cos(a);var next=130*Mathf.Cos(b);
-                var y=edge-25*Mathf.Sin(a);var nextY=edge-25*Mathf.Sin(b);
+                var x=235*Mathf.Cos(a);var next=235*Mathf.Cos(b);
+                var y=edge-78*Mathf.Sin(a);var nextY=edge-78*Mathf.Sin(b);
                 Quad(vh,Mathf.Min(x,next)-1.5f,Mathf.Min(y,nextY)-1.5f,Mathf.Abs(next-x)+3,Mathf.Abs(nextY-y)+3,line);
             }
             Quad(vh,-5,spotY-2,10,4,line);Quad(vh,-3,spotY-3,6,6,line);

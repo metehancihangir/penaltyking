@@ -65,7 +65,7 @@ namespace PenaltyKing.Tests
             yield return Open(0);
             var game = Object.FindFirstObjectByType<GameplayController>(); var bus = AudioManager.Instance;
             yield return LocalTestInput.Choose(game, game.Center, game.Left);
-            yield return new WaitForSecondsRealtime(1.0f);
+            yield return new WaitForSecondsRealtime(ShotPresentation.ImpactTime + .1f);
             Assert.That(bus.SfxSource.isPlaying && bus.CrowdSource.isPlaying, Is.True);
             GameManager.Instance.SetMusicVolume(.17f); GameManager.Instance.SetSfxVolume(.36f);
             Assert.That(bus.CrowdSource.volume, Is.EqualTo(.36f).Within(.001f));

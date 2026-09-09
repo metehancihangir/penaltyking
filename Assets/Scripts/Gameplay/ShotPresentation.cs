@@ -11,10 +11,11 @@ namespace PenaltyKing
     // so previews and tests see the same frames as the running game.
     public sealed class ShotPresentation : MonoBehaviour
     {
-        public const float ContactTime = .24f;
-        public const float ImpactTime = .9f;
-        public const float Duration = 2.2f;
-        public const float GoalCelebrationDuration = 5f;
+        public const float WindupDelay = .46f;
+        public const float ContactTime = .24f + WindupDelay;
+        public const float ImpactTime = .9f + WindupDelay;
+        public const float Duration = 2.2f + WindupDelay;
+        public const float GoalCelebrationDuration = 3f;
         public static float DurationFor(ShotResult shot) => shot.Outcome == ShotOutcome.Goal ? ImpactTime + GoalCelebrationDuration : Duration;
         private GoalCelebration goalCelebration;
         public bool GoalCelebrating => goalCelebration != null && goalCelebration.Visible;
@@ -26,10 +27,15 @@ namespace PenaltyKing
         private Vector2 ballRest, keeperRest, shooterRest, crowdRest, stageRest;
         private CrowdCelebration allFans;
         private GoalNetRipple net;
+        [SerializeField] private Sprite[] performanceFrames;
+        [SerializeField] private Vector2 contactFootPixels;
+        public void ConfigurePerformance(Sprite[] frames, Vector2 contact)
+        { performanceFrames = frames; contactFootPixels = contact; shooterIdle = frames[0]; }
         private float spacing = 190, targetY = 58;
         [SerializeField] private float shooterHeight = 160, keeperSize = 1;
         public float ShooterHeight => shooterHeight;
         public Vector2 ShooterPosition => shooter.rectTransform.anchoredPosition;
+        public Vector2 ContactBootPosition => ShooterPosition + (contactFootPixels + shooter.sprite.pivot - shooter.sprite.rect.size * .5f) * (shooterHeight / performanceFrames[0].rect.height);
         public Vector2 KeeperPosition => keeper.rectTransform.anchoredPosition;
         public void ConfigureActorScale(float height, float keeperScale)
         { shooterHeight = height; keeperSize = keeperScale; }
@@ -68,7 +74,7 @@ namespace PenaltyKing
                 goalCelebration = stage.GetComponentInChildren<GoalCelebration>();
                 if (goalCelebration == null)
                 {
-                    var overlay = new GameObject("GOAL Celebration", typeof(RectTransform), typeof(GoalCelebration));
+                    var overlay = new GameObject("GOAL Celebration", typeof(RectTransform), typeof(Canvas), typeof(GoalCelebration));
                     overlay.transform.SetParent(stage, false);
                     goalCelebration = overlay.GetComponent<GoalCelebration>();
                     goalCelebration.rectTransform.sizeDelta = new Vector2(550, 160);
@@ -117,6 +123,7 @@ namespace PenaltyKing
             ball.color = Color.white;
             Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
             Pose(shooter, shooterIdle, shooterHeight, false, shooterRest, 1);
+            SamplePlayer(0, -1);
             crowd.anchoredPosition = crowdRest; stage.anchoredPosition = stageRest;
             allFans?.Sample(0, false);
             net?.Sample(-1, Vector2.zero);
@@ -131,36 +138,30 @@ namespace PenaltyKing
         public void Sample(ShotResult shot, float time)
         {
             Elapsed = time;
+            var keeperTime = Mathf.Max(0, time - WindupDelay);
             var sign = (int)shot.KeeperDirection - 1;
             var target = new Vector2(((int)shot.PlayerDirection - 1) * spacing, targetY);
             var flight = Mathf.Clamp01((time - ContactTime) / (ImpactTime - ContactTime));
-            Phase = time < ContactTime ? ShotAnimationPhase.RunUp : time < ImpactTime ? ShotAnimationPhase.Flight : time < 1.06f ? ShotAnimationPhase.Impact : time < 1.55f ? ShotAnimationPhase.Landing : ShotAnimationPhase.Recovery;
+            Phase = time < ContactTime ? ShotAnimationPhase.RunUp : time < ImpactTime ? ShotAnimationPhase.Flight : keeperTime < 1.06f ? ShotAnimationPhase.Impact : keeperTime < 1.55f ? ShotAnimationPhase.Landing : ShotAnimationPhase.Recovery;
 
             // Contact frame has its striking boot on the ball, then a brief follow-through.
             var run = Mathf.Clamp01(time / ContactTime);
-            var recover = Mathf.Clamp01((time - 1.6f) / .6f);
+            var recover = Mathf.Clamp01((keeperTime - 1.6f) / .6f);
             var playerFrame = time < .18f ? 0 : time < .32f ? 1 : time < .62f ? 2 : 3;
             var actorScale = shooterHeight / 160;
             var foot = shooterRest + new Vector2(0, -80 * actorScale);
             var contactFoot = ballRest + new Vector2(-69, -92) * actorScale;
             var playerFoot = Vector2.Lerp(Vector2.Lerp(foot, contactFoot, run), foot, recover);
-            Pose(shooter, shooterFrames[playerFrame], shooterHeight, false, playerFoot + new Vector2(0, 80 * actorScale), 1);
+            if (performanceFrames == null || performanceFrames.Length != 8)
+                Pose(shooter, shooterFrames[playerFrame], shooterHeight, false, playerFoot + new Vector2(0, 80 * actorScale), 1);
             var celebrationAge = time - ImpactTime;
             var celebrating = shot.Outcome == ShotOutcome.Goal && celebrationAge >= 0 && celebrationAge < GoalCelebrationDuration;
             goalCelebration?.Sample(celebrating ? celebrationAge : -1);
-            if (celebrating)
-            {
-                // Small victory hops with a side-to-side body lean. Keep body size and kit.
-                var envelope = Mathf.Clamp01(celebrationAge / .3f) * Mathf.Clamp01((GoalCelebrationDuration - celebrationAge) / .35f);
-                var hop = Mathf.Max(0, Mathf.Sin(celebrationAge * 6)) * 17 * actorScale * envelope;
-                var sway = Mathf.Sin(celebrationAge * 3) * 7 * envelope;
-                Pose(shooter, shooterIdle, shooterHeight, false, shooterRest + new Vector2(sway, hop), 1);
-                shooter.rectTransform.localRotation = Quaternion.Euler(0, 0, -sway * .55f);
-            }
+            SamplePlayer(time, celebrating ? celebrationAge : -1);
 
-            var dive = Mathf.SmoothStep(0, 1, Mathf.Clamp01((time - .16f) / (ImpactTime - .16f)));
-            var landing = Mathf.Clamp01((time - 1.02f) / .35f);
-            var keeperFrame = time < .38f ? 0 : time < 1.05f ? 1 : time < 1.5f ? 2 : 3;
+            var dive = Mathf.SmoothStep(0, 1, Mathf.Clamp01((keeperTime - .16f) / (.9f - .16f)));
+            var landing = Mathf.Clamp01((keeperTime - 1.02f) / .35f);
+            var keeperFrame = keeperTime < .38f ? 0 : keeperTime < 1.05f ? 1 : keeperTime < 1.5f ? 2 : 3;
             var position = keeperRest;
             if (sign == 0)
             {
@@ -182,7 +183,7 @@ namespace PenaltyKing
                 if (keeperFrame == 3) position.y = keeperRest.y + (height - 114) * keeperSize * .5f;
                 Pose(keeper, sideFrames[keeperFrame], height * keeperSize, false, position, sign);
             }
-            if (time > 2.02f) Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
+            if (keeperTime > 2.02f) Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
 
             var ballPosition = Trajectory(target, flight);
             if (time < ContactTime) ballPosition = ballRest;
@@ -190,7 +191,7 @@ namespace PenaltyKing
             {
                 var settle = Mathf.Clamp01((time - ImpactTime) / .5f);
                 if (shot.Outcome == ShotOutcome.Goal)
-                    ballPosition = Vector2.Lerp(target, target + new Vector2(0, -48), settle) + new Vector2(0, Mathf.Abs(Mathf.Sin(settle * Mathf.PI * 2)) * 8 * (1 - settle));
+                    ballPosition = Vector2.Lerp(target, NetFloor(target), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 5 * (1 - settle));
                 else
                     ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57 * keeperSize), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
             }
@@ -201,7 +202,11 @@ namespace PenaltyKing
                 net.Sample(shot.Outcome == ShotOutcome.Goal ? time - ImpactTime : -1, hit);
             }
             ball.rectTransform.localScale = Vector3.one * 1.2f * Mathf.Lerp(1, .55f, flight);
-            ball.rectTransform.localRotation = Quaternion.Euler(0, 0, time < ContactTime ? 0 : (time - ContactTime) * -780);
+            var spinTime = Mathf.Clamp(time - ContactTime, 0, ImpactTime - ContactTime);
+            var roll = Mathf.Clamp01((time - ImpactTime) / .5f);
+            var spin = spinTime * -780 - (time >= ImpactTime ? 100 * (2 * roll - roll * roll) : 0);
+            ball.rectTransform.localRotation = Quaternion.Euler(0, 0, spin);
+            shadow.enabled = !(shot.Outcome == ShotOutcome.Goal && time >= ImpactTime);
             shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57 * keeperSize, flight));
             shadow.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .5f, flight);
             for (var i = 0; i < trail.Length; i++)
@@ -220,18 +225,42 @@ namespace PenaltyKing
                 dust[i].color = new Color(.76f, .78f, .47f, Mathf.Clamp01(1 - kickAge / .24f));
             }
             CrowdCelebrating = celebrating;
-            crowd.anchoredPosition = crowdRest + new Vector2(0, CrowdCelebrating ? Mathf.Abs(Mathf.Sin((time - ImpactTime) * 7)) * 9 : 0);
+            crowd.anchoredPosition = crowdRest;
             allFans?.Sample(time - ImpactTime, CrowdCelebrating);
-            for (var i = 0; i < confetti.Length; i++)
-            {
-                var particle = confetti[i]; particle.enabled = CrowdCelebrating;
-                var age = Mathf.Repeat(time - ImpactTime + i * .037f, .8f);
-                particle.rectTransform.anchoredPosition = new Vector2(-435 + i * 46 + Mathf.Sin(age * 12 + i) * 8, crowdRest.y + 15 + 100 * age - 110 * age * age);
-                particle.rectTransform.localRotation = Quaternion.Euler(0, 0, age * 260 + i * 35);
-            }
         }
 
         private Vector2 Trajectory(Vector2 target, float t) => Vector2.Lerp(ballRest, target, t) + new Vector2(0, Mathf.Sin(t * Mathf.PI) * 40);
+
+        private Vector2 NetFloor(Vector2 target)
+        {
+            if (net == null) return target + new Vector2(0, -25);
+            var rect = ((RectTransform)net.transform).rect;
+            var local = (Vector2)net.transform.InverseTransformPoint(stage.TransformPoint(target));
+            local.x *= .94f; local.y = rect.yMin + rect.height * .18f;
+            return stage.InverseTransformPoint(net.transform.TransformPoint(local));
+        }
+
+        private void SamplePlayer(float time, float celebrationAge)
+        {
+            if (performanceFrames == null || performanceFrames.Length != 8) return;
+            var scale = shooterHeight / 160;
+            var frame = time < .2f ? 0 : time < ContactTime ? 1 : time < ContactTime + .16f ? 2 : 3;
+            if (time > ContactTime + .4f) frame = 0;
+            var approach = Mathf.SmoothStep(0, 1, Mathf.Clamp01((time - .25f) / (ContactTime - .25f)));
+            var foot = shooterRest + new Vector2(0, -shooterHeight * .5f);
+            var plantedFoot = ballRest - contactFootPixels * (shooterHeight / performanceFrames[0].rect.height);
+            foot = Vector2.Lerp(foot + new Vector2(-8, -3) * Mathf.Sin(Mathf.Clamp01(time / ContactTime) * Mathf.PI), plantedFoot, approach);
+            if (celebrationAge >= 0)
+            {
+                frame = celebrationAge < .2f ? 4 : celebrationAge < .65f ? 5 : celebrationAge < 1.0f ? 6 : celebrationAge < 1.45f ? 5 : celebrationAge < 1.8f ? 7 : 5;
+            }
+            // Sprite pivots mark the planted foot; one pixels-to-world scale for all poses.
+            var sprite = performanceFrames[frame];
+            var pixelScale = shooterHeight / performanceFrames[0].rect.height;
+            var size = sprite.rect.size * pixelScale;
+            var pivotOffset = (sprite.rect.size * .5f - sprite.pivot) * pixelScale;
+            Pose(shooter, sprite, size.y, false, foot + pivotOffset, 1);
+        }
 
         private static void Pose(Image image, Sprite sprite, float extent, bool width, Vector2 position, int sign)
         {

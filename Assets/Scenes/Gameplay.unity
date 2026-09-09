@@ -2216,6 +2216,7 @@ RectTransform:
   - {fileID: 1358814331}
   - {fileID: 377113229}
   - {fileID: 1152829950}
+  - {fileID: 969545979}
   m_Father: {fileID: 649615309}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -10884,6 +10885,96 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967409908}
   m_CullTransparentMesh: 1
+--- !u!1 &969545978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 969545979}
+  - component: {fileID: 969545982}
+  - component: {fileID: 969545981}
+  - component: {fileID: 969545980}
+  m_Layer: 0
+  m_Name: GOAL Celebration
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &969545979
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969545978}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 143241217}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 143.6}
+  m_SizeDelta: {x: 550, y: 160}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &969545980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969545978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e50b35dcc58d64fb98a3b6b1910534, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: PenaltyKing.Runtime::PenaltyKing.GoalCelebration
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!222 &969545981
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969545978}
+  m_CullTransparentMesh: 1
+--- !u!223 &969545982
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969545978}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &971040981
 GameObject:
   m_ObjectHideFlags: 0
@@ -19410,7 +19501,7 @@ MonoBehaviour:
   - {fileID: 1026808857}
   - {fileID: 1538495673}
   keeperIdle: {fileID: 1601202800659608381, guid: 86a2cb6cd9c46b04a91bfa7d42b59a88, type: 3}
-  shooterIdle: {fileID: -4900560067817512890, guid: 50cbe3368a44e5b4d9a1f602a1d4f394, type: 3}
+  shooterIdle: {fileID: -72347191039031091, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
   shooterFrames:
   - {fileID: -705310586474571725, guid: 4c94b72ff5fe2a3489dc65817b496f15, type: 3}
   - {fileID: -8366655765937903724, guid: 4c94b72ff5fe2a3489dc65817b496f15, type: 3}
@@ -19426,6 +19517,16 @@ MonoBehaviour:
   - {fileID: 598259959376406001, guid: 0b12e6eb8e7caca43b3eccafa64aa087, type: 3}
   - {fileID: -4981395411423315849, guid: 0b12e6eb8e7caca43b3eccafa64aa087, type: 3}
   - {fileID: 4172321051240159204, guid: 0b12e6eb8e7caca43b3eccafa64aa087, type: 3}
+  performanceFrames:
+  - {fileID: -72347191039031091, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: 7326764192417470566, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: 3379583975555543997, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: 618892475758331191, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: -2729247434342099487, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: -8831365729636711943, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: -1122259921704927306, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  - {fileID: 4620230957113028655, guid: 289cfea9a44937040a174bc99c7caf35, type: 3}
+  contactFootPixels: {x: 191.2497, y: 112.98743}
   shooterHeight: 212.18182
   keeperSize: 0.94
 --- !u!114 &1687378555

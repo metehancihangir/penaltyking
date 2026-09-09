@@ -18,15 +18,18 @@ namespace PenaltyKing
         };
         public void Sample(float seconds)
         {
-            age = seconds;
             raycastTarget = false;
+            // Pixel effects are authored at 30fps, independently of display refresh.
+            seconds = seconds < 0 || seconds >= ShotPresentation.GoalCelebrationDuration ? -1 : Mathf.Floor(seconds * 30) / 30;
+            if (Mathf.Approximately(age, seconds)) return;
+            age = seconds;
             SetVerticesDirty();
         }
         protected override void OnPopulateMesh(VertexHelper mesh)
         {
             mesh.Clear();
             if (!Visible) return;
-            var alpha = Mathf.Clamp01(age / .10f) * Mathf.Clamp01((5 - age) / .4f);
+            var alpha = Mathf.Clamp01(age / .10f) * Mathf.Clamp01((ShotPresentation.GoalCelebrationDuration - age) / .4f);
             var pop = age < .35f ? 1 - Mathf.Exp(-age * 12) * Mathf.Cos(age * 16) : 1;
             var scale = Mathf.Max(.1f, pop) * (1 + .018f * Mathf.Sin(age * 4));
             const float pixel = 9;
@@ -46,7 +49,7 @@ namespace PenaltyKing
                 tint.a *= alpha;
                 Quad(mesh, p * scale, Vector2.one * size * scale, tint);
             }
-            for (var burst = 0; burst < 4; burst++)
+            for (var burst = 0; burst < 3; burst++)
             {
                 var t = age - (.25f + burst * 1.05f);
                 if (t < 0 || t > 1.1f) continue;

@@ -7,6 +7,7 @@ namespace PenaltyKing
         [SerializeField] private Image shooter,keeper;
         [SerializeField] private Material template;
         private Material shooterMaterial,keeperMaterial;
+        private Sprite previousSprite;
         public int ShooterPlayer {get;private set;}=1;
         public void Configure(Image player,Image goalie,Material baseMaterial){shooter=player;keeper=goalie;template=baseMaterial;}
         public void SetShooterPlayer(int player)
@@ -28,7 +29,10 @@ namespace PenaltyKing
         public void UpdateUv()
         {
             if(shooterMaterial==null)return;
+            if(previousSprite==shooter.sprite)return;
+            previousSprite=shooter.sprite;
             shooterMaterial.SetVector("_SpriteUV",UnityEngine.Sprites.DataUtility.GetOuterUV(shooter.sprite));
+            shooterMaterial.SetFloat("_Chroma",shooter.sprite.texture.name=="ShooterPerformance"?1:0);
         }
         private void OnDestroy()
         {

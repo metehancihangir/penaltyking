@@ -260,3 +260,12 @@ Perspektifli ceza yayı, %20 küçük top, daha belirgin ağ tepkisi, daha okunu
 - Ayarlar/çıkış onayı kutlamayı duraklatır, devam edildiğinde aynı noktadan sürer. Kurtarış süresi ve taraftar/top sesleri korunur.
 - Önceki çıkış onayı/maç akışı doğrulaması 9/9 geçti. Yeni kutlamanın test raporu: `docs/goal-celebration-raporu.md`.
 - APK üretilmedi.
+# 9 Eylül 2026 — Şut ve sevinç revizyonu
+
+- GOAL süresi 5 yerine 3 saniye.
+- En öndeki taraftarlar ve alt tribün sırası sabit.
+- Yeni sekiz pozlu şut/sevinç atlası, gerilme ve ayağın topa hizalı teması.
+- Gol sonrası top ağın tabanında durur; dönüş ve konum 0,5 saniyede sabitlenir.
+- Ceza yayı büyütüldü; alt kısmı yatay kadraj dışına devam eder.
+- Dizüstünün pilde olabileceği bilgisi dikkate alındı; yalnız doğrulanmış gereksiz çizim güncellemeleri azaltıldı.
+- Ayrıntılar: `docs/action-revision-raporu.md`. APK oluşturulmadı.
