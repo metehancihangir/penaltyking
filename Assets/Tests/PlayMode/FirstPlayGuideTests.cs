@@ -25,7 +25,7 @@ namespace PenaltyKing.Tests
   {
    var practice=Object.FindFirstObjectByType<GuidePractice>();
    var buttons=practice.transform.Find("Directions").GetComponentsInChildren<UnityEngine.UI.Button>();
-   Assert.That(buttons.Length,Is.EqualTo(3));
+   Assert.That(buttons.Length,Is.EqualTo(6));
    LocalTestInput.Press(buttons[0]);
    Assert.That(game.Round.HasShotSelection,Is.False);Assert.That(game.Round.ShotsTaken,Is.Zero);
    Assert.That(practice.transform.Find("Description").GetComponent<UnityEngine.UI.Text>().text,Does.Contain("Harika"));

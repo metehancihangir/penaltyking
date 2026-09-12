@@ -3,11 +3,17 @@ using UnityEngine.UI;
 namespace PenaltyKing
 {
     // Six quiet brackets appear only while an input can be made; they never reveal a choice.
+    [RequireComponent(typeof(CanvasRenderer))]
     public sealed class TargetReticle : MaskableGraphic
     {
         private ShotZone zone;
         protected override void Awake(){base.Awake();zone=GetComponentInParent<ShotZone>();raycastTarget=false;}
-        private void LateUpdate(){var c=color;c.a=zone!=null&&zone.interactable?.6f:0;if(color!=c)color=c;}
+        private void LateUpdate()
+        {
+            if(!Application.isPlaying)return;
+            if(zone==null)zone=GetComponentInParent<ShotZone>();
+            var c=color;c.a=zone!=null&&zone.interactable?.75f:0;if(color!=c)color=c;
+        }
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();var r=rectTransform.rect;float d=9,w=1.5f;

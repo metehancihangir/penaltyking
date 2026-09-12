@@ -18,6 +18,12 @@ namespace PenaltyKing
         public const float GoalCelebrationDuration = 3f;
         public static float DurationFor(ShotResult shot) => shot.Outcome == ShotOutcome.Goal ? ImpactTime + GoalCelebrationDuration : Duration;
         private GoalCelebration goalCelebration;
+        [SerializeField] private FootballRig strikerRig, goalieRig;
+        public bool UsesBoneRigs => strikerRig!=null && goalieRig!=null;
+        public Vector2 GripPosition => goalieRig!=null?goalieRig.GripPosition:KeeperPosition;
+        public void ConfigureRigs(FootballRig player,FootballRig goalkeeper){strikerRig=player;goalieRig=goalkeeper;}
+        private void SampleRigKeeper(ShotResult shot,float time)
+        { RigMotion.Keeper(goalieRig,shot,time,keeperRest,TargetPoint(shot.KeeperDirection),keeperSize); }
         public bool GoalCelebrating => goalCelebration != null && goalCelebration.Visible;
         [SerializeField] private Image ball, keeper, shooter, shadow;
         [SerializeField] private RectTransform stage, crowd;
@@ -39,7 +45,7 @@ namespace PenaltyKing
         {
             if(net==null)return new Vector2((ShotTargets.Column(direction)-1)*spacing,targetY+(ShotTargets.IsHigh(direction)?65:0));
             var rect=((RectTransform)net.transform).rect;
-            var point=new Vector2((ShotTargets.Column(direction)-1)*rect.width*.32f,rect.height*(ShotTargets.IsHigh(direction)?.23f:-.25f));
+            var point=new Vector2((ShotTargets.Column(direction)-1)*rect.width*.32f,rect.height*(ShotTargets.IsHigh(direction)?.40f:-.36f));
             return stage.InverseTransformPoint(net.transform.TransformPoint(point));
         }
         public void ConfigurePerformance(Sprite[] frames, Vector2 contact)
@@ -48,7 +54,7 @@ namespace PenaltyKing
         [SerializeField] private float shooterHeight = 160, keeperSize = 1;
         public float ShooterHeight => shooterHeight;
         public Vector2 ShooterPosition => shooter.rectTransform.anchoredPosition;
-        public Vector2 ContactBootPosition => ShooterPosition + ((shotFrames!=null&&shotFrames.Length==12?shotContactPixels:contactFootPixels) + shooter.sprite.pivot - shooter.sprite.rect.size * .5f) * (shooterHeight / (shotFrames!=null&&shotFrames.Length==12?shotFrames[0]:performanceFrames[0]).rect.height);
+        public Vector2 ContactBootPosition => strikerRig!=null ? strikerRig.ToePosition : ShooterPosition + ((shotFrames!=null&&shotFrames.Length==12?shotContactPixels:contactFootPixels) + shooter.sprite.pivot - shooter.sprite.rect.size * .5f) * (shooterHeight / (shotFrames!=null&&shotFrames.Length==12?shotFrames[0]:performanceFrames[0]).rect.height);
         public Vector2 KeeperPosition => keeper.rectTransform.anchoredPosition;
         public void ConfigureActorScale(float height, float keeperScale)
         { shooterHeight = height; keeperSize = keeperScale; }
@@ -138,6 +144,7 @@ namespace PenaltyKing
             Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
             Pose(shooter, shooterIdle, shooterHeight, false, shooterRest, 1);
             SamplePlayer(0, -1);
+            if(goalieRig!=null){SampleRigKeeper(new ShotResult(ShotDirection.Center,ShotDirection.Center),0);goalieRig.HoldBall(false,ball.sprite,Vector2.zero);}
             crowd.anchoredPosition = crowdRest; stage.anchoredPosition = stageRest;
             allFans?.Sample(0, false);
             net?.Sample(-1, Vector2.zero);
@@ -173,6 +180,8 @@ namespace PenaltyKing
             goalCelebration?.Sample(celebrating ? celebrationAge : -1);
             SamplePlayer(time, celebrating ? celebrationAge : -1);
 
+            if(goalieRig==null)
+            {
             var dive = Mathf.SmoothStep(0, 1, Mathf.Clamp01((keeperTime - .16f) / (.9f - .16f)));
             var landing = Mathf.Clamp01((keeperTime - 1.02f) / .35f);
             var keeperFrame = keeperTime < .38f ? 0 : keeperTime < 1.05f ? 1 : keeperTime < 1.5f ? 2 : 3;
@@ -199,7 +208,9 @@ namespace PenaltyKing
             }
             if (keeperTime > 2.02f) Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
 
-            if(keeperSix!=null&&keeperSix.Length==8)SampleSixKeeper(shot.KeeperDirection,time);
+            }
+            if(goalieRig!=null)SampleRigKeeper(shot,time);
+            else if(keeperSix!=null&&keeperSix.Length==8)SampleSixKeeper(shot.KeeperDirection,time);
             var ballPosition = Trajectory(target, flight);
             if (time < ContactTime) ballPosition = ballRest;
             if (time >= ImpactTime)
@@ -210,6 +221,9 @@ namespace PenaltyKing
                 else
                     ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57 * keeperSize), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
             }
+            var held=goalieRig!=null && shot.Outcome==ShotOutcome.Save && time>=ImpactTime;
+            if(held)ballPosition=goalieRig.GripPosition;
+            ball.color=held?new Color(1,1,1,0):Color.white;
             ball.rectTransform.anchoredPosition = ballPosition;
             SortBallDepth(time >= ImpactTime ? 2 : flight > .12f ? 1 : 0);
             if (net != null)
@@ -221,8 +235,9 @@ namespace PenaltyKing
             var spinTime = Mathf.Clamp(time - ContactTime, 0, ImpactTime - ContactTime);
             var roll = Mathf.Clamp01((time - ImpactTime) / .5f);
             var spin = spinTime * -780 - (time >= ImpactTime ? 100 * (2 * roll - roll * roll) : 0);
-            ball.rectTransform.localRotation = Quaternion.Euler(0, 0, spin);
-            shadow.enabled = true;
+            ball.rectTransform.localRotation = held?Quaternion.identity:Quaternion.Euler(0, 0, spin);
+            goalieRig?.HoldBall(held,ball.sprite,ball.rectTransform.rect.size*1.2f*.55f);
+            shadow.enabled = !held;
             shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57 * keeperSize, flight));
             shadow.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .5f, flight);
             if (shot.Outcome == ShotOutcome.Goal && time >= ImpactTime)
@@ -270,6 +285,7 @@ namespace PenaltyKing
 
         private void SamplePlayer(float time, float celebrationAge)
         {
+            if(strikerRig!=null){RigMotion.Striker(strikerRig,time,celebrationAge,shooterRest,ballRest,shooterHeight);return;}
             if (performanceFrames == null || performanceFrames.Length < 8) return;
             if(shotFrames!=null&&shotFrames.Length==12 && celebrationAge<0)
             { SampleShotPlayer(time);return; }
@@ -332,10 +348,11 @@ namespace PenaltyKing
             {
                 var groundY=keeperRest.y-57*keeperSize;
                 var landing=Mathf.SmoothStep(0,1,Mathf.Clamp01((after-.16f)/.22f));
+                var landingFeet=position-Vector2.up*(sprite.rect.height*scale*.5f);
                 frame=column==0?6:after<.5f?4:5;sprite=keeperSix[frame];
                 var feet=new Vector2(target.x-column*42*keeperSize,groundY);
                 var footOffset=(sprite.rect.size*.5f-sprite.pivot)*scale;footOffset.x*=sign;
-                position=Vector2.Lerp(position,feet+footOffset,landing);
+                position=Vector2.Lerp(landingFeet,feet,landing)+footOffset;
                 var recover=Mathf.SmoothStep(0,1,Mathf.Clamp01((after-.65f)/.5f));
                 if(recover>0){sprite=keeperSix[7];sign=1;position=Vector2.Lerp(feet+Vector2.up*57*keeperSize,keeperRest,recover);}
             }

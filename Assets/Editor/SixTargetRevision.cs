@@ -28,6 +28,8 @@ namespace PenaltyKing.Editor
                     marker=obj.GetComponent<TargetReticle>();marker.color=new Color32(208,239,181,150);
                     marker.rectTransform.sizeDelta=new Vector2(48,32);marker.raycastTarget=false;
                 }
+                if(marker.GetComponent<CanvasRenderer>()==null)marker.gameObject.AddComponent<CanvasRenderer>();
+                marker.rectTransform.sizeDelta=new Vector2(48,24);
             }
             game.ConfigureSixTargets(zones);
             var data=new SerializedObject(game.Presentation);
@@ -47,19 +49,37 @@ namespace PenaltyKing.Editor
         }
         private static void UpgradeGuide()
         {
-            var practice=Object.FindFirstObjectByType<GuidePractice>();if(practice==null)return;
+            var practice=Object.FindFirstObjectByType<GuidePractice>(FindObjectsInactive.Include);if(practice==null)return;
             var data=new SerializedObject(practice);var targets=data.FindProperty("targets");
             var original=Enumerable.Range(0,targets.arraySize).Select(i=>(Button)targets.GetArrayElementAtIndex(i).objectReferenceValue).ToArray();
+            var diagram=original[0].transform.parent;
+            foreach(Transform child in diagram.Cast<Transform>().ToArray())
+                if(!original.Any(b=>b.transform==child))Object.DestroyImmediate(child.gameObject);
+            var mini=PhaseOneSetup.Image("Mini goal",diagram,new Vector2(300,126),Vector2.zero,new Color32(28,57,60,255));mini.transform.SetAsFirstSibling();
+            PhaseOneSetup.Image("Bar",mini.transform,new Vector2(284,2),new Vector2(0,59),new Color32(174,196,192,255));
+            for(var side=-1;side<=1;side+=2)PhaseOneSetup.Image("Post",mini.transform,new Vector2(2,118),new Vector2(side*142,0),new Color32(174,196,192,255));
             targets.arraySize=6;
             for(var i=0;i<6;i++)
             {
                 var button=i<original.Length?original[i]:Object.Instantiate(original[i%3],original[0].transform.parent);
                 button.name="Practice "+ShotTargets.Label((ShotDirection)i);
                 var rt=(RectTransform)button.transform;rt.anchoredPosition=new Vector2((i%3-1)*86,i>=3?31:-31);rt.sizeDelta=new Vector2(76,48);
-                foreach(var text in button.GetComponentsInChildren<Text>(true)){text.text=ShotTargets.Label((ShotDirection)i);text.fontSize=13;}
+                foreach(Transform child in button.transform.Cast<Transform>().ToArray())Object.DestroyImmediate(child.gameObject);
+                PhaseOneSetup.Label("Zone label",button.transform,ShotTargets.Label((ShotDirection)i),new Vector2(72,38),Vector2.zero,14,new Color32(227,238,230,255));
                 targets.GetArrayElementAtIndex(i).objectReferenceValue=button;
             }
             data.ApplyModifiedPropertiesWithoutUndo();
+            var card=(RectTransform)practice.transform;card.sizeDelta=new Vector2(440,430);card.anchoredPosition=new Vector2(0,-45);
+            ((RectTransform)card.Find("Edge")).anchoredPosition=new Vector2(0,213);
+            ((RectTransform)card.Find("Page")).anchoredPosition=new Vector2(0,163);
+            ((RectTransform)card.Find("Title")).anchoredPosition=new Vector2(0,104);
+            ((RectTransform)diagram).anchoredPosition=new Vector2(0,10);
+            ((RectTransform)card.Find("Description")).anchoredPosition=new Vector2(0,-84);
+            ((RectTransform)card.Find("Practice Extras/Caption")).anchoredPosition=new Vector2(0,190);
+            var hint=(RectTransform)card.Find("Practice Extras/Hint");hint.anchoredPosition=new Vector2(0,-132);hint.sizeDelta=new Vector2(400,18);hint.GetComponent<Text>().fontSize=12;
+            var steps=card.Find("Practice Extras").Cast<Transform>().Where(t=>t.name=="Step").ToArray();
+            foreach(var step in steps){var r=(RectTransform)step;r.anchoredPosition=new Vector2(r.anchoredPosition.x,140);}
+            var next=(RectTransform)Object.FindFirstObjectByType<FirstPlayGuide>().Next.transform;next.anchoredPosition=new Vector2(0,-178);next.sizeDelta=new Vector2(next.sizeDelta.x,64);
         }
         private static bool Ink(Color32 c)=>c.a>32&&!(c.r>110&&c.b>85&&c.g<Mathf.Min(c.r,c.b)*.6f);
         private static Sprite[] Import(string name,int count,out Vector2 contact)
@@ -103,7 +123,11 @@ namespace PenaltyKing.Editor
         {
             EditorSceneManager.OpenScene("Assets/Scenes/Gameplay.unity");
             var game=Object.FindFirstObjectByType<GameplayController>();var kits=game.GetComponent<PlayerKitColours>();kits.SetShooterPlayer(1);
+            var markers=Object.FindObjectsByType<TargetReticle>(FindObjectsSortMode.None);
+            foreach(var marker in markers)marker.color=new Color32(208,239,181,165);
             MenuPreview.Render(1280,720,"ready","six-target");kits.UpdateUv();MenuPreview.Render(1280,720,"ready","six-target");
+            foreach(var marker in markers)Debug.Log($"[Target] {marker.transform.parent.name} verts={marker.canvasRenderer.GetMesh()?.vertexCount} cull={marker.canvasRenderer.cull} depth={marker.canvasRenderer.absoluteDepth} color={marker.color} active={marker.isActiveAndEnabled}");
+            foreach(var marker in markers)marker.color=new Color(0,0,0,0);
             foreach(var d in System.Enum.GetValues(typeof(ShotDirection)).Cast<ShotDirection>())
             {
                 game.Presentation.Sample(new ShotResult(d,d),ShotPresentation.ImpactTime);kits.UpdateUv();MenuPreview.Render(1280,720,"save-"+d,"six-target");

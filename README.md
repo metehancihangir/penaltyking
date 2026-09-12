@@ -2,7 +2,7 @@
 
 Unity 6000.4.4f1 / C# / Universal 2D. Gece stadyumunda, aynı telefonda iki oyunculu piksel penaltı oyunu.
 
-**12 Eylül çalışma sürümü:** daha yetişkin arka profilli oyuncu; 8 şut ve 4 sevinç pozu; yaklaşık %14 genişletilmiş saha kadrajı. Yalnız büyük yüzlü ön taraftar modelleri sabittir. Top gol sonrası zemine/gölgesine oturur ve oyuncuların üzerine çizilmez. **3 saniyelik GOAL!**, forma renkleri, ağ hareketi, çıkış onayı ve mevcut sesler korunur. Yeni APK üretilmedi; aşağıdaki 0.2.2 paketi bu değişiklikleri içermez. Ayrıntılar: `docs/striker-wide-raporu.md`.
+**12 Eylül çalışma sürümü:** piksel parçalarla sürekli 2D kemik animasyonu, altı bölgede kalecinin iki eliyle top tutması ve boşluksuz hareketli tribünler. Kale işaretleri kaldırıldı; altı görünmez dokunma bölgesi korundu. Yeni APK üretilmedi. Ayrıntılar ve doğrulama: [kemik animasyonu raporu](docs/bone-rig-raporu.md). Unity önizlemeleri: [şut ve kurtarış](docs/previews/bone-rig-save.gif), [gol ve sevinç](docs/previews/bone-rig-goal.gif).
 
 ## Son Android paketi — 9 Eylül değişikliklerini içermez
 
@@ -14,9 +14,9 @@ Güncelleme Faz 7: 48/48 Unity PlayMode testi geçti. Android doğrulama ayrınt
 
 Unity Hub ile bu proje klasörünü açın. Project panelinde **Assets → Scenes → MainMenu** sahnesine çift tıklayın, üstte **▶ Play** düğmesine basın. Boş Untitled sahnesi oyunu içermez.
 
-Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. Mevcut sahneler hazırdır. Eski üreticilerle yeniden kurulum yapılırsa `PenaltyKing.Editor.LandscapeRevision.Setup`, ardından `PenaltyKing.Editor.MatchPolish.Setup` ve en son `PenaltyKing.Editor.StrikerRevision.Setup` uygulanır.
+Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. Mevcut sahneler hazırdır; tekrar üretmeniz gerekmez. Eski sahne üreticileri yeni düzeni geri alabilir. Güncel kemik/tribün kurulumu `PenaltyKing.Editor.BoneRigRevision.Setup` ile mevcut Gameplay sahnesine uygulanır.
 
-**Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ yönlerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış yönünü seçin. Aynı yön kurtarış, farklı yön gol. Her atışta roller değişir.
+**Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ × üst/alt bölgelerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış bölgesini seçin. Aynı bölge kurtarış, farklı bölge gol. Her atışta roller değişir.
 
 Sabit Round: oyuncu başına 5 şut; beraberlikte biter. Endless kurtarışlarda da devam eder. Tekrar Oyna aynı modla yeni maç başlatır. Menü düğmesi maçı duraklatıp çıkış onayı sorar; “Maça devam et” aynı noktadan sürdürür. Üst tabelada oyuncu skorları ve beşer son atış görünür.
 
