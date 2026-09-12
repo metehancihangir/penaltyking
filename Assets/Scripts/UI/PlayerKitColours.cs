@@ -24,6 +24,9 @@ namespace PenaltyKing
             shooterMaterial.SetFloat("_Kit",player==2?1:0);
             keeperMaterial.SetFloat("_Kit",player==2?2:0);
             UpdateUv();
+            var strikerRig=shooter.GetComponent<FootballRig>();var goalieRig=keeper.GetComponent<FootballRig>();
+            if(strikerRig!=null){shooterMaterial.SetFloat("_Chroma",1);strikerRig.SetMaterial(shooterMaterial);}
+            if(goalieRig!=null){keeperMaterial.SetFloat("_Chroma",1);goalieRig.SetMaterial(keeperMaterial);}
         }
         private void LateUpdate()=>UpdateUv();
         public void UpdateUv()

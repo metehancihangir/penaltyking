@@ -5,6 +5,42 @@ TextureImporter:
   - first:
       213: 6651372458605544763
     second: StrikerShot12_0
+  - first:
+      213: 2656540465226164203
+    second: StrikerShot12_00
+  - first:
+      213: 6098262352468736905
+    second: StrikerShot12_01
+  - first:
+      213: -4370211057131865844
+    second: StrikerShot12_02
+  - first:
+      213: -4180516358269476930
+    second: StrikerShot12_03
+  - first:
+      213: 9111194444064852388
+    second: StrikerShot12_04
+  - first:
+      213: -5065011941145117236
+    second: StrikerShot12_05
+  - first:
+      213: -5785581976416773017
+    second: StrikerShot12_06
+  - first:
+      213: 4455585571412797280
+    second: StrikerShot12_07
+  - first:
+      213: 4403911204912532400
+    second: StrikerShot12_08
+  - first:
+      213: 3617183188475830388
+    second: StrikerShot12_09
+  - first:
+      213: -5786446282661587484
+    second: StrikerShot12_10
+  - first:
+      213: 7472879933497462694
+    second: StrikerShot12_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +73,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +111,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,23 +162,265 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StrikerShot12_0
+      name: StrikerShot12_00
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1254
-        height: 1254
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 59
+        y: 850
+        width: 193
+        height: 370
+      alignment: 9
+      pivot: {x: 0.53995705, y: 0.020241072}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b350008b20c6e4c50800000000000000
-      internalID: 6651372458605544763
+      spriteID: be7a1496a7dedd420800000000000000
+      internalID: 2656540465226164203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_01
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 850
+        width: 226
+        height: 370
+      alignment: 9
+      pivot: {x: 0.4532044, y: 0.02117425}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98b7902bc4161a450800000000000000
+      internalID: 6098262352468736905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_02
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 851
+        width: 254
+        height: 355
+      alignment: 9
+      pivot: {x: 0.48940077, y: 0.021537501}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c09bb2aa234e953c0800000000000000
+      internalID: -4370211057131865844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_03
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 851
+        width: 252
+        height: 369
+      alignment: 9
+      pivot: {x: 0.7813101, y: 0.021669962}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebf53af7582dbf5c0800000000000000
+      internalID: -4180516358269476930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_04
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 461
+        width: 247
+        height: 348
+      alignment: 9
+      pivot: {x: 0.6004568, y: 0.02088937}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a98ffdd217717e70800000000000000
+      internalID: 9111194444064852388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_05
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 461
+        width: 254
+        height: 346
+      alignment: 9
+      pivot: {x: 0.73671186, y: 0.021569313}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccdfee0a97675b9b0800000000000000
+      internalID: -5065011941145117236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_06
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 461
+        width: 283
+        height: 348
+      alignment: 9
+      pivot: {x: 0.7148647, y: 0.021316003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76c96c488db75bfa0800000000000000
+      internalID: -5785581976416773017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_07
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 418
+        width: 244
+        height: 392
+      alignment: 9
+      pivot: {x: 0.545082, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0676a62787b65dd30800000000000000
+      internalID: 4455585571412797280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_08
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 53
+        width: 310
+        height: 357
+      alignment: 9
+      pivot: {x: 0.5392267, y: 0.020851456}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bb8c2f68e5dd1d30800000000000000
+      internalID: 4403911204912532400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_09
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 53
+        width: 245
+        height: 361
+      alignment: 9
+      pivot: {x: 0.49040252, y: 0.02082159}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 470ed9cf1f0d23230800000000000000
+      internalID: 3617183188475830388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_10
+      rect:
+        serializedVersion: 2
+        x: 662
+        y: 52
+        width: 220
+        height: 362
+      alignment: 9
+      pivot: {x: 0.54566014, y: 0.022126889}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e5931a83c962bfa0800000000000000
+      internalID: -5786446282661587484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StrikerShot12_11
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 49
+        width: 202
+        height: 369
+      alignment: 9
+      pivot: {x: 0.5593866, y: 0.020094585}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6afc24dd4b005b760800000000000000
+      internalID: 7472879933497462694
       vertices: []
       indices: 
       edges: []
@@ -162,6 +440,18 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       StrikerShot12_0: 6651372458605544763
+      StrikerShot12_00: 2656540465226164203
+      StrikerShot12_01: 6098262352468736905
+      StrikerShot12_02: -4370211057131865844
+      StrikerShot12_03: -4180516358269476930
+      StrikerShot12_04: 9111194444064852388
+      StrikerShot12_05: -5065011941145117236
+      StrikerShot12_06: -5785581976416773017
+      StrikerShot12_07: 4455585571412797280
+      StrikerShot12_08: 4403911204912532400
+      StrikerShot12_09: 3617183188475830388
+      StrikerShot12_10: -5786446282661587484
+      StrikerShot12_11: 7472879933497462694
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

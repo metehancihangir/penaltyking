@@ -2,7 +2,22 @@
 
 Tarih: 7 Eylül 2026
 
-Durum: Güncelleme Faz 1–4 uygulandı; sonraki güncelleme fazları bekliyor. Mevcut APK önceki Faz 0–8 sürümüdür; bu aşamada yeni APK üretilmedi. Aşağıdaki fazlar yeni güncelleme serisidir.
+Durum: Faz 1–7 sonrasındaki 12 Eylül altı hedef ve görsel düzeltme güncellemesi tamamlandı. Aşağıdaki eski faz kayıtları tarihsel notlardır. Yeni APK üretilmedi.
+
+## 12 Eylül — Altı hedef ve görsel düzeltmeler
+
+- [x] Büyük yüzlü ön taraftar modellerini kaldır; stadyumdaki diğer taraftarların kutlamalarını koru.
+- [x] Golde kalenin büyüyüp küçülmesini düzelt: ağ deformasyonu Image bileşeninin gerçek çizim sınırlarıyla çalışır.
+- [x] Vuruşta siyah parça görünümünü gider: top kopyası gölge yerine oval gölge kullan, küçük toz karelerini kaldır.
+- [x] Yeni 12 karelik şut atlasını ayak/top temasına hizala; mevcut sevinç pozlarını koru.
+- [x] Çim renklerini, ince saha dokusunu, sürekli perspektif çizgilerini ve penaltı noktasını yenile.
+- [x] Şutçu ve kaleci için altı bölge ekle: sol/orta/sağ × üst/alt. Yalnız aynı bölge kurtarıştır; aynı sütunda farklı yükseklik gol olur.
+- [x] Üst/alt hedeflere uygun kaleci çizimleri, eldiven temas noktaları ve top uçuşları ekle. Hedef işaretleri seçim dışında gizlenir.
+- [x] İlk oyun rehberini altı düğmeyle güncelle; eski rehber tamamlanmış olsa bile yeni rehberi bir kez göster.
+- [x] Tam PlayMode kontrolleri 57/57; son hedef/rehber düzenlemelerinin tekrar kontrolleri 11/11 geçti. Test edilen sahne ve atlas kesimleri ana projeye aktarıldı.
+- [x] APK üretme. Mevcut paketler değişmedi.
+
+Ayrıntılar: `docs/six-target-raporu.md`. Unity önizlemesi: `docs/previews/six-target-ready.png`; animasyon: `docs/previews/six-target.gif`.
 
 ## Kapsam ve öncelik
 
@@ -276,3 +291,15 @@ Perspektifli ceza yayı, %20 küçük top, daha belirgin ağ tepkisi, daha okunu
 - Yaklaşık %14 daha geniş saha kadrajı; HUD boyutları korunur.
 - Orta golde top zemine/gölgesine oturur ve yana yuvarlanıp durur. Sol golde top oyuncunun üzerine çizilmez; top/efekt derinlik sırası düzeltildi.
 - GOAL süresi 3 saniye. APK yok. Ayrıntılar: `docs/striker-wide-raporu.md`.
+
+# 12 Eylül 2026 — 2D kemik animasyonu ve top tutuşu
+
+Kullanıcı tercihi: piksel tarzı korunarak 2D kemik animasyonu. Bu bölüm önceki kare atlası animasyonu ve görünür hedef işaretleri kararlarının yerini alır.
+
+- [x] Şutçu ve kaleci için ayrı parçalardan oluşan 15 eklemli 2D kemik yapısı; kol/bacak hareketleri iki kemikli IK ile sürekli hesaplanır.
+- [x] Gerilme, ayak–top teması, vuruş devamı, dalış, iniş ve sevinç yeni kemik yapısına bağlandı. Kırmızı/açık mavi şutçu ve sarı/yeşil kaleci renkleri korundu.
+- [x] Altı kurtarış bölgesinde top iki elin ortasında tutulur; dönüşü durur, kaleciyle birlikte iner ve yeni atışa kadar elinde kalır.
+- [x] Tribün katmanları arasındaki sabit yatay boşluklar kapatıldı; tüm 12 bölüm golde hareket eder. Büyük yüzlü taraftar modelleri geri eklenmedi.
+- [x] Kaledeki hedef belirteçleri ve seçim parlamaları kaldırıldı. Altı görünmez dokunma bölgesi ve rehber korundu.
+- [x] Son ilgili PlayMode testleri 10/10 geçti. İlk tam çalıştırmadaki tek kayan nokta karşılaştırması hatası düzeltildi; ayrıntılı sonuçlar `docs/bone-rig-raporu.md` içinde.
+- [x] Unity şut/kurtarış ve gol/sevinç önizlemeleri oluşturuldu. APK oluşturulmadı.

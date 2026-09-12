@@ -5,6 +5,30 @@ TextureImporter:
   - first:
       213: 4994139918887083926
     second: KeeperSix_0
+  - first:
+      213: -5175047596645237863
+    second: KeeperSix_00
+  - first:
+      213: -1924097430964153595
+    second: KeeperSix_01
+  - first:
+      213: -5495610851442794036
+    second: KeeperSix_02
+  - first:
+      213: -7087172391614301820
+    second: KeeperSix_03
+  - first:
+      213: -8856385533866303554
+    second: KeeperSix_04
+  - first:
+      213: 6664895693912983656
+    second: KeeperSix_05
+  - first:
+      213: 6310977365775254122
+    second: KeeperSix_06
+  - first:
+      213: -4346157131954579161
+    second: KeeperSix_07
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,23 +150,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KeeperSix_0
+      name: KeeperSix_00
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1774
-        height: 887
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 38
+        y: 472
+        width: 462
+        height: 306
+      alignment: 9
+      pivot: {x: 0.9720815, y: 0.892831}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69fdcdfcbcfbe4540800000000000000
-      internalID: 4994139918887083926
+      spriteID: 99bb83221a98e28b0800000000000000
+      internalID: -5175047596645237863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_01
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 476
+        width: 495
+        height: 133
+      alignment: 9
+      pivot: {x: 0.97466224, y: 0.18742314}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 503d322b49b3c45e0800000000000000
+      internalID: -1924097430964153595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_02
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 448
+        width: 171
+        height: 414
+      alignment: 9
+      pivot: {x: 0.6365003, y: 0.9687655}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc168ff2c0babb3b0800000000000000
+      internalID: -5495610851442794036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_03
+      rect:
+        serializedVersion: 2
+        x: 1427
+        y: 449
+        width: 258
+        height: 212
+      alignment: 9
+      pivot: {x: 0.4987632, y: 0.058134835}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 489bfdf524e45ad90800000000000000
+      internalID: -7087172391614301820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_04
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 61
+        width: 483
+        height: 121
+      alignment: 9
+      pivot: {x: 0.6357354, y: 0.07354459}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebf9df3b74cc71580800000000000000
+      internalID: -8856385533866303554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_05
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 60
+        width: 302
+        height: 257
+      alignment: 9
+      pivot: {x: 0.5915883, y: 0.034318086}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 868c6bc42577e7c50800000000000000
+      internalID: 6664895693912983656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_06
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 61
+        width: 159
+        height: 321
+      alignment: 9
+      pivot: {x: 0.4793801, y: 0.024755437}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6280982a78159750800000000000000
+      internalID: 6310977365775254122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeeperSix_07
+      rect:
+        serializedVersion: 2
+        x: 1415
+        y: 60
+        width: 272
+        height: 282
+      alignment: 9
+      pivot: {x: 0.49708334, y: 0.026795598}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72911db8d195fa3c0800000000000000
+      internalID: -4346157131954579161
       vertices: []
       indices: 
       edges: []
@@ -162,6 +340,14 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       KeeperSix_0: 4994139918887083926
+      KeeperSix_00: -5175047596645237863
+      KeeperSix_01: -1924097430964153595
+      KeeperSix_02: -5495610851442794036
+      KeeperSix_03: -7087172391614301820
+      KeeperSix_04: -8856385533866303554
+      KeeperSix_05: 6664895693912983656
+      KeeperSix_06: 6310977365775254122
+      KeeperSix_07: -4346157131954579161
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

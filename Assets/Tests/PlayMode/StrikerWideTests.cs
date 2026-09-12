@@ -9,7 +9,7 @@ namespace PenaltyKing.Tests
 {
     public sealed class StrikerWideTests
     {
-        [UnityTest] public IEnumerator AllGoalsRestOnTheirShadowBehindThePlayerAndShotHasEightPoses()
+        [UnityTest] public IEnumerator AllGoalsRestOnTheirShadowBehindThePlayerAndBonesMoveContinuously()
         {
             RuntimeBootstrap.EnsureServices();GameManager.Instance.SelectLocalMultiplayer();GameManager.Instance.SelectMode(GameMode.Endless);
             yield return SceneManager.LoadSceneAsync("Gameplay");yield return null;
@@ -18,9 +18,9 @@ namespace PenaltyKing.Tests
             var effects=stage.Find("Ball Effects");var shadow=effects.Find("Ball Shadow").GetComponent<Image>();
             var originalOrder=ball.GetSiblingIndex();var effectOrder=effects.GetSiblingIndex();
             Assert.That(((RectTransform)stage).rect.width,Is.GreaterThanOrEqualTo(1120));
-            var frames=new HashSet<string>();var goal=new ShotResult(ShotDirection.Left,ShotDirection.Right);
-            foreach(var t in new[]{0f,.15f,.3f,.42f,.6f,ShotPresentation.ContactTime,.82f,.98f}){p.Sample(goal,t);frames.Add(player.sprite.name);}
-            Assert.That(frames.Count,Is.EqualTo(8));
+            var frames=new HashSet<float>();var goal=new ShotResult(ShotDirection.Left,ShotDirection.Right);
+            foreach(var t in new[]{0f,.15f,.3f,.42f,.6f,ShotPresentation.ContactTime,.82f,.98f}){p.Sample(goal,t);frames.Add(player.transform.Find("Hips/Right Hip/Right Knee").eulerAngles.z);}
+            Assert.That(frames.Count,Is.GreaterThanOrEqualTo(6));
             foreach(var direction in new[]{ShotDirection.Left,ShotDirection.Center,ShotDirection.Right})
             {
                 p.ResetPose();p.Sample(new ShotResult(direction,direction==ShotDirection.Left?ShotDirection.Right:ShotDirection.Left),ShotPresentation.ImpactTime+1);

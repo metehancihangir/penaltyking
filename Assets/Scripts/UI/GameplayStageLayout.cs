@@ -84,8 +84,10 @@ namespace PenaltyKing
                 for(var i=0;i<6;i++)
                 {
                     var rt=(RectTransform)controller.Targets[i].transform;
-                    rt.anchoredPosition=new Vector2((i%3-1)*goal.rect.width*.32f,goal.rect.height*(i>=3?.23f:-.25f));
-                    rt.sizeDelta=new Vector2(goal.rect.width*.30f,goal.rect.height*.43f);
+                    rt.anchoredPosition=new Vector2((i%3-1)*goal.rect.width*.32f,goal.rect.height*(i>=3?.25f:-.25f));
+                    rt.sizeDelta=new Vector2(goal.rect.width*.30f,goal.rect.height*.50f);
+                    var marker=rt.GetComponentInChildren<TargetReticle>();
+                    if(marker!=null)marker.rectTransform.anchoredPosition=new Vector2(0,goal.rect.height*(i>=3?.15f:-.11f));
                 }
             }
         }
