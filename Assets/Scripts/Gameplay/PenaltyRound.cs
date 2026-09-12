@@ -3,7 +3,15 @@ using System.Collections.Generic;
 
 namespace PenaltyKing
 {
-    public enum ShotDirection { Left, Center, Right }
+    // Existing serialized directions remain the three lower targets.
+    public enum ShotDirection { Left, Center, Right, LeftHigh, CenterHigh, RightHigh }
+    public static class ShotTargets
+    {
+        public static int Column(ShotDirection direction) => (int)direction % 3;
+        public static bool IsHigh(ShotDirection direction) => (int)direction >= 3;
+        public static string Label(ShotDirection direction) =>
+            (Column(direction) == 0 ? "Sol" : Column(direction) == 1 ? "Orta" : "Sağ") + (IsHigh(direction) ? " Üst" : " Alt");
+    }
     public enum ShotOutcome { Goal, Save }
 
     public readonly struct ShotResult

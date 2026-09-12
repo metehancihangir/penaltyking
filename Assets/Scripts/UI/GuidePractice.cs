@@ -16,7 +16,7 @@ namespace PenaltyKing
   {
    if(!guide.Visible || game.SettingsOpen)return;
    for(var i=0;i<targets.Length;i++)targets[i].targetGraphic.color=i==index?new Color32(186,235,113,255):new Color32(39,70,83,255);
-   detail.text=guide.Step==0?"Harika! Seçimin gizli kalır.":"Aynı yön = kurtarış!\nFarklı yön = gol!";
+   detail.text=guide.Step==0?"Harika! Seçimin gizli kalır.":"Aynı bölge = kurtarış!\nFarklı bölge = gol!";
   }
   private void LateUpdate()
   {

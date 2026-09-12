@@ -10,6 +10,10 @@ namespace PenaltyKing
     public sealed class GameplayController : MonoBehaviour
     {
         [SerializeField] private ShotZone left, center, right;
+        [SerializeField] private ShotZone leftHigh, centerHigh, rightHigh;
+        public ShotZone[] Targets => new[] { left, center, right, leftHigh, centerHigh, rightHigh };
+        public void ConfigureSixTargets(ShotZone[] zones)
+        { left=zones[0];center=zones[1];right=zones[2];leftHigh=zones[3];centerHigh=zones[4];rightHigh=zones[5]; }
         [SerializeField] private Text score, shotCounter, modeLabel, feedback, directions;
         [SerializeField] private RectTransform ball, keeper;
         [SerializeField] private GameObject resultPanel;
@@ -89,6 +93,9 @@ namespace PenaltyKing
                 presentation.Impact += PresentImpact;
             }
             left.onClick.AddListener(ShootLeft); center.onClick.AddListener(ShootCenter); right.onClick.AddListener(ShootRight);
+            if(leftHigh!=null)leftHigh.onClick.AddListener(ShootLeftHigh);
+            if(centerHigh!=null)centerHigh.onClick.AddListener(ShootCenterHigh);
+            if(rightHigh!=null)rightHigh.onClick.AddListener(ShootRightHigh);
             replay.onClick.AddListener(Restart); home.onClick.AddListener(GoHome);
             if (exit != null) exit.onClick.AddListener(GoHome);
             var state = GameManager.Instance;
@@ -110,6 +117,9 @@ namespace PenaltyKing
             StartRound();
         }
 
+        private void ShootLeftHigh() => Shoot(ShotDirection.LeftHigh);
+        private void ShootCenterHigh() => Shoot(ShotDirection.CenterHigh);
+        private void ShootRightHigh() => Shoot(ShotDirection.RightHigh);
         private void ShootLeft() => Shoot(ShotDirection.Left);
         private void ShootCenter() => Shoot(ShotDirection.Center);
         private void ShootRight() => Shoot(ShotDirection.Right);
@@ -126,7 +136,7 @@ namespace PenaltyKing
                 {
                     State = PlayState.ChoosingKeeper;
                     feedback.text = $"PLAYER {Round.KeeperPlayer} · KURTARIŞ";
-                    directions.text = "Bir yöne dokun.";
+                    directions.text = "Altı bölgeden birine dokun.";
                     EnableZones(true);
                 });
                 return;
@@ -220,7 +230,7 @@ namespace PenaltyKing
             if (presentation != null) presentation.ResetPose();
             feedback.text = $"PLAYER {Round.ShooterPlayer} · ŞUT";
             feedback.color = new Color32(227, 238, 230, 255);
-            directions.text = "Sol, orta veya sağ.";
+            directions.text = "Sol, orta, sağ · Üst veya alt.";
             EnableZones(false);
             handoff.Show(Round.ShooterPlayer, false, () =>
             {
@@ -234,9 +244,9 @@ namespace PenaltyKing
             score.text = $"P1 {Round.Player1.Goals}  -  {Round.Player2.Goals} P2";
             shotCounter.text = mode == GameMode.FixedRound ? $"ŞUT  {Round.ShotsTaken} / {Round.ShotLimit * 2}" : $"ŞUT  {Round.ShotsTaken}";
         }
-        private void EnableZones(bool enabled) { left.interactable = center.interactable = right.interactable = enabled; }
-        private float DirectionX(ShotDirection direction) => ((int)direction - 1) * targetSpacing;
-        private static string Name(ShotDirection direction) => direction == ShotDirection.Left ? "Sol" : direction == ShotDirection.Center ? "Orta" : "Sağ";
+        private void EnableZones(bool enabled) { foreach(var zone in Targets) if(zone!=null)zone.interactable=enabled; }
+        private float DirectionX(ShotDirection direction) => (ShotTargets.Column(direction) - 1) * targetSpacing;
+        private static string Name(ShotDirection direction) => ShotTargets.Label(direction);
         private void GoHome()
         {
             if (navigator.IsLoading || SettingsOpen || State == PlayState.Leaving) return;
@@ -262,6 +272,9 @@ namespace PenaltyKing
         {
             if (presentation != null) presentation.Impact -= PresentImpact;
             left.onClick.RemoveListener(ShootLeft); center.onClick.RemoveListener(ShootCenter); right.onClick.RemoveListener(ShootRight);
+            if(leftHigh!=null)leftHigh.onClick.RemoveListener(ShootLeftHigh);
+            if(centerHigh!=null)centerHigh.onClick.RemoveListener(ShootCenterHigh);
+            if(rightHigh!=null)rightHigh.onClick.RemoveListener(ShootRightHigh);
             replay.onClick.RemoveListener(Restart); home.onClick.RemoveListener(GoHome);
             if (exit != null) exit.onClick.RemoveListener(GoHome);
         }
