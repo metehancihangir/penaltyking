@@ -27,15 +27,28 @@ namespace PenaltyKing
         private Vector2 ballRest, keeperRest, shooterRest, crowdRest, stageRest;
         private CrowdCelebration allFans;
         private GoalNetRipple net;
+        private int originalBallOrder = -1, originalEffectsOrder;
+        private int ballDepthLayer;
         [SerializeField] private Sprite[] performanceFrames;
         [SerializeField] private Vector2 contactFootPixels;
+        [SerializeField] private Sprite[] shotFrames, keeperSix;
+        [SerializeField] private Vector2 shotContactPixels;
+        public void ConfigureSixAnimation(Sprite[] shots,Vector2 toe,Sprite[] saves)
+        { shotFrames=shots;shotContactPixels=toe;keeperSix=saves;shooterIdle=shots[0];keeperIdle=saves[7]; }
+        public Vector2 TargetPoint(ShotDirection direction)
+        {
+            if(net==null)return new Vector2((ShotTargets.Column(direction)-1)*spacing,targetY+(ShotTargets.IsHigh(direction)?65:0));
+            var rect=((RectTransform)net.transform).rect;
+            var point=new Vector2((ShotTargets.Column(direction)-1)*rect.width*.32f,rect.height*(ShotTargets.IsHigh(direction)?.23f:-.25f));
+            return stage.InverseTransformPoint(net.transform.TransformPoint(point));
+        }
         public void ConfigurePerformance(Sprite[] frames, Vector2 contact)
         { performanceFrames = frames; contactFootPixels = contact; shooterIdle = frames[0]; }
         private float spacing = 190, targetY = 58;
         [SerializeField] private float shooterHeight = 160, keeperSize = 1;
         public float ShooterHeight => shooterHeight;
         public Vector2 ShooterPosition => shooter.rectTransform.anchoredPosition;
-        public Vector2 ContactBootPosition => ShooterPosition + (contactFootPixels + shooter.sprite.pivot - shooter.sprite.rect.size * .5f) * (shooterHeight / performanceFrames[0].rect.height);
+        public Vector2 ContactBootPosition => ShooterPosition + ((shotFrames!=null&&shotFrames.Length==12?shotContactPixels:contactFootPixels) + shooter.sprite.pivot - shooter.sprite.rect.size * .5f) * (shooterHeight / (shotFrames!=null&&shotFrames.Length==12?shotFrames[0]:performanceFrames[0]).rect.height);
         public Vector2 KeeperPosition => keeper.rectTransform.anchoredPosition;
         public void ConfigureActorScale(float height, float keeperScale)
         { shooterHeight = height; keeperSize = keeperScale; }
@@ -117,6 +130,7 @@ namespace PenaltyKing
         public void ResetPose()
         {
             if (ball == null) return;
+            SortBallDepth(0);
             Phase = ShotAnimationPhase.Idle; Elapsed = 0; CrowdCelebrating = false;
             ball.rectTransform.anchoredPosition = ballRest;
             ball.rectTransform.localScale = Vector3.one * 1.2f; ball.rectTransform.localRotation = Quaternion.identity;
@@ -139,8 +153,8 @@ namespace PenaltyKing
         {
             Elapsed = time;
             var keeperTime = Mathf.Max(0, time - WindupDelay);
-            var sign = (int)shot.KeeperDirection - 1;
-            var target = new Vector2(((int)shot.PlayerDirection - 1) * spacing, targetY);
+            var sign = ShotTargets.Column(shot.KeeperDirection) - 1;
+            var target = TargetPoint(shot.PlayerDirection);
             var flight = Mathf.Clamp01((time - ContactTime) / (ImpactTime - ContactTime));
             Phase = time < ContactTime ? ShotAnimationPhase.RunUp : time < ImpactTime ? ShotAnimationPhase.Flight : keeperTime < 1.06f ? ShotAnimationPhase.Impact : keeperTime < 1.55f ? ShotAnimationPhase.Landing : ShotAnimationPhase.Recovery;
 
@@ -152,7 +166,7 @@ namespace PenaltyKing
             var foot = shooterRest + new Vector2(0, -80 * actorScale);
             var contactFoot = ballRest + new Vector2(-69, -92) * actorScale;
             var playerFoot = Vector2.Lerp(Vector2.Lerp(foot, contactFoot, run), foot, recover);
-            if (performanceFrames == null || performanceFrames.Length != 8)
+            if (performanceFrames == null || performanceFrames.Length < 8)
                 Pose(shooter, shooterFrames[playerFrame], shooterHeight, false, playerFoot + new Vector2(0, 80 * actorScale), 1);
             var celebrationAge = time - ImpactTime;
             var celebrating = shot.Outcome == ShotOutcome.Goal && celebrationAge >= 0 && celebrationAge < GoalCelebrationDuration;
@@ -185,6 +199,7 @@ namespace PenaltyKing
             }
             if (keeperTime > 2.02f) Pose(keeper, keeperIdle, 114 * keeperSize, false, keeperRest, 1);
 
+            if(keeperSix!=null&&keeperSix.Length==8)SampleSixKeeper(shot.KeeperDirection,time);
             var ballPosition = Trajectory(target, flight);
             if (time < ContactTime) ballPosition = ballRest;
             if (time >= ImpactTime)
@@ -196,6 +211,7 @@ namespace PenaltyKing
                     ballPosition = Vector2.Lerp(target, new Vector2(target.x - sign * 28, keeperRest.y - 57 * keeperSize), settle) + new Vector2(0, Mathf.Sin(settle * Mathf.PI) * 17);
             }
             ball.rectTransform.anchoredPosition = ballPosition;
+            SortBallDepth(time >= ImpactTime ? 2 : flight > .12f ? 1 : 0);
             if (net != null)
             {
                 var hit = (Vector2)net.transform.InverseTransformPoint(stage.TransformPoint(target));
@@ -206,9 +222,15 @@ namespace PenaltyKing
             var roll = Mathf.Clamp01((time - ImpactTime) / .5f);
             var spin = spinTime * -780 - (time >= ImpactTime ? 100 * (2 * roll - roll * roll) : 0);
             ball.rectTransform.localRotation = Quaternion.Euler(0, 0, spin);
-            shadow.enabled = !(shot.Outcome == ShotOutcome.Goal && time >= ImpactTime);
+            shadow.enabled = true;
             shadow.rectTransform.anchoredPosition = new Vector2(ballPosition.x, Mathf.Lerp(ballRest.y - 12, keeperRest.y - 57 * keeperSize, flight));
             shadow.rectTransform.localScale = Vector3.one * Mathf.Lerp(1, .5f, flight);
+            if (shot.Outcome == ShotOutcome.Goal && time >= ImpactTime)
+            {
+                var floor = NetFloor(target);
+                shadow.rectTransform.anchoredPosition = floor - Vector2.up * ball.rectTransform.rect.height * .5f * 1.2f * .55f;
+                shadow.rectTransform.localScale = Vector3.one * .65f;
+            }
             for (var i = 0; i < trail.Length; i++)
             {
                 var image = trail[i]; image.enabled = time > ContactTime + .04f && time < ImpactTime;
@@ -220,7 +242,7 @@ namespace PenaltyKing
             stage.anchoredPosition = stageRest + (kickAge >= 0 && kickAge < .13f ? new Vector2(Mathf.Sin(kickAge * 190) * 2, Mathf.Cos(kickAge * 140)) * (1 - kickAge / .13f) : Vector2.zero);
             for (var i = 0; i < dust.Length; i++)
             {
-                dust[i].enabled = kickAge >= 0 && kickAge < .24f;
+                dust[i].enabled = false; // Avoid detached debris at the striking foot.
                 dust[i].rectTransform.anchoredPosition = ballRest + new Vector2((i - 2) * kickAge * 65, -12 + kickAge * 25);
                 dust[i].color = new Color(.76f, .78f, .47f, Mathf.Clamp01(1 - kickAge / .24f));
             }
@@ -236,23 +258,37 @@ namespace PenaltyKing
             if (net == null) return target + new Vector2(0, -25);
             var rect = ((RectTransform)net.transform).rect;
             var local = (Vector2)net.transform.InverseTransformPoint(stage.TransformPoint(target));
-            local.x *= .94f; local.y = rect.yMin + rect.height * .18f;
+            // Rear ground seam in the trimmed Goal sprite is at 9% of its height.
+            // Add the actual ball radius so its bottom, not its centre, rests on it.
+            var radius = ball.rectTransform.rect.height * .5f * 1.2f * .55f;
+            var localRadius = net.transform.InverseTransformVector(stage.TransformVector(Vector3.up * radius)).y;
+            local.x *= .94f; local.y = rect.yMin + rect.height * .09f + localRadius;
+            // A centre goal rolls a little to the side of the keeper after hitting the net.
+            if (Mathf.Abs(local.x) < 1) local.x = rect.width * .11f;
             return stage.InverseTransformPoint(net.transform.TransformPoint(local));
         }
 
         private void SamplePlayer(float time, float celebrationAge)
         {
-            if (performanceFrames == null || performanceFrames.Length != 8) return;
+            if (performanceFrames == null || performanceFrames.Length < 8) return;
+            if(shotFrames!=null&&shotFrames.Length==12 && celebrationAge<0)
+            { SampleShotPlayer(time);return; }
             var scale = shooterHeight / 160;
             var frame = time < .2f ? 0 : time < ContactTime ? 1 : time < ContactTime + .16f ? 2 : 3;
             if (time > ContactTime + .4f) frame = 0;
+            if (performanceFrames.Length == 12)
+            {
+                frame = time < .10f ? 0 : time < .23f ? 1 : time < .36f ? 2 : time < .49f ? 3 : time < ContactTime ? 4 : time < ContactTime + .10f ? 5 : time < ContactTime + .22f ? 6 : time < ContactTime + .4f ? 7 : 0;
+            }
             var approach = Mathf.SmoothStep(0, 1, Mathf.Clamp01((time - .25f) / (ContactTime - .25f)));
             var foot = shooterRest + new Vector2(0, -shooterHeight * .5f);
-            var plantedFoot = ballRest - contactFootPixels * (shooterHeight / performanceFrames[0].rect.height);
+            var plantedFoot = ballRest - (shotFrames!=null&&shotFrames.Length==12 ? shotContactPixels*(shooterHeight/shotFrames[0].rect.height) : contactFootPixels * (shooterHeight / performanceFrames[0].rect.height));
             foot = Vector2.Lerp(foot + new Vector2(-8, -3) * Mathf.Sin(Mathf.Clamp01(time / ContactTime) * Mathf.PI), plantedFoot, approach);
             if (celebrationAge >= 0)
             {
                 frame = celebrationAge < .2f ? 4 : celebrationAge < .65f ? 5 : celebrationAge < 1.0f ? 6 : celebrationAge < 1.45f ? 5 : celebrationAge < 1.8f ? 7 : 5;
+                if (performanceFrames.Length == 12)
+                    frame = celebrationAge < .2f ? 8 : celebrationAge < .7f ? 9 : celebrationAge < 1.05f ? 10 : celebrationAge < 1.6f ? 9 : celebrationAge < 2.1f ? 10 : celebrationAge < 2.65f ? 9 : 11;
             }
             // Sprite pivots mark the planted foot; one pixels-to-world scale for all poses.
             var sprite = performanceFrames[frame];
@@ -260,6 +296,50 @@ namespace PenaltyKing
             var size = sprite.rect.size * pixelScale;
             var pivotOffset = (sprite.rect.size * .5f - sprite.pivot) * pixelScale;
             Pose(shooter, sprite, size.y, false, foot + pivotOffset, 1);
+        }
+
+        private void SampleShotPlayer(float time)
+        {
+            // Load, approach, plant, backswing, contact and follow-through have distinct drawings.
+            var frame=time<ContactTime ? Mathf.Clamp(Mathf.FloorToInt(time/ContactTime*8),0,7)
+                : time<ContactTime+.09f?8:time<ContactTime+.20f?9:time<ContactTime+.33f?10:11;
+            if(time<=0)frame=0;
+            var pixelScale=shooterHeight/shotFrames[0].rect.height;
+            var foot=shooterRest-Vector2.up*shooterHeight*.5f;
+            var planted=ballRest-shotContactPixels*pixelScale;
+            var approach=Mathf.SmoothStep(0,1,Mathf.Clamp01((time-.16f)/(ContactTime-.16f)));
+            foot=Vector2.Lerp(foot,planted,approach);
+            var sprite=shotFrames[frame];
+            Pose(shooter,sprite,sprite.rect.height*pixelScale,false,foot+(sprite.rect.size*.5f-sprite.pivot)*pixelScale,1);
+        }
+
+        private void SampleSixKeeper(ShotDirection direction,float time)
+        {
+            var column=ShotTargets.Column(direction)-1;var high=ShotTargets.IsHigh(direction);
+            var scale=114*keeperSize/keeperSix[7].rect.height;
+            var age=time-ContactTime;var flight=ImpactTime-ContactTime;
+            if(age<.08f || time>Duration-.1f){Pose(keeper,keeperSix[7],keeperSix[7].rect.height*scale,false,keeperRest,1);return;}
+            var dive=Mathf.SmoothStep(0,1,Mathf.Clamp01((age-.08f)/(flight-.08f)));
+            var target=TargetPoint(direction);var sign=column==0?1:column;
+            var frame=column==0?(high?2:3):(high?0:1);
+            var sprite=keeperSix[frame];
+            // Save-pose pivot is the glove contact point. Absolute pixel scale stays fixed.
+            var offset=(sprite.rect.size*.5f-sprite.pivot)*scale;offset.x*=sign;
+            var position=Vector2.Lerp(keeperRest,target+offset,dive);
+            position.y+=Mathf.Sin(dive*Mathf.PI)*(high?13:4);
+            var after=time-ImpactTime;
+            if(after>.16f)
+            {
+                var groundY=keeperRest.y-57*keeperSize;
+                var landing=Mathf.SmoothStep(0,1,Mathf.Clamp01((after-.16f)/.22f));
+                frame=column==0?6:after<.5f?4:5;sprite=keeperSix[frame];
+                var feet=new Vector2(target.x-column*42*keeperSize,groundY);
+                var footOffset=(sprite.rect.size*.5f-sprite.pivot)*scale;footOffset.x*=sign;
+                position=Vector2.Lerp(position,feet+footOffset,landing);
+                var recover=Mathf.SmoothStep(0,1,Mathf.Clamp01((after-.65f)/.5f));
+                if(recover>0){sprite=keeperSix[7];sign=1;position=Vector2.Lerp(feet+Vector2.up*57*keeperSize,keeperRest,recover);}
+            }
+            Pose(keeper,sprite,sprite.rect.height*scale,false,position,sign);
         }
 
         private static void Pose(Image image, Sprite sprite, float extent, bool width, Vector2 position, int sign)
@@ -270,6 +350,25 @@ namespace PenaltyKing
             image.rectTransform.anchoredPosition = position;
             image.rectTransform.localScale = new Vector3(sign, 1, 1);
             image.rectTransform.localRotation = Quaternion.identity;
+        }
+
+        private void SortBallDepth(int layer)
+        {
+            var effects = shadow.transform.parent;
+            if (originalBallOrder < 0) { originalBallOrder = ball.transform.GetSiblingIndex(); originalEffectsOrder = effects.GetSiblingIndex(); }
+            if (ballDepthLayer == layer) return;
+            ballDepthLayer = layer;
+            if (layer > 0)
+            {
+                var foreground = layer == 2 ? keeper.transform : shooter.transform;
+                effects.SetSiblingIndex(foreground.GetSiblingIndex());
+                ball.transform.SetSiblingIndex(foreground.GetSiblingIndex());
+            }
+            else
+            {
+                ball.transform.SetSiblingIndex(originalBallOrder);
+                effects.SetSiblingIndex(originalEffectsOrder);
+            }
         }
     }
 }

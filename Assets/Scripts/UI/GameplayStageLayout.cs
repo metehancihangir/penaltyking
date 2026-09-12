@@ -22,7 +22,8 @@ namespace PenaltyKing
             var parent = transform.parent as RectTransform;
             if (parent == null) return;
             var size = parent.rect.size;
-            var scale = Mathf.Max(.01f, Mathf.Min(size.x / 960f, size.y / 540f));
+            // Wider field of view; HUD is outside this stage and keeps its readable size.
+            var scale = Mathf.Max(.01f, Mathf.Min(size.x / 1120f, size.y / 630f));
             var height = size.y / scale;
             var width = size.x / scale;
             stage.sizeDelta = new Vector2(width, height);
@@ -77,6 +78,16 @@ namespace PenaltyKing
                 controller.ConfigureComposition(new Vector2(0, ballY), new Vector2(0, groundY + 47.58f * zoom), 152 * zoom, groundY + 57.6f * zoom, .55f);
             }
             pitch.GetComponent<PixelPitch>()?.SetGoalScale(goal.localScale.x);
+            if(controller.Targets[3]!=null)
+            {
+                zones.anchoredPosition=goal.anchoredPosition;zones.localScale=goal.localScale;
+                for(var i=0;i<6;i++)
+                {
+                    var rt=(RectTransform)controller.Targets[i].transform;
+                    rt.anchoredPosition=new Vector2((i%3-1)*goal.rect.width*.32f,goal.rect.height*(i>=3?.23f:-.25f));
+                    rt.sizeDelta=new Vector2(goal.rect.width*.30f,goal.rect.height*.43f);
+                }
+            }
         }
         private void OnEnable() { lastHeight = -1; Fit(); }
         private void LateUpdate() => Fit();

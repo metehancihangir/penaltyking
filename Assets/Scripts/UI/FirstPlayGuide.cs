@@ -4,7 +4,7 @@ namespace PenaltyKing
 {
     public sealed class FirstPlayGuide : MonoBehaviour
     {
-        public const string CompletedKey="PenaltyKing.Guide.Completed.v1";
+        public const string CompletedKey="PenaltyKing.Guide.Completed.six.v2";
         [SerializeField] private GameplayController game;
         [SerializeField] private GameObject panel, directionsDiagram, handoffDiagram;
         [SerializeField] private Text title, description, progress, nextLabel;
@@ -35,7 +35,7 @@ namespace PenaltyKing
         {
             progress.text=$"{Step+1} / 3";
             title.text=Step==0?"ŞUTUNU SEÇ":Step==1?"TELEFONU DEVRET":"KURTARIŞINI SEÇ";
-            description.text=Step==0?"Kalede bir yöne dokun.":Step==1?"Şutun gizli kalır.\nTelefonu diğer oyuncuya ver.":"Kaleci de bir yön seçer.\nHer atıştan sonra roller değişir.";
+            description.text=Step==0?"Altı hedeften birine dokun.\nÜst veya alt köşeni seç.":Step==1?"Şutun gizli kalır.\nTelefonu diğer oyuncuya ver.":"Kaleci de altı bölgeden birini seçer.\nHer atıştan sonra roller değişir.";
             directionsDiagram.SetActive(Step!=1);handoffDiagram.SetActive(Step==1);
             nextLabel.text=Step==2?"Başlayalım":"Devam";
         }

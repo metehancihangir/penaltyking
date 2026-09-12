@@ -27,7 +27,7 @@ namespace PenaltyKing.Tests
    RuntimeBootstrap.EnsureServices();GameManager.Instance.SelectLocalMultiplayer();GameManager.Instance.SelectMode(GameMode.Endless);yield return SceneManager.LoadSceneAsync("Gameplay");yield return null;
    var game=Object.FindFirstObjectByType<GameplayController>();var fans=Object.FindFirstObjectByType<CrowdCelebration>();Assert.That(fans.Sections.Length,Is.EqualTo(12));
    game.Presentation.Sample(new ShotResult(ShotDirection.Left,ShotDirection.Right),ShotPresentation.ImpactTime+.13f);
-   for(var i=0;i<fans.Sections.Length;i++) Assert.That(fans.Sections[i].anchoredPosition.y,i<6?Is.GreaterThan(0):Is.EqualTo(0));
+   for(var i=0;i<fans.Sections.Length;i++) Assert.That(fans.Sections[i].anchoredPosition.y,Is.GreaterThan(0));
    game.Presentation.Sample(new ShotResult(ShotDirection.Left,ShotDirection.Left),ShotPresentation.ImpactTime+.13f);foreach(var section in fans.Sections)Assert.That(section.anchoredPosition,Is.EqualTo(Vector2.zero));
    game.Presentation.ResetPose();foreach(var section in fans.Sections)Assert.That(section.anchoredPosition,Is.EqualTo(Vector2.zero));
   }

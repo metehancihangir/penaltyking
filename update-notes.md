@@ -269,3 +269,10 @@ Perspektifli ceza yayı, %20 küçük top, daha belirgin ağ tepkisi, daha okunu
 - Ceza yayı büyütüldü; alt kısmı yatay kadraj dışına devam eder.
 - Dizüstünün pilde olabileceği bilgisi dikkate alındı; yalnız doğrulanmış gereksiz çizim güncellemeleri azaltıldı.
 - Ayrıntılar: `docs/action-revision-raporu.md`. APK oluşturulmadı.
+# 12 Eylül 2026 — Oyuncu ve kadraj revizyonu
+
+- Yalnız büyük yüzlü ön taraftar modelleri sabit; diğer 12 tribün bölümü golde hareketli.
+- Daha yetişkin arka profil; 8 şut + 4 sevinç pozu.
+- Yaklaşık %14 daha geniş saha kadrajı; HUD boyutları korunur.
+- Orta golde top zemine/gölgesine oturur ve yana yuvarlanıp durur. Sol golde top oyuncunun üzerine çizilmez; top/efekt derinlik sırası düzeltildi.
+- GOAL süresi 3 saniye. APK yok. Ayrıntılar: `docs/striker-wide-raporu.md`.

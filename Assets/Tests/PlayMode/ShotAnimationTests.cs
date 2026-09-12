@@ -62,13 +62,13 @@ namespace PenaltyKing.Tests
             foreach (var direction in new[] { ShotDirection.Left, ShotDirection.Center, ShotDirection.Right })
             {
                 animation.Sample(new ShotResult(direction, direction), ShotPresentation.ImpactTime);
-                Assert.That(animation.KeeperSprite.name, Is.EqualTo(direction == ShotDirection.Center ? "KeeperCenter_1" : "KeeperSide_1"));
+                Assert.That(animation.KeeperSprite.name, Is.EqualTo(direction == ShotDirection.Center ? "KeeperSix_03" : "KeeperSix_01"));
                 Assert.That(animation.KeeperScale.x, Is.EqualTo(direction == ShotDirection.Left ? -1 : 1));
                 Assert.That(animation.CrowdCelebrating, Is.False);
                 animation.Sample(new ShotResult(direction, direction), 1.2f + ShotPresentation.WindupDelay);
-                Assert.That(animation.KeeperSprite.name, Does.EndWith("_2"));
+                Assert.That(animation.KeeperSprite.name, Is.EqualTo(direction == ShotDirection.Center ? "KeeperSix_06" : "KeeperSix_04"));
                 animation.Sample(new ShotResult(direction, direction), 1.7f + ShotPresentation.WindupDelay);
-                Assert.That(animation.KeeperSprite.name, Does.EndWith("_3"));
+                Assert.That(animation.KeeperSprite.name, Is.EqualTo("KeeperSix_07"));
             }
             var goal = new ShotResult(ShotDirection.Right, ShotDirection.Left);
             animation.Sample(goal, .5f); Assert.That(animation.CrowdCelebrating, Is.False);
@@ -91,3 +91,4 @@ namespace PenaltyKing.Tests
         }
     }
 }
+

@@ -33,7 +33,12 @@ namespace PenaltyKing
             if (!IsActive() || !Moving) return;
             var image=(Image)graphic;
             if (image.sprite == null) return;
-            var rect=image.GetPixelAdjustedRect();
+            // Preserve Image's aspect-fitted drawing bounds. The RectTransform can be larger.
+            if(vh.currentVertCount==0)return;
+            var vertex=UIVertex.simpleVert;vh.PopulateUIVertex(ref vertex,0);
+            var min=(Vector2)vertex.position;var max=min;
+            for(var i=1;i<vh.currentVertCount;i++){vh.PopulateUIVertex(ref vertex,i);min=Vector2.Min(min,vertex.position);max=Vector2.Max(max,vertex.position);}
+            var rect=Rect.MinMaxRect(min.x,min.y,max.x,max.y);
             var uv=UnityEngine.Sprites.DataUtility.GetOuterUV(image.sprite);
             vh.Clear(); const int columns=32, rows=14;
             for(var y=0;y<=rows;y++) for(var x=0;x<=columns;x++)
