@@ -34,9 +34,12 @@ namespace PenaltyKing.Editor
             if(old!=null){foreach(Transform child in image.transform.Cast<Transform>().ToArray())Object.DestroyImmediate(child.gameObject);Object.DestroyImmediate(old);}
             image.enabled=false;var rig=image.gameObject.AddComponent<FootballRig>();
             var boneNames=new[]{"Hips","Chest","Head","Left Shoulder","Left Elbow","Left Hand","Right Shoulder","Right Elbow","Right Hand","Left Hip","Left Knee","Left Ankle","Right Hip","Right Knee","Right Ankle"};
-            var parents=new[]{-1,0,1,1,3,4,1,6,7,0,9,10,0,12,13};var bones=new RectTransform[15];var art=new Image[15];
+            var parents=new[]{-1,16,1,1,3,4,1,6,7,0,9,10,0,12,13};var bones=new RectTransform[17];var art=new Image[15];
             var mapping=new[]{2,1,0,3,4,5,3,4,5,6,7,8,6,7,8};
-            for(var i=0;i<15;i++)bones[i]=Rect(boneNames[i],parents[i]<0?image.transform:bones[parents[i]],Vector2.zero,Vector2.zero);
+            bones[0]=Rect("Hips",image.transform,Vector2.zero,Vector2.zero);
+            bones[15]=Rect("Lower Spine",bones[0],Vector2.zero,Vector2.zero);
+            bones[16]=Rect("Upper Spine",bones[15],Vector2.zero,Vector2.zero);
+            for(var i=1;i<15;i++)bones[i]=Rect(boneNames[i],bones[parents[i]],Vector2.zero,Vector2.zero);
             for(var i=0;i<15;i++)
             {
                 art[i]=Image("Art "+boneNames[i],image.transform,new Vector2(20,30),Vector2.zero,Color.white);
@@ -65,15 +68,32 @@ namespace PenaltyKing.Editor
                 new Vector2(106,119),new Vector2(84,171),new Vector2(79,219),new Vector2(197,122),new Vector2(214,168),new Vector2(226,218),
                 new Vector2(121,234),new Vector2(95,295),new Vector2(83,380),new Vector2(179,235),new Vector2(198,302),new Vector2(214,380)};
             var origin=new Vector2(source[0].x,sprite.texture.height-source[0].y);
-            var points=source.Select(p=>(new Vector2(p.x,sprite.texture.height-p.y)-origin)*(210/sprite.rect.height)).ToArray();
-            var angles=new float[15];var next=new[]{0,1,2,4,5,5,7,8,8,10,11,11,13,14,14};
+            var points=source.Select(p=>(new Vector2(p.x,sprite.texture.height-p.y)-origin)*(210/sprite.rect.height)).ToList();
+            points.Add(points[1]/3);points.Add(points[1]*2/3);
+            var angles=new float[17];var next=new[]{0,1,2,4,5,5,7,8,8,10,11,11,13,14,14};
             foreach(var i in new[]{3,4,6,7,9,10,12,13}){var d=points[next[i]]-points[i];angles[i]=Mathf.Atan2(d.y,d.x)*Mathf.Rad2Deg+90;}
             angles[5]=angles[4];angles[8]=angles[7];
             var body=Rect("Continuous Skin",original.transform,new Vector2(320,320),Vector2.zero).gameObject.AddComponent<FootballSkin>();
-            body.Configure(sprite,bones,origin,points,angles,keeper);
+            body.Configure(sprite,bones,origin,points.ToArray(),angles,keeper);
             held.transform.SetAsLastSibling();
             var hands=Rect("Skin Hands",original.transform,new Vector2(320,320),Vector2.zero).gameObject.AddComponent<FootballSkin>();
-            hands.Configure(sprite,bones,origin,points,angles,keeper,true);
+            hands.Configure(sprite,bones,origin,points.ToArray(),angles,keeper,true);
+            var sourceTexture=new Texture2D(2,2,TextureFormat.RGBA32,false);
+            sourceTexture.LoadImage(System.IO.File.ReadAllBytes(path));
+            var sourcePixels=sourceTexture.GetPixels32();
+            body.BakeSurfaceWeights(sourcePixels,sourceTexture.width,sourceTexture.height);
+            hands.BakeSurfaceWeights(sourcePixels,sourceTexture.width,sourceTexture.height);
+            Object.DestroyImmediate(sourceTexture);
+            var nativeSprite=body.CreateWeightedSprite();nativeSprite.name=keeper?"Keeper Weighted":"Striker Weighted";
+            var assetPath="Assets/Sprites/Characters/"+(keeper?"KeeperWeighted":"StrikerWeighted")+".asset";
+            var saved=AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+            if(saved==null){AssetDatabase.CreateAsset(nativeSprite,assetPath);saved=nativeSprite;}
+            else{EditorUtility.CopySerialized(nativeSprite,saved);Object.DestroyImmediate(nativeSprite);EditorUtility.SetDirty(saved);}
+            var nativeObject=new GameObject("Unity Sprite Skin");nativeObject.transform.SetParent(original.transform,false);
+            var renderer=nativeObject.AddComponent<SpriteRenderer>();renderer.sprite=saved;renderer.forceRenderingOff=true;
+            var native=nativeObject.AddComponent<UnityEngine.U2D.Animation.SpriteSkin>();
+            native.alwaysUpdate=true;native.forceCpuDeformation=true;native.SetRootBone(bones[0]);native.SetBoneTransforms(bones.Cast<Transform>().ToArray());
+            body.ConfigureNative(native);hands.ConfigureNative(native);
             foreach(var piece in art)piece.enabled=false;waist.enabled=false;
             rig.ConfigureSkin(body,hands);rig.SetMaterial(original.material);
         }
@@ -117,16 +137,17 @@ namespace PenaltyKing.Editor
         public static void Capture()
         {
             EditorSceneManager.OpenScene("Assets/Scenes/Gameplay.unity");var game=Object.FindFirstObjectByType<GameplayController>();var kits=game.GetComponent<PlayerKitColours>();kits.SetShooterPlayer(1);
-            MenuPreview.Render(1280,720,"ready","bone-rig");kits.SetShooterPlayer(1);MenuPreview.Render(1280,720,"ready","bone-rig");
+            MenuPreview.Render(1280,720,"ready","detailed-rig");kits.SetShooterPlayer(1);MenuPreview.Render(1280,720,"ready","detailed-rig");
             foreach(var d in System.Enum.GetValues(typeof(ShotDirection)).Cast<ShotDirection>())
             {
-                game.Presentation.Sample(new ShotResult(d,d),ShotPresentation.ImpactTime+.6f);MenuPreview.Render(1280,720,"hold-"+d,"bone-rig");
+                game.Presentation.Sample(new ShotResult(d,d),ShotPresentation.ImpactTime);MenuPreview.Render(1280,720,"contact-"+d,"detailed-rig");
+                game.Presentation.Sample(new ShotResult(d,d),ShotPresentation.ImpactTime+.6f);MenuPreview.Render(1280,720,"hold-"+d,"detailed-rig");
             }
             var shot=new ShotResult(ShotDirection.RightHigh,ShotDirection.RightHigh);
-            for(var i=0;i<80;i++){game.Presentation.Sample(shot,i/30f);MenuPreview.Render(1280,720,"save-"+i.ToString("D3"),"bone-rig");}
+            for(var i=0;i<80;i++){game.Presentation.Sample(shot,i/30f);MenuPreview.Render(1280,720,"save-"+i.ToString("D3"),"detailed-rig");}
             var goal=new ShotResult(ShotDirection.LeftHigh,ShotDirection.Right);
-            for(var i=0;i<132;i++){game.Presentation.Sample(goal,i/30f);MenuPreview.Render(1280,720,"goal-"+i.ToString("D3"),"bone-rig");}
-            game.Presentation.ResetPose();kits.SetShooterPlayer(2);MenuPreview.Render(1280,720,"player2","bone-rig");
+            for(var i=0;i<132;i++){game.Presentation.Sample(goal,i/30f);MenuPreview.Render(1280,720,"goal-"+i.ToString("D3"),"detailed-rig");}
+            game.Presentation.ResetPose();kits.SetShooterPlayer(2);MenuPreview.Render(1280,720,"player2","detailed-rig");
             EditorSceneManager.OpenScene("Assets/Scenes/MainMenu.unity");
         }
     }
