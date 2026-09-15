@@ -1,6 +1,6 @@
 {
   "name": "PenaltyKing.PlayModeTests",
   "rootNamespace": "PenaltyKing.Tests",
-  "references": ["PenaltyKing.Runtime", "Unity.InputSystem", "Unity.ugui"],
+  "references": ["PenaltyKing.Runtime", "Unity.InputSystem", "Unity.ugui", "Unity.2D.Animation.Runtime"],
   "optionalUnityReferences": ["TestAssemblies"]
 }

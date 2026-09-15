@@ -26,15 +26,17 @@ namespace PenaltyKing
             else rf=Vector2.Lerp(new Vector2(78,-35),rf,Window(t,1.3f,1.85f));
             lf.y+=Mathf.Sin(Window(t,.12f,.62f)*Mathf.PI)*9;
             hips.y+=Mathf.Sin(Window(t,1.04f,1.58f)*Mathf.PI)*3*scale;
-            var lh=Vector2.Lerp(new Vector2(-31,-9),new Vector2(-48,22),load);
-            var rh=Vector2.Lerp(new Vector2(36,-12),new Vector2(47,-1),load);
+            var counter=Window(t,.32f,.85f)*(1-Window(t,1.15f,1.8f));
+            var lh=Vector2.Lerp(new Vector2(-31,-9),new Vector2(-62,25),counter);
+            var rh=Vector2.Lerp(new Vector2(36,-12),new Vector2(42,-17),counter);
             var chest=60-2*Mathf.Sin(Window(t,.88f,1.18f)*Mathf.PI);
             var home=Window(time,1.6f,ShotPresentation.Duration-.08f);
             if(celebration>=0)
             {
-                var cheer=Window(celebration,0,.35f)*(1-Window(celebration,2.35f,2.92f));
+                var cheer=Window(celebration,0,.28f)*(1-Window(celebration,2.35f,2.92f));
+                var secondArm=Window(celebration,.14f,.47f)*(1-Window(celebration,2.45f,2.92f));
                 lh=Vector2.Lerp(lh,new Vector2(-42,111),cheer);
-                rh=Vector2.Lerp(rh,new Vector2(44,108),cheer);
+                rh=Vector2.Lerp(rh,new Vector2(44,104),secondArm);
                 lean=Mathf.Lerp(lean,Mathf.Sin(celebration*3)*3,cheer);
                 hips.y+=Mathf.Max(0,Mathf.Sin(celebration*4))*3*scale*cheer;
                 home=Window(celebration,2.25f,2.92f);
@@ -49,54 +51,34 @@ namespace PenaltyKing
 
         public static void Keeper(FootballRig rig,ShotResult shot,float time,Vector2 rest,Vector2 target,float keeperSize)
         {
-            var scale=114*keeperSize/210;var sign=ShotTargets.Column(shot.KeeperDirection)-1;
-            var high=ShotTargets.IsHigh(shot.KeeperDirection);var start=rest-Vector2.up*9*keeperSize;
-            var age=time-ShotPresentation.ContactTime;var after=time-ShotPresentation.ImpactTime;
-            var dive=Window(time,ShotPresentation.ContactTime+.13f,ShotPresentation.ImpactTime);
-            var anticipation=Mathf.Sin(Window(age,.01f,.20f)*Mathf.PI);
-            var angle=sign==0?0f:-sign*(high?60:80);
-            var catchGrip=new Vector2(0,sign==0&&!high?-10:100);
-            var grip=Vector2.Lerp(new Vector2(0,17),catchGrip,dive);
-            var hips=Vector2.Lerp(start,target-FootballRig.Rotate(catchGrip*scale,angle),dive);
-            hips+=new Vector2(-sign*6,-4)*anticipation*scale;
-            hips.y+=Mathf.Sin(dive*Mathf.PI)*(high?12:3)*scale;angle*=dive;
-            var lean=Mathf.Lerp(3,-sign*7,dive);
-            var chest=Mathf.Lerp(55,sign==0&&!high?40:59,dive);
-            var lf=new Vector2(-34,-96);var rf=new Vector2(35,-95);
-            if(sign==0&&!high)
-            {lf=Vector2.Lerp(lf,new Vector2(-34,-44),dive);rf=Vector2.Lerp(rf,new Vector2(34,-43),dive);}
-            else if(sign!=0)
-            {
-                lf=Vector2.Lerp(lf,new Vector2(-27,sign<0?-60:-91),dive);
-                rf=Vector2.Lerp(rf,new Vector2(30,sign>0?-60:-91),dive);
-            }
-            var spread=Mathf.Lerp(42,13,dive);
-            var balance=Mathf.Sin(dive*Mathf.PI)*12;
+            var scale=114*keeperSize/210;var start=rest-Vector2.up*9*keeperSize;
+            var after=time-ShotPresentation.ImpactTime;var age=time-ShotPresentation.ContactTime;
+            var dive=Window(time,ShotPresentation.ContactTime+.12f,ShotPresentation.ImpactTime);
+            var pose=KeeperPoses.Contact(shot.KeeperDirection);
+            rig.MotionBlend=1;rig.KeepHandsClosed=false;rig.SetRoot(Vector2.zero,scale,0);pose.Apply(rig);
+            var catchRoot=target-rig.GripPosition;
+            var hips=Vector2.Lerp(start,catchRoot,dive);
+            var sign=ShotTargets.Column(shot.KeeperDirection)-1;
+            var anticipate=Mathf.Sin(Window(age,.01f,.18f)*Mathf.PI);
+            hips+=new Vector2(-sign*5,-3)*anticipate*scale;
+            hips.y+=Mathf.Sin(dive*Mathf.PI)*(ShotTargets.IsHigh(shot.KeeperDirection)?13:3)*scale;
+            var active=KeeperPose.Blend(KeeperPoses.Ready,pose,dive);
+            var recover=Window(after,.67f,1.23f);
             if(after>=0)
             {
-                var land=Window(after,.05f,.48f);
-                var settle=Mathf.Sin(Window(after,.38f,.68f)*Mathf.PI)*2;
-                if(sign!=0)
-                {
-                    angle=Mathf.Lerp(angle,-sign*86,land);
-                    hips.y=Mathf.Lerp(hips.y,rest.y-57*keeperSize+19*scale,land)+settle*scale;
-                }
-                else if(high)hips=Vector2.Lerp(hips,start-Vector2.up*5*scale,land);
-                spread=Mathf.Lerp(13,12,Window(after,0,.12f));
-                // Land, absorb impact, roll onto a knee and stand while still holding the ball.
-                var recover=Window(after,.62f,1.22f);
-                hips=Vector2.Lerp(hips,start,recover);angle=Mathf.Lerp(angle,0,recover);
-                lean=Mathf.Lerp(lean,3,recover);chest=Mathf.Lerp(chest,55,recover);
-                lf=Vector2.Lerp(lf,new Vector2(-34,-96),recover);
-                rf=Vector2.Lerp(rf,new Vector2(35,-95),recover);
-                grip=Vector2.Lerp(grip,new Vector2(0,shot.Outcome==ShotOutcome.Save?23:17),recover);
-                if(shot.Outcome==ShotOutcome.Goal)spread=Mathf.Lerp(spread,42,recover);
+                var landing=Window(after,.08f,.54f);
+                active=KeeperPose.Blend(active,KeeperPoses.Landing(shot.KeeperDirection),landing);
+                var ground=rest.y-57*keeperSize+20*scale;
+                hips.y=Mathf.Lerp(hips.y,sign==0?start.y-14*scale:ground,landing);
+                hips.y+=Mathf.Sin(Window(after,.44f,.67f)*Mathf.PI)*1.5f*scale;
+                var finish=KeeperPoses.Ready;
+                if(shot.Outcome==ShotOutcome.Save){finish.leftHand=new Vector2(-12,23);finish.rightHand=new Vector2(12,23);}
+                active=KeeperPose.Blend(active,finish,recover);
+                hips=Vector2.Lerp(hips,start,recover);
             }
-            rig.MotionBlend=Window(age,.01f,.20f)*(1-Window(after,.62f,1.22f));
+            rig.MotionBlend=Window(age,.01f,.20f)*(1-recover);
             rig.KeepHandsClosed=shot.Outcome==ShotOutcome.Save&&after>=0;
-            rig.SetRoot(hips,scale,angle);
-            rig.Pose(lean,lf,rf,grip+new Vector2(-spread,balance),grip+new Vector2(spread,-balance),chest);
+            rig.SetRoot(hips,scale,0);active.Apply(rig);
         }
     }
 }
-

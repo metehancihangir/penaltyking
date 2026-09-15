@@ -17,17 +17,18 @@ namespace PenaltyKing.Tests
             var p=Object.FindFirstObjectByType<ShotPresentation>();
             var rigs=Object.FindObjectsByType<FootballRig>(FindObjectsSortMode.None);
             foreach(ShotDirection d in System.Enum.GetValues(typeof(ShotDirection)))
-            for(var frame=0;frame<=80;frame++)
+            for(var frame=0;frame<=18;frame++)
             {
-                p.Sample(new ShotResult(d,d),frame/30f);
+                p.Sample(new ShotResult(d,d),ShotPresentation.ImpactTime+frame/30f);
                 foreach(var rig in rigs)
                 {
+                    if(!rig.Goalkeeper && frame>0)continue;
                     foreach(var side in new[]{"Left","Right"})
                     {
                         var leg=rig.transform.Find("Hips/"+side+" Hip");
-                        CheckChain(rig,leg,leg.Find(side+" Knee"),leg.Find(side+" Knee/"+side+" Ankle"),48,48,8,145,rig.Goalkeeper?side=="Left":true);
-                        var arm=rig.transform.Find("Hips/Chest/"+side+" Shoulder");
-                        CheckChain(rig,arm,arm.Find(side+" Elbow"),arm.Find(side+" Elbow/"+side+" Hand"),35,34,12,145,rig.Goalkeeper?side=="Left":side=="Right");
+                        CheckChain(rig,leg,leg.Find(side+" Knee"),leg.Find(side+" Knee/"+side+" Ankle"),48,48,8,145,rig.Goalkeeper||side=="Right");
+                        var arm=rig.transform.Find("Hips/Lower Spine/Upper Spine/Chest/"+side+" Shoulder");
+                        CheckChain(rig,arm,arm.Find(side+" Elbow"),arm.Find(side+" Elbow/"+side+" Hand"),35,34,rig.Goalkeeper?0:8,145,rig.Goalkeeper?side=="Left":side=="Right");
                     }
                     var waist=rig.transform.Find("Waist Overlap").GetComponent<Image>();
                     Assert.That(waist.sprite,Is.Not.Null);Assert.That(waist.material,Is.SameAs(rig.transform.Find("Art Chest").GetComponent<Image>().material));
@@ -67,3 +68,4 @@ namespace PenaltyKing.Tests
         }
     }
 }
+

@@ -1,6 +1,6 @@
 {
   "name": "PenaltyKing.Editor",
   "rootNamespace": "PenaltyKing.Editor",
-  "references": ["PenaltyKing.Runtime", "Unity.ugui", "Unity.InputSystem"],
+  "references": ["PenaltyKing.Runtime", "Unity.ugui", "Unity.InputSystem", "Unity.2D.Animation.Runtime", "Unity.Collections"],
   "includePlatforms": ["Editor"]
 }

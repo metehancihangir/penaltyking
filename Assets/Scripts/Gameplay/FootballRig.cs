@@ -12,8 +12,8 @@ namespace PenaltyKing
         [SerializeField] private Image heldBall;
         [SerializeField] private Image waist;
         [SerializeField] private FootballSkin skin, frontHands;
-        private readonly Vector2[] posePoints=new Vector2[15];
-        private readonly float[] poseAngles=new float[15];
+        private readonly Vector2[] posePoints=new Vector2[17];
+        private readonly float[] poseAngles=new float[17];
         public float MotionBlend {get;set;}=1;
         public bool KeepHandsClosed {get;set;}
         public void ConfigureSkin(FootballSkin body,FootballSkin hands){skin=body;frontHands=hands;}
@@ -40,28 +40,40 @@ namespace PenaltyKing
             var rt=(RectTransform)transform;rt.anchoredPosition=hips;rt.localScale=Vector3.one*scale;rt.localRotation=Quaternion.Euler(0,0,angle);
         }
         public void Pose(float lean,Vector2 leftFoot,Vector2 rightFoot,Vector2 leftHand,Vector2 rightHand,float chestHeight=60,
-            float hipAngle=0,float leftAnkle=0,float rightAnkle=0)
+            float hipAngle=0,float leftAnkle=0,float rightAnkle=0,float lowerSpine=float.NaN,float upperSpine=float.NaN,float leftReach=0,float rightReach=0)
         {
-            var chest=Rotate(new Vector2(0,chestHeight),lean);
-            Joint(0,Vector2.zero,hipAngle);Joint(1,chest,lean);Joint(2,chest+Rotate(new Vector2(0,24),lean),lean*.55f);
+            var low=float.IsNaN(lowerSpine)?lean*.45f:lowerSpine;
+            var high=float.IsNaN(upperSpine)?lean*.8f:upperSpine;
+            var lowPoint=Rotate(new Vector2(0,chestHeight/3),low);
+            var highPoint=lowPoint+Rotate(new Vector2(0,chestHeight/3),high);
+            var chest=highPoint+Rotate(new Vector2(0,chestHeight/3),lean);
+            Joint(0,Vector2.zero,hipAngle);
+            if(bones.Length>15){Joint(15,lowPoint,low);Joint(16,highPoint,high);}
+            Joint(1,chest,lean);Joint(2,chest+Rotate(new Vector2(0,24),lean*.9f),lean*.9f);
             Place(art[0],bones[0],new Vector2(0,-2),new Vector2(54,33));
             // The shirt extends below the waist; the middle strip also covers rotation gaps.
             if(waist!=null)Place(waist,bones[0],new Vector2(0,10),new Vector2(43,29));
             Place(art[1],bones[1],new Vector2(0,-chestHeight*.47f),new Vector2(goalkeeper?68:60,chestHeight+21));
             Place(art[2],bones[2],new Vector2(0,0),goalkeeper?new Vector2(36,40):new Vector2(31,36));
-            Arm(false,chest+Rotate(new Vector2(-26,-5),lean),leftHand);
-            Arm(true,chest+Rotate(new Vector2(26,-5),lean),rightHand);
+            var leftShoulder=chest+Rotate(new Vector2(-26,-5),lean);
+            var rightShoulder=chest+Rotate(new Vector2(26,-5),lean);
+            leftHand=Vector2.Lerp(leftHand,leftShoulder+(leftHand-leftShoulder).normalized*(UpperArm+LowerArm-.002f),leftReach);
+            rightHand=Vector2.Lerp(rightHand,rightShoulder+(rightHand-rightShoulder).normalized*(UpperArm+LowerArm-.002f),rightReach);
+            if(leftReach>0&&rightReach==0)rightHand=Vector2.Lerp(rightHand,leftHand+Rotate(new Vector2(8,-8),lean),leftReach);
+            if(rightReach>0&&leftReach==0)leftHand=Vector2.Lerp(leftHand,rightHand+Rotate(new Vector2(-8,-8),lean),rightReach);
+            Arm(false,leftShoulder,leftHand);
+            Arm(true,rightShoulder,rightHand);
             Leg(false,Rotate(new Vector2(-17.5f,-5),hipAngle),leftFoot,leftAnkle);
             Leg(true,Rotate(new Vector2(17.5f,-5),hipAngle),rightFoot,rightAnkle);
             if(skin!=null)
             {
                 // Blend the complete skeleton from the anatomically drawn bind pose.
-                for(var i=0;i<15;i++)
+                for(var i=0;i<bones.Length;i++)
                 {
                     posePoints[i]=transform.InverseTransformPoint(bones[i].position);
                     poseAngles[i]=(Quaternion.Inverse(transform.rotation)*bones[i].rotation).eulerAngles.z;
                 }
-                for(var i=0;i<15;i++)
+                for(var i=0;i<bones.Length;i++)
                 {
                     var mix=KeepHandsClosed&&i>=3&&i<=8?1:MotionBlend;
                     Joint(i,Vector2.Lerp(skin.BindPoints[i],posePoints[i],mix),Mathf.LerpAngle(skin.BindAngles[i],poseAngles[i],mix));
@@ -72,7 +84,7 @@ namespace PenaltyKing
         private void Arm(bool right,Vector2 shoulder,Vector2 hand)
         {
             var b=right?6:3;var a=right?6:3;
-            hand=ConstrainTarget(shoulder,hand,UpperArm,LowerArm,12,145);
+            hand=ConstrainTarget(shoulder,hand,UpperArm,LowerArm,goalkeeper?0:8,145);
             var elbow=Elbow(shoulder,hand,UpperArm,LowerArm,goalkeeper?(right?-1:1):(right?1:-1));
             Limb(b,shoulder,elbow);Limb(b+1,elbow,hand);
             var wristAngle=Mathf.Atan2((hand-elbow).y,(hand-elbow).x)*Mathf.Rad2Deg+90;

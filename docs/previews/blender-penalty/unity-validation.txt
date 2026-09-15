@@ -1,0 +1,2 @@
+StrikerPenalty: valid Humanoid, 60 FPS, 4 sec, root displacement (-0.956, 0.025, 6.261), peak right wrist 1.842 m
+KeeperDiveRight: valid Humanoid, 60 FPS, 3 sec, root displacement (-5.435, -0.271, 0.199), peak right wrist 2.438 m
