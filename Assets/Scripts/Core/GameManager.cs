@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using UnityEngine;
 
 namespace PenaltyKing
@@ -9,7 +10,48 @@ namespace PenaltyKing
     [DisallowMultipleComponent]
     public sealed class GameManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
+        private static readonly object lockObject = new object();
+        private static GameManager instance;
+        private static int isDestroyed = 0;
+
+        public static GameManager Instance
+        {
+            get
+            {
+                if (Volatile.Read(ref isDestroyed) != 0)
+                    return null;
+
+                if (instance == null)
+                {
+                    lock (lockObject)
+                    {
+                        if (instance != null)
+                            return instance;
+                        // Instance will be set by Awake - return null if not yet initialized
+                        return null;
+                    }
+                }
+
+                return instance;
+            }
+            private set
+            {
+                if (Volatile.Read(ref isDestroyed) != 0)
+                    return;
+
+                lock (lockObject)
+                {
+                    if (instance != null && instance != value)
+                    {
+                        Destroy(value);
+                        return;
+                    }
+                    instance = value;
+                }
+            }
+        }
+
+        public static bool IsCreated => instance != null && Volatile.Read(ref isDestroyed) == 0;
         public GameMode SelectedMode { get; private set; } = GameMode.FixedRound;
         public GameRules Rules { get; private set; }
         public bool IsLocalMultiplayer { get; private set; }
@@ -31,15 +73,17 @@ namespace PenaltyKing
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStatics() => Instance = null;
+        private static void ResetStatics()
+        {
+            lock (lockObject)
+            {
+                instance = null;
+                Volatile.Write(ref isDestroyed, 0);
+            }
+        }
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
             Instance = this;
             DontDestroyOnLoad(gameObject);
             Rules = Resources.Load<GameRules>("GameRules");
@@ -86,7 +130,11 @@ namespace PenaltyKing
 
         private void OnDestroy()
         {
-            if (Instance == this) Instance = null;
+            if (instance == this)
+            {
+                Volatile.Write(ref isDestroyed, 1);
+                instance = null;
+            }
         }
     }
 }

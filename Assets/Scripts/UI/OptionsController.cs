@@ -21,8 +21,6 @@ namespace PenaltyKing
         public event System.Action Closed;
         public void ConfigureEmbedded() => embedded = true;
         private GameManager state;
-        private bool pendingSave;
-        private float saveAt;
 
         public void Configure(Slider musicSlider, Slider sfxSlider, Text musicLabel, Text sfxLabel, PixelMenuButton backButton)
         {
@@ -48,10 +46,8 @@ namespace PenaltyKing
 
         private void ChangeVibration(bool enabled) => state.SetVibrationEnabled(enabled);
         private void RefreshVibration(bool enabled) => vibration.SetIsOnWithoutNotify(enabled);
-        private void ChangeMusic(float value) { state.SetMusicVolume(value); ScheduleSave(); }
-        private void ChangeSfx(float value) { state.SetSfxVolume(value); ScheduleSave(); }
-        private void ScheduleSave() { pendingSave = true; saveAt = Time.unscaledTime + 0.3f; }
-        private void Update() { if (pendingSave && Time.unscaledTime >= saveAt) Flush(); }
+        private void ChangeMusic(float value) { state.SetMusicVolume(value); AudioPreferences.ScheduleSave(state.MusicVolume, state.SfxVolume); }
+        private void ChangeSfx(float value) { state.SetSfxVolume(value); AudioPreferences.ScheduleSave(state.MusicVolume, state.SfxVolume); }
 
         private void Refresh(float musicVolume, float sfxVolume)
         {
@@ -63,15 +59,13 @@ namespace PenaltyKing
 
         public void Flush()
         {
-            if (!pendingSave || state == null) return;
-            AudioPreferences.Save(state.MusicVolume, state.SfxVolume);
-            pendingSave = false;
+            AudioPreferences.Flush();
         }
 
         private void GoBack() { Flush(); if (embedded) Closed?.Invoke(); else GetComponent<SceneNavigator>().Navigate(GameScene.MainMenu); }
-        private void OnApplicationPause(bool paused) { if (paused) Flush(); }
-        private void OnApplicationFocus(bool focused) { if (!focused) Flush(); }
-        private void OnApplicationQuit() => Flush();
+        private void OnApplicationPause(bool paused) { if (paused) AudioPreferences.Flush(); }
+        private void OnApplicationFocus(bool focused) { if (!focused) AudioPreferences.Flush(); }
+        private void OnApplicationQuit() => AudioPreferences.Flush();
         private void OnDisable()
         {
             Flush();

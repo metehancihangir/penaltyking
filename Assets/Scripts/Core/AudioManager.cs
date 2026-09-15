@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,47 @@ namespace PenaltyKing
     [DisallowMultipleComponent]
     public sealed class AudioManager : MonoBehaviour
     {
-        public static AudioManager Instance { get; private set; }
+        private static readonly object lockObject = new object();
+        private static AudioManager instance;
+        private static int isDestroyed = 0;
+
+        public static AudioManager Instance
+        {
+            get
+            {
+                if (Volatile.Read(ref isDestroyed) != 0)
+                    return null;
+
+                if (instance == null)
+                {
+                    lock (lockObject)
+                    {
+                        if (instance != null)
+                            return instance;
+                        return null; // Will be set by Awake
+                    }
+                }
+
+                return instance;
+            }
+            private set
+            {
+                if (Volatile.Read(ref isDestroyed) != 0)
+                    return;
+
+                lock (lockObject)
+                {
+                    if (instance != null && instance != value)
+                    {
+                        Destroy(value);
+                        return;
+                    }
+                    instance = value;
+                }
+            }
+        }
+
+        public static bool IsCreated => instance != null && Volatile.Read(ref isDestroyed) == 0;
         public AudioSource MusicSource { get; private set; }
         public AudioSource SfxSource { get; private set; }
         // Crowd ambience must remain on the SFX volume bus (user decision).
@@ -50,23 +91,26 @@ namespace PenaltyKing
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStatics() => Instance = null;
+        private static void ResetStatics()
+        {
+            lock (lockObject)
+            {
+                instance = null;
+                Volatile.Write(ref isDestroyed, 0);
+            }
+        }
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
             Instance = this;
             DontDestroyOnLoad(gameObject);
             MusicSource = CreateSource("Music", true);
             SfxSource = CreateSource("SFX", false);
             CrowdSource = CreateSource("Crowd Ambience (SFX)", true);
             state = GameManager.Instance;
-            state.VolumeChanged += ApplyVolumes;
-            ApplyVolumes(state.MusicVolume, state.SfxVolume);
+            if (state != null)
+                state.VolumeChanged += ApplyVolumes;
+            ApplyVolumes(GameManager.Instance?.MusicVolume ?? 0.7f, GameManager.Instance?.SfxVolume ?? 0.8f);
             menuTheme = Resources.Load<AudioClip>("Audio/MenuPixelTheme");
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
@@ -128,8 +172,13 @@ namespace PenaltyKing
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            if (state != null) state.VolumeChanged -= ApplyVolumes;
-            if (Instance == this) Instance = null;
+            if (state != null)
+                state.VolumeChanged -= ApplyVolumes;
+            if (instance == this)
+            {
+                Volatile.Write(ref isDestroyed, 1);
+                instance = null;
+            }
         }
     }
 }
