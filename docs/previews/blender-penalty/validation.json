@@ -1,0 +1,36 @@
+[
+  {
+    "name": "StrikerPenalty",
+    "fps": 60,
+    "duration_seconds": 4.0,
+    "bones": 53,
+    "minimum_mesh_z_m": 0,
+    "floor_detail": {},
+    "largest_joint_step_m": 0.15318535602372527,
+    "largest_joint_step_frame": 148,
+    "largest_joint_step_bone": "RightFoot",
+    "plant_drift_m": 0.0,
+    "contact_error_m": 0.002011
+  },
+  {
+    "name": "KeeperDiveRight",
+    "fps": 60,
+    "duration_seconds": 3.0,
+    "bones": 53,
+    "minimum_mesh_z_m": -0.003,
+    "floor_detail": {
+      "frame": 136,
+      "bone": "RightFoot"
+    },
+    "largest_joint_step_m": 0.17273254290740966,
+    "largest_joint_step_frame": 68,
+    "largest_joint_step_bone": "RightThumbDistal",
+    "parry_wrist_position_m": [
+      3.23614501953125,
+      -0.11533482372760773,
+      2.4361133575439453
+    ],
+    "arm_extension_ratio": 0.9991390353759373,
+    "parry_fingertip_height_m": 2.515199899673462
+  }
+]

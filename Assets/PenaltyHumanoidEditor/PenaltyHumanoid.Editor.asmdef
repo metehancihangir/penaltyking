@@ -1,0 +1,6 @@
+{
+  "name": "PenaltyHumanoid.Editor",
+  "rootNamespace": "PenaltyKing.Humanoid.Editor",
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false
+}

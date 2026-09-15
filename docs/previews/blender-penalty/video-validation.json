@@ -1,0 +1,20 @@
+[
+  {
+    "clip": "StrikerPenalty",
+    "frames": 240,
+    "fps": 60.0,
+    "size": [
+      720,
+      480
+    ]
+  },
+  {
+    "clip": "KeeperDiveRight",
+    "frames": 180,
+    "fps": 60.0,
+    "size": [
+      720,
+      480
+    ]
+  }
+]
