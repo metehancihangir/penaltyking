@@ -1,37 +1,72 @@
 # Penalty King
 
-Unity 6000.4.4f1 / C# / Universal 2D. Gece stadyumunda, aynı telefonda iki oyunculu piksel penaltı oyunu.
+A local two-player penalty shootout game for Android, built with Unity and C#. Two players share one phone, secretly choose their moves, and alternate between striker and goalkeeper in a pixel-art night stadium.
 
-**12 Eylül çalışma sürümü:** piksel parçalarla sürekli 2D kemik animasyonu, altı bölgede kalecinin iki eliyle top tutması ve boşluksuz hareketli tribünler. Kale işaretleri kaldırıldı; altı görünmez dokunma bölgesi korundu. Yeni APK üretilmedi. Ayrıntılar ve doğrulama: [kemik animasyonu raporu](docs/bone-rig-raporu.md). Unity önizlemeleri: [şut ve kurtarış](docs/previews/bone-rig-save.gif), [gol ve sevinç](docs/previews/bone-rig-goal.gif).
+![Penalty shot and goalkeeper save](docs/previews/bone-rig-save.gif)
 
-## Son Android paketi — 9 Eylül değişikliklerini içermez
+## Gameplay
 
-`Builds/Android/PenaltyKing-update7-crowd.apk` — sürüm 0.2.2 (kod 4), Android 8+, ARM64/x86_64, development/test paketi. Belirgin ceza sahası perspektifi, %50 büyük top ve gerçek taraftar seslerini içerir. Önceki `PenaltyKing-update7.apk` sürüm 0.2.0'dır.
+1. Open **Play → 2 Kişilik** (two players), then choose **Sabit Round** or **Endless**.
+2. The striker dismisses the turn card and selects one of six goal regions: left, center, or right, each with a low and high option.
+3. Pass the phone to the goalkeeper. The striker's choice stays hidden while the goalkeeper chooses a save region.
+4. Matching choices produce a save; different choices produce a goal. Roles switch after each attempt.
 
-Güncelleme Faz 7: 48/48 Unity PlayMode testi geçti. Android doğrulama ayrıntıları ve paket özeti `docs/update-faz-7-raporu.md` dosyasındadır. Fiziksel titreşim testi kullanıcı isteğiyle ertelendi; yeni seslerin uzun süreli rahatlığı kullanıcı dinlemesini bekler.
+**Fixed Round** gives each player five shots and permits a draw. **Endless** continues after both goals and saves. The scoreboard displays each player's score and recent attempts. An interactive first-match guide includes practice shots that do not affect the score.
 
-## Unity'de açılış
+## Features
 
-Unity Hub ile bu proje klasörünü açın. Project panelinde **Assets → Scenes → MainMenu** sahnesine çift tıklayın, üstte **▶ Play** düğmesine basın. Boş Untitled sahnesi oyunu içermez.
+- Pass-and-play matches on a single device.
+- Pixel characters with continuous 2D bone animation and two-handed saves.
+- Animated crowd celebrations, goal-net effects, and a night-stadium pitch.
+- Chiptune menu music, recorded crowd ambience, and separate music/SFX controls.
+- Persistent vibration preference and Android goal haptics.
+- In-game settings, pause/exit confirmation, replay, and safe-area-aware UI.
 
-Yatay test için Game çözünürlük listesinden **16:9 / 1280×720** seçin. Telefonun yön ayarı Editor Game penceresinin oranını otomatik değiştirmez. Mevcut sahneler hazırdır; tekrar üretmeniz gerekmez. Eski sahne üreticileri yeni düzeni geri alabilir. Güncel kemik/tribün kurulumu `PenaltyKing.Editor.BoneRigRevision.Setup` ile mevcut Gameplay sahnesine uygulanır.
+Online play is disabled in the current build. There is no AI opponent or difficulty selection.
 
-**Play → 2 Kişilik → Sabit Round / Endless**. Online pasiftir; bot/zorluk yoktur. İlk maçta etkileşimli rehber gösterilir. Saha üzerindeki sıra kartını kapatıp kalede sol/orta/sağ × üst/alt bölgelerinden birine dokunun. Şut seçimi gizlidir; telefonu kaleci oyuncuya verin, sıra kartını kapatıp kurtarış bölgesini seçin. Aynı bölge kurtarış, farklı bölge gol. Her atışta roller değişir.
+## Open the project
 
-Sabit Round: oyuncu başına 5 şut; beraberlikte biter. Endless kurtarışlarda da devam eder. Tekrar Oyna aynı modla yeni maç başlatır. Menü düğmesi maçı duraklatıp çıkış onayı sorar; “Maça devam et” aynı noktadan sürdürür. Üst tabelada oyuncu skorları ve beşer son atış görünür.
+### Requirements
 
-Music Volume menü müziğini, SFX Volume davul/tezahürat ve olay seslerini yönetir. Sağ üst dişli maçı terk etmeden ayarları açar; animasyon/girişler durur. Sıra kartı ise ambiyansı kesmez. Titreşim tercihi kalıcı ve sesten bağımsızdır; Android gol anında 65 ms tek darbe ister.
+- **Unity 6000.4.4f1**, as recorded in [ProjectVersion.txt](ProjectSettings/ProjectVersion.txt).
+- Unity Hub.
+- Android Build Support, including SDK, NDK, and OpenJDK, when building for Android.
 
-## Güncel görsel ve sesler
+Clone the repository and add its root folder to Unity Hub:
 
-Büyük ceza alanı kullanıcının mavi çizgili referansı doğrultusunda oyuncunun ayaklarına kadar uzanır. Küçük kale alanı geride, penaltı noktası topun zemin konumundadır. Tüm tribünler golde kutlar. Rehberdeki denemeler maça işlemez. Menüde özgün chiptune, sahada ek sentetik ritim içermeyen gerçek tribün kaydı, golde gerçek taraftar sevinci ve kurtarışta kısık off uyarlaması kullanılır.
+```bash
+git clone https://github.com/metehancihangir/penaltyking.git
+```
 
-Ses kaynakları/lisanslar: `docs/audio-source/README.md`. Değişiklik planı: `update-notes.md`. Tarihsel faz 0–8 raporları önceki sürümü anlatır; güncel doğrulama yerine kullanılmaz.
+Open **Assets/Scenes/MainMenu.unity**, then press **Play**. An empty Untitled scene does not contain the game. For a landscape preview, select **16:9 / 1280×720** in the Game view.
 
-## Geliştirme ve test
+Dependencies are declared in [Packages/manifest.json](Packages/manifest.json), including Universal Render Pipeline, 2D Animation, the Input System, and Unity Test Framework.
 
-**Window → General → Test Runner → PlayMode → Run All**.
+## Project layout
 
-Son sahne üreticisi `PenaltyKing.Editor.PreSevenPolish.Build`; önceki üreticileri çalıştırırsanız bunu en son çalıştırın. Güncel APK üreticisi `PenaltyKing.Editor.CrowdRevision.Android`. Test emülatörü için `Tools/update7_android_smoke.py` gerçek Android dokunmaları gönderir; geliştirme loglarından durum ve performans toplar. `Tools/playback_fix_android_smoke.py` tıklama öncesi müziği, beş sesin dijital çıkışını ve dikey kadrajı kontrol eder.
+| Path | Purpose |
+| --- | --- |
+| `Assets/Scripts/Core/` | Game state, rules, audio preferences, and scene navigation |
+| `Assets/Scripts/Gameplay/` | Penalty rounds, character rigs, shot presentation, and haptics |
+| `Assets/Scripts/UI/` | Menus, turn handoff, tutorial, scoreboard, and visual effects |
+| `Assets/Scenes/` | Prepared game scenes |
+| `Assets/Editor/` | Scene setup, preview, and Android build utilities |
+| `Assets/Tests/PlayMode/` | Gameplay and presentation tests |
+| `Tools/` | Android smoke-test and verification scripts |
+| `docs/` | Development reports, previews, and asset attribution |
 
-Aynı proje Unity Editor'de açıkken ikinci bir batch Unity başlatmayın. Fiziksel cihazın verileri otomatik test tarafından temizlenmez; temiz kayıt testi yalnız ayrılmış emülatörde yapılır.
+## Development and testing
+
+Run **Window → General → Test Runner → PlayMode → Run All** in Unity.
+
+The scenes are already prepared. Older scene generators can overwrite newer layouts. The documented setup sequence uses `PenaltyKing.Editor.PreSevenPolish.Build`, with the current bone/crowd setup applied through `PenaltyKing.Editor.BoneRigRevision.Setup`. The Android build utility is `PenaltyKing.Editor.CrowdRevision.Android`.
+
+The Android smoke scripts include `Tools/update7_android_smoke.py` and `Tools/playback_fix_android_smoke.py`; inspect their device and tool paths before running them. Use a dedicated emulator for tests that reset saved data. Do not start a second Unity batch process while the same project is open in the Editor.
+
+## Build status and assets
+
+The previous README records a local Android development package named `Builds/Android/PenaltyKing-update7-crowd.apk` (0.2.2, version code 4; Android 8+, ARM64/x86_64). That package is **not included in the tracked repository** and predates the September 9–12 visual changes. Build from source to use the current scenes.
+
+The latest documented visual revision and its verification notes are in the [bone-rig report](docs/bone-rig-raporu.md). Older phase reports describe earlier versions; their test counts are not a claim about the current checkout. Physical-device vibration verification remains a separate manual check.
+
+See [audio sources and licenses](docs/audio-source/README.md) for third-party recordings and attribution. Additional development notes are in [update-notes.md](update-notes.md); some supporting documents are in Turkish.
